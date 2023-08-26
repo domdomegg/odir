@@ -163,6 +163,11 @@ export type Routes = {
       "fundraiserId": string,
     },
   },
+  "get /public/person": {
+    request: null,
+    response: S.Status,
+    params: null,
+  },
   "get /public/status": {
     request: null,
     response: S.Status,
@@ -414,6 +419,13 @@ export const routes = {
     hasRequest: false,
     hasResponse: true,
     hasParams: true,
+  },
+  "get /public/person": {
+    method: "get",
+    makePath: ({ }: {}) => `/public/person`,
+    hasRequest: false,
+    hasResponse: true,
+    hasParams: false,
   },
   "get /public/status": {
     method: "get",

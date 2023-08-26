@@ -29,6 +29,7 @@ export const importMap = {
   "/admin/users/{userId}/patch": () => import("./admin/users/{userId}/patch"),
   "/public/fundraisers/{fundraiserId}/donation/post": () => import("./public/fundraisers/{fundraiserId}/donation/post"),
   "/public/fundraisers/{fundraiserId}/get": () => import("./public/fundraisers/{fundraiserId}/get"),
+  "/public/person/get": () => import("./public/person/get"),
   "/public/status/get": () => import("./public/status/get"),
   "/scheduler/collect-payments/post": () => import("./scheduler/collect-payments/post"),
   "/stripe/webhook/post": () => import("./stripe/webhook/post"),
