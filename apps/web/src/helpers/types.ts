@@ -18,6 +18,9 @@ export interface Env {
   /** OAuth 2 client id for Google sign-in. */
   GOOGLE_LOGIN_CLIENT_ID: string,
 
+  MICROSOFT_LOGIN_ENABLED: boolean,
+  MICROSOFT_LOGIN_CLIENT_ID: string,
+
   /** API token to configure Cloudflare Web Analytics for the Raise site */
   CLOUDFLARE_WEB_ANALYTICS_TOKEN_RAISE: string | undefined,
   /** API token to configure Cloudflare Web Analytics for the May Week Alternative site */

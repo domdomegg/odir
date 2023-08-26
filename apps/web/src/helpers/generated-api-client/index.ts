@@ -120,6 +120,11 @@ export type Routes = {
     response: S.LoginResponse,
     params: null,
   },
+  "post /admin/login/microsoft": {
+    request: S.GoogleLoginRequest,
+    response: S.LoginResponse,
+    params: null,
+  },
   "get /admin/tasks": {
     request: null,
     response: S.Tasks,
@@ -346,6 +351,13 @@ export const routes = {
   "post /admin/login/impersonation": {
     method: "post",
     makePath: ({ }: {}) => `/admin/login/impersonation`,
+    hasRequest: true,
+    hasResponse: true,
+    hasParams: false,
+  },
+  "post /admin/login/microsoft": {
+    method: "post",
+    makePath: ({ }: {}) => `/admin/login/microsoft`,
     hasRequest: true,
     hasResponse: true,
     hasParams: false,

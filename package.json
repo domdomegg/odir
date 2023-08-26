@@ -40,5 +40,9 @@
       "react": "^18",
       "react-dom": "^18"
     }
+  },
+  "dependencies": {
+    "@azure/msal-node": "^2.0.2",
+    "idtoken-verifier": "^2.2.3"
   }
 }

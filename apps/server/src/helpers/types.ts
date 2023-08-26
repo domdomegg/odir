@@ -59,6 +59,7 @@ export interface Env {
   JWT_PRIVATE_KEY: string,
 
   GOOGLE_LOGIN_CLIENT_ID: string,
+  MICROSOFT_LOGIN_CLIENT_ID: string,
 
   STRIPE_PUBLISHABLE_KEY: string,
   STRIPE_SECRET_KEY: string,

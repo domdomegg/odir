@@ -45,6 +45,8 @@ const LoadingBoxContent: React.FC = () => {
     <>
       {error && <Alert variant="error" className="-mt-2 mb-4">{error}</Alert>}
       {env.GOOGLE_LOGIN_ENABLED && <GoogleLoginForm setError={setError} setLoading={setLoading} />}
+      {env.GOOGLE_LOGIN_ENABLED && <MicrosoftLoginForm setError={setError} setLoading={setLoading} />}
+      {env.IMPERSONATION_LOGIN_ENABLED && <EmailLoginForm setError={setError} setLoading={setLoading} />}
       {env.IMPERSONATION_LOGIN_ENABLED && <ImpersonationLoginForm setError={setError} setLoading={setLoading} />}
     </>
   );
@@ -62,12 +64,43 @@ const googleRequiredScopes = [
   'https://www.googleapis.com/auth/userinfo.profile',
 ];
 
-const userManagerSettings: UserManagerSettings = {
+const microsoftRequiredScopes = [
+  //'email',
+  //'profile',
+  'openid',
+];
+
+const googleUserManagerSettings: UserManagerSettings = {
   authority: 'https://accounts.google.com',
   client_id: env.GOOGLE_LOGIN_CLIENT_ID,
-  redirect_uri: `${(typeof window !== 'undefined') ? window.location.origin : ''}/admin/oauth-callback`,
+  redirect_uri: `${(typeof window !== 'undefined') ? window.location.origin : ''}/admin/oauth-callback/google`,
   scope: googleRequiredScopes.join(' '),
   response_type: 'id_token',
+};
+
+class ResponseValidatorCtor {
+  constructor (settings) {
+    this._settings = settings
+  }
+
+  validateSigninResponse (state, response) {
+    // validation goes here
+    return response
+  }
+
+  validateSignoutResponse (state, response) {
+    // validation goes here
+    return Promise.resolve(response)
+  }
+}
+
+const microsoftUserManagerSettings: UserManagerSettings = {
+  authority: 'https://login.microsoftonline.com/common/v2.0',
+  client_id: env.MICROSOFT_LOGIN_CLIENT_ID,
+  redirect_uri: `${(typeof window !== 'undefined') ? window.location.origin : ''}/admin/oauth-callback/microsoft`,
+  scope: microsoftRequiredScopes.join(' '),
+  response_type: 'id_token',
+  ResponseValidatorCtor,
 };
 
 const GoogleLoginForm: React.FC<LoginFormProps> = ({ setError, setLoading }) => {
@@ -79,8 +112,9 @@ const GoogleLoginForm: React.FC<LoginFormProps> = ({ setError, setLoading }) => 
       onClick={async () => {
         setLoading('Waiting on Google login...');
         try {
-          const user = await new UserManager(userManagerSettings).signinPopup();
+          const user = await new UserManager(googleUserManagerSettings).signinPopup();
           setLoading(true);
+          console.log(user);
 
           const missingScopes = googleRequiredScopes.filter((s) => !user.scopes.includes(s));
           if (missingScopes.length > 0) {
@@ -104,6 +138,95 @@ const GoogleLoginForm: React.FC<LoginFormProps> = ({ setError, setLoading }) => 
       }}
     >
       Google Login
+    </Button>
+  );
+};
+
+const MicrosoftLoginForm: React.FC<LoginFormProps> = ({ setError, setLoading }) => {
+  const [, setAuthState] = useAuthState();
+  const req = useRawReq();
+
+  return (
+    <Button
+      onClick={async () => {
+        setLoading('Waiting on Microsoft login...');
+        try {
+          const user = await new UserManager(microsoftUserManagerSettings).signinPopup();
+          setLoading(true);
+          console.log(user);
+
+          const loginResponse = await req(
+            'post /admin/login/microsoft',
+            { idToken: user.id_token },
+          );
+
+          setAuthState({
+            token: loginResponse.data.accessToken,
+            expiresAt: loginResponse.data.expiresAt,
+            groups: loginResponse.data.groups,
+          });
+        } catch (err) {
+          setError(err instanceof Error ? err : new Error(String(err)));
+        }
+        setLoading(false);
+      }}
+    >
+      Microsoft Login
+    </Button>
+  );
+};
+
+const EmailLoginForm: React.FC<LoginFormProps> = ({ setError, setLoading }) => {
+  const [, setAuthState] = useAuthState();
+  const axios = useRawAxios();
+
+  return (
+    <Button
+      onClick={async () => {
+        try {
+          setError(undefined);
+          setLoading(true);
+
+          // eslint-disable-next-line no-alert
+          const email = prompt('Email to login as:', 'raisedemo@gmail.com');
+          if (!email) {
+            setError('No email address provided');
+            setLoading(false);
+            return;
+          }
+          const loginResponse = await axios.post<LoginResponse>('/admin/login/impersonation', { email });
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error(err);
+          setError(err instanceof Error ? err : String(err));
+          setLoading(false);
+        }
+        try {
+          setError(undefined);
+          setLoading(true);
+
+          // eslint-disable-next-line no-alert
+          const verificationCode = prompt('Please enter the verification code sent to your email:', '');
+          if (!verificationCode) {
+            setError('Verification code was not entered');
+            setLoading(false);
+            return;
+          }
+          const loginResponse = await axios.post<LoginResponse>('/admin/login/impersonation', { verificationCode });
+          setAuthState({
+            token: loginResponse.data.accessToken,
+            expiresAt: loginResponse.data.expiresAt,
+            groups: loginResponse.data.groups,
+          });
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error(err);
+          setError(err instanceof Error ? err : String(err));
+          setLoading(false);
+        }
+      }}
+    >
+      Email Login
     </Button>
   );
 };
@@ -144,13 +267,13 @@ const ImpersonationLoginForm: React.FC<LoginFormProps> = ({ setError, setLoading
     </Button>
   );
 };
-
-export const OauthCallbackPage: React.FC<RouteComponentProps> = () => {
+//google
+export const OauthCallbackPageGoogle: React.FC<RouteComponentProps> = () => {
   const [error, setError] = useState<undefined | React.ReactNode | Error>();
 
   useEffect(() => {
     try {
-      new UserManager(userManagerSettings).signinCallback();
+      new UserManager(googleUserManagerSettings).signinCallback();
     } catch (err) {
       setError(err instanceof Error ? err : new Error(String(err)));
     }
@@ -163,5 +286,26 @@ export const OauthCallbackPage: React.FC<RouteComponentProps> = () => {
     </Section>
   );
 };
+
+//microsoft
+export const OauthCallbackPageMicrosoft: React.FC<RouteComponentProps> = () => {
+  const [error, setError] = useState<undefined | React.ReactNode | Error>();
+
+  useEffect(() => {
+    try {
+      new UserManager(microsoftUserManagerSettings).signinCallback();
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error(String(err)));
+    }
+  }, []);
+
+  return (
+    <Section className="mt-8 text-center">
+      {error && <Alert variant="error">{error}</Alert>}
+      {!error && <h1>Logging you in...</h1>}
+    </Section>
+  );
+};
+
 
 export default Login;
