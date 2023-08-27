@@ -107,6 +107,18 @@ const serverlessConfiguration: AWS = {
           }, {
             table: tables.user.name,
             sources: ['./local/table_user.json'],
+          }, {
+            table: tables.person.name,
+            sources: ['./local/table_person.json'],
+          }, {
+            table: tables.team.name,
+            sources: ['./local/table_team.json'],
+          }, {
+            table: tables.relation.name,
+            sources: ['./local/table_relation.json'],
+          }, {
+            table: tables.slug.name,
+            sources: ['./local/table_slug.json'],
           }],
         },
       },

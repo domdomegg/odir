@@ -104,6 +104,7 @@ export const $PersonCreation: JSONSchema<S.PersonCreation> = {
     howSupportOthers: { type: 'string' },
     howHelpMe: { type: 'string' },
     profilePic: { type: 'string' },
+    preferredSlug: { type: 'string' },
   },
   required: ['name', 'email'],
   additionalProperties: false,
@@ -127,7 +128,7 @@ export const $Person: JSONSchema<S.Person> = {
     lastEditedAt: { type: 'integer' },
     createdAt: { type: 'integer' },
   },
-  required: ['id', ...$PersonCreation.required as string[], 'lastEditedBy', 'lastEditedAt', 'createdAt'],
+  required: ['id', ...$PersonCreation.required as string[], 'preferredSlug', 'lastEditedBy', 'lastEditedAt', 'createdAt'],
   additionalProperties: false,
 };
 
@@ -137,13 +138,13 @@ export const $TeamCreation: JSONSchema<S.TeamCreation> = {
   type: 'object',
   properties: {
     name: { type: 'string' },
-    type: { type: 'string' },
     website: { type: 'string' },
     vision: { type: 'string' },
     mission: { type: 'string' },
     priorities: { type: 'string' },
     logo: { type: 'string' },
     notes: { type: 'string' },
+    preferredSlug: { type: 'string' },
   },
   required: ['name'],
   additionalProperties: false,
@@ -167,11 +168,25 @@ export const $Team: JSONSchema<S.Team> = {
     lastEditedAt: { type: 'integer' },
     createdAt: { type: 'integer' },
   },
-  required: ['id', 'name', 'lastEditedBy', 'lastEditedAt', 'createdAt'],
+  required: ['id', 'name', 'preferredSlug', 'lastEditedBy', 'lastEditedAt', 'createdAt'],
   additionalProperties: false,
 };
 
 export const $Teams: JSONSchema<S.Team[]> = { type: 'array', items: $Team };
+
+export const $Slug: JSONSchema<S.Slug> = {
+  type: 'object',
+  properties: {
+    id: $Ulid,
+    type: { enum: ['person', 'team'] },
+    value: { type: 'string' },
+    underlyingId: $Ulid,
+  },
+  required: ['id', 'type', 'value', 'underlyingId'],
+  additionalProperties: false,
+};
+
+export const $Slugs: JSONSchema<S.Slug[]> = { type: 'array', items: $Slug };
 
 export const $RelationCreation: JSONSchema<S.RelationCreation> = {
   type: 'object',
@@ -205,6 +220,44 @@ export const $Relation: JSONSchema<S.Relation> = {
 
 export const $Relations: JSONSchema<S.Relation[]> = { type: 'array', items: $Relation };
 
+export const $EntityResponse: JSONSchema<S.EntityResponse> = {
+  oneOf: [{
+    type: 'object',
+    properties: {
+      type: { enum: ['team'] },
+      team: $Team,
+      // parent teams, in order from highest to lowest
+      breadcrumbs: $Teams,
+      // associated relations, and the teams and persons connected by those relations
+      relations: $Relations,
+      teams: $Teams,
+      persons: $Persons,
+      // slugs for this team
+      slugs: $Slugs,
+      // whether the user can see detailed information about this team, and make edits
+      hasDetailedAccess: { type: 'boolean' },
+    },
+    required: ['type', 'team', 'breadcrumbs', 'relations', 'teams', 'persons', 'slugs', 'hasDetailedAccess'],
+    additionalProperties: false,
+  }, {
+    type: 'object',
+    properties: {
+      type: { enum: ['person'] },
+      person: $Person,
+      // associated relations, and the teams and persons connected by those relations
+      relations: $Relations,
+      teams: $Teams,
+      persons: $Persons,
+      // slugs for this person
+      slugs: $Slugs,
+      // whether the user can see detailed information about this team, and make edits
+      hasDetailedAccess: { type: 'boolean' },
+    },
+    required: ['type', 'person', 'relations', 'teams', 'persons', 'slugs', 'hasDetailedAccess'],
+    additionalProperties: false,
+  }]
+};
+
 export const $SearchRequest: JSONSchema<S.SearchRequest> = {
   type: 'object',
   properties: {
@@ -223,7 +276,7 @@ export const $SearchResponse: JSONSchema<S.SearchResponse> = {
         type: 'object',
         properties: {
           id: { type: 'string' },
-          url: { type: 'string' },
+          slug: { type: 'string' },
           title: { type: 'string' },
           subtitle: {
             type: 'array',
@@ -237,7 +290,7 @@ export const $SearchResponse: JSONSchema<S.SearchResponse> = {
           },
           type: { enum: ['team', 'person'] },
         },
-        required: ['id', 'url', 'title', 'type']
+        required: ['id', 'slug', 'title', 'type']
       }
     },
   },

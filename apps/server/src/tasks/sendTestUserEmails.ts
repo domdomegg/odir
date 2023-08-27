@@ -12,7 +12,7 @@ export default {
   run: async (): Promise<void> => {
     const body: UserCreation = {
       name: 'Greg McGregFace',
-      email: 'raisedemo@gmail.com',
+      email: 'person@gmail.com',
       // the below information is not required for this task
       groups: [],
       sendAccountCreationEmail: true,

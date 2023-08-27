@@ -91,7 +91,7 @@ export const makeTeam = <Override extends Partial<Team>>(override?: Override): T
 export const makeAuditLog = <Override extends Partial<AuditLog>>(override?: Override): AuditLog & Override => ({
   id: ulid(),
   object: ulid(),
-  subject: "raisenational@gmail.com",
+  subject: "person@gmail.com",
   action: "edit",
   at: Math.floor(new Date().getTime() / 1000),
   sourceIp: "1.1.1.1",
