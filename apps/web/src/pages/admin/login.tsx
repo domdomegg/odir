@@ -111,7 +111,7 @@ const ImpersonationLoginForm: React.FC<LoginFormProps> = ({ setError, setLoading
           setLoading(true);
 
           // eslint-disable-next-line no-alert
-          const email = prompt('Email to login as:', 'raisedemo@gmail.com');
+          const email = prompt('Email to login as:', 'person@gmail.com');
           if (!email) {
             setError('No email address provided');
             setLoading(false);

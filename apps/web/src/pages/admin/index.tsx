@@ -8,7 +8,6 @@ import TasksPage from './tasks';
 import Login, { OauthCallbackPage } from './login';
 import NotFoundPage from '../404';
 import Navigation from '../../components/Navigation';
-import TeamPage from './team';
 import { useAuthState } from '../../helpers/networking';
 import Alert from '../../components/Alert';
 import Section from '../../components/Section';
@@ -16,11 +15,12 @@ import AuditPage from './audit';
 import UsersPage from './users';
 import UserPage from './user';
 import GroupPage from './group';
+import EntityPage from './entity';
 
 const IndexPage = () => (
   <Page className="pb-8">
     <Helmet>
-      <title>Raise Admin</title>
+      <title>Odir</title>
       <meta property="og:title" content="Raise Admin" />
       <meta name="robots" content="noindex" />
     </Helmet>
@@ -56,7 +56,7 @@ const IndexLayout = () => {
       {auth && (
         <Navigation
           left={[
-            { text: 'Fundraisers', href: '/admin/' },
+            { text: 'Teams', href: '/admin/' },
             { text: 'Tasks', href: '/admin/tasks' },
             { text: 'Audit', href: '/admin/audit' },
             { text: 'Users', href: '/admin/users' },
@@ -78,7 +78,7 @@ const IndexLayout = () => {
         {auth && (
           <>
             <TeamsPage path="/" />
-            <TeamPage teamId="" path="/:fundraiserId" />
+            <EntityPage entitySlug="" path="/:entitySlug" />
             <TasksPage path="/tasks" />
             <AuditPage path="/audit" />
             <UsersPage path="/users" />

@@ -7,6 +7,7 @@
 export const importMap = {
   "/admin/audit-logs/by-object/{objectId}/get": () => import("./admin/audit-logs/by-object/{objectId}/get"),
   "/admin/audit-logs/by-subject/{subjectId}/get": () => import("./admin/audit-logs/by-subject/{subjectId}/get"),
+  "/admin/entity/{entitySlug}/get": () => import("./admin/entity/{entitySlug}/get"),
   "/admin/groups/get": () => import("./admin/groups/get"),
   "/admin/groups/post": () => import("./admin/groups/post"),
   "/admin/groups/{groupId}/patch": () => import("./admin/groups/{groupId}/patch"),
@@ -20,7 +21,6 @@ export const importMap = {
   "/admin/tasks/{taskId}/post": () => import("./admin/tasks/{taskId}/post"),
   "/admin/teams/get": () => import("./admin/teams/get"),
   "/admin/teams/post": () => import("./admin/teams/post"),
-  "/admin/teams/{teamId}/get": () => import("./admin/teams/{teamId}/get"),
   "/admin/teams/{teamId}/patch": () => import("./admin/teams/{teamId}/patch"),
   "/admin/users/get": () => import("./admin/users/get"),
   "/admin/users/post": () => import("./admin/users/post"),

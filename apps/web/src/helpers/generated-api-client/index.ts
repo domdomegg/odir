@@ -24,6 +24,13 @@ export type Routes = {
       "subjectId": string,
     },
   },
+  "get /admin/entity/{entitySlug}": {
+    request: null,
+    response: S.EntityResponse,
+    params: {
+      "entitySlug": string,
+    },
+  },
   "get /admin/groups": {
     request: null,
     response: S.Groups,
@@ -93,13 +100,6 @@ export type Routes = {
     response: S.Ulid,
     params: null,
   },
-  "get /admin/teams/{teamId}": {
-    request: null,
-    response: S.Team,
-    params: {
-      "teamId": string,
-    },
-  },
   "patch /admin/teams/{teamId}": {
     request: S.TeamEdits,
     response: null,
@@ -155,6 +155,17 @@ export const routes = {
     }: {
       subjectId: string,
     }) => `/admin/audit-logs/by-subject/${subjectId}`,
+    hasRequest: false,
+    hasResponse: true,
+    hasParams: true,
+  },
+  "get /admin/entity/{entitySlug}": {
+    method: "get",
+    makePath: ({
+      entitySlug,
+    }: {
+      entitySlug: string,
+    }) => `/admin/entity/${entitySlug}`,
     hasRequest: false,
     hasResponse: true,
     hasParams: true,
@@ -257,17 +268,6 @@ export const routes = {
     hasRequest: true,
     hasResponse: true,
     hasParams: false,
-  },
-  "get /admin/teams/{teamId}": {
-    method: "get",
-    makePath: ({
-      teamId,
-    }: {
-      teamId: string,
-    }) => `/admin/teams/${teamId}`,
-    hasRequest: false,
-    hasResponse: true,
-    hasParams: true,
   },
   "patch /admin/teams/{teamId}": {
     method: "patch",

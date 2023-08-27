@@ -113,36 +113,36 @@ export type Persons = {
 
 export interface TeamCreation {
   name: string;
-  type?: string;
   website?: string;
   vision?: string;
   mission?: string;
   priorities?: string;
   logo?: string;
   notes?: string;
+  preferredSlug?: string;
 }
 
 export interface TeamEdits {
   name?: string;
-  type?: string;
   website?: string;
   vision?: string;
   mission?: string;
   priorities?: string;
   logo?: string;
   notes?: string;
+  preferredSlug?: string;
 }
 
 export interface Team {
   id: string;
   name: string;
-  type?: string;
   website?: string;
   vision?: string;
   mission?: string;
   priorities?: string;
   logo?: string;
   notes?: string;
+  preferredSlug: string;
   lastEditedBy: string;
   lastEditedAt: number;
   createdAt: number;
@@ -151,16 +151,30 @@ export interface Team {
 export type Teams = {
   id: string;
   name: string;
-  type?: string;
   website?: string;
   vision?: string;
   mission?: string;
   priorities?: string;
   logo?: string;
   notes?: string;
+  preferredSlug: string;
   lastEditedBy: string;
   lastEditedAt: number;
   createdAt: number;
+}[];
+
+export interface Slug {
+  id: string;
+  type: "person" | "team";
+  value: string;
+  underlyingId: string;
+}
+
+export type Slugs = {
+  id: string;
+  type: "person" | "team";
+  value: string;
+  underlyingId: string;
 }[];
 
 export interface RelationCreation {
@@ -188,6 +202,147 @@ export type Relations = {
   childId: string;
   title?: string;
 }[];
+
+export type EntityResponse =
+  | {
+      type: "team";
+      team: {
+        id: string;
+        name: string;
+        website?: string;
+        vision?: string;
+        mission?: string;
+        priorities?: string;
+        logo?: string;
+        notes?: string;
+        preferredSlug: string;
+        lastEditedBy: string;
+        lastEditedAt: number;
+        createdAt: number;
+      };
+      breadcrumbs: {
+        id: string;
+        name: string;
+        website?: string;
+        vision?: string;
+        mission?: string;
+        priorities?: string;
+        logo?: string;
+        notes?: string;
+        preferredSlug: string;
+        lastEditedBy: string;
+        lastEditedAt: number;
+        createdAt: number;
+      }[];
+      relations: {
+        id: string;
+        parentId: string;
+        childId: string;
+        title?: string;
+      }[];
+      teams: {
+        id: string;
+        name: string;
+        website?: string;
+        vision?: string;
+        mission?: string;
+        priorities?: string;
+        logo?: string;
+        notes?: string;
+        preferredSlug: string;
+        lastEditedBy: string;
+        lastEditedAt: number;
+        createdAt: number;
+      }[];
+      persons: {
+        id: string;
+        name: string;
+        email: string;
+        jobTitle?: string;
+        grade?: string;
+        linkedin?: string;
+        about?: string;
+        motivation?: string;
+        policyBackground?: string;
+        howSupportOthers?: string;
+        howHelpMe?: string;
+        profilePic?: string;
+        lastEditedBy: string;
+        lastEditedAt: number;
+        createdAt: number;
+      }[];
+      slugs: {
+        id: string;
+        type: "person" | "team";
+        value: string;
+        underlyingId: string;
+      }[];
+      hasDetailedAccess: boolean;
+    }
+  | {
+      type: "person";
+      person: {
+        id: string;
+        name: string;
+        email: string;
+        jobTitle?: string;
+        grade?: string;
+        linkedin?: string;
+        about?: string;
+        motivation?: string;
+        policyBackground?: string;
+        howSupportOthers?: string;
+        howHelpMe?: string;
+        profilePic?: string;
+        lastEditedBy: string;
+        lastEditedAt: number;
+        createdAt: number;
+      };
+      relations: {
+        id: string;
+        parentId: string;
+        childId: string;
+        title?: string;
+      }[];
+      teams: {
+        id: string;
+        name: string;
+        website?: string;
+        vision?: string;
+        mission?: string;
+        priorities?: string;
+        logo?: string;
+        notes?: string;
+        preferredSlug: string;
+        lastEditedBy: string;
+        lastEditedAt: number;
+        createdAt: number;
+      }[];
+      persons: {
+        id: string;
+        name: string;
+        email: string;
+        jobTitle?: string;
+        grade?: string;
+        linkedin?: string;
+        about?: string;
+        motivation?: string;
+        policyBackground?: string;
+        howSupportOthers?: string;
+        howHelpMe?: string;
+        profilePic?: string;
+        lastEditedBy: string;
+        lastEditedAt: number;
+        createdAt: number;
+      }[];
+      slugs: {
+        id: string;
+        type: "person" | "team";
+        value: string;
+        underlyingId: string;
+      }[];
+      hasDetailedAccess: boolean;
+    };
 
 export interface SearchRequest {
   query: string;

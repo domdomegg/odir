@@ -5,7 +5,7 @@ import {
   $Relation, Relation,
   $AuditLog, AuditLog,
   $Group, Group,
-  $User, User,
+  $User, User, Slug, $Slug,
 } from '../schemas';
 import env from '../env/env';
 
@@ -51,6 +51,14 @@ export const relationTable: Table<'id', 'id', Relation> = {
   schema: $Relation,
 };
 
+export const slugTable: Table<'id', 'id', Slug> = {
+  name: `raise-server-${env.STAGE}-slug`,
+  entityName: 'slug',
+  partitionKey: 'id',
+  primaryKey: 'id',
+  schema: $Slug,
+};
+
 export const auditLogTable: Table<'object', 'id', AuditLog> = {
   name: `raise-server-${env.STAGE}-audit-log`,
   entityName: 'auditLog',
@@ -79,6 +87,7 @@ export const tables = {
   team: teamTable,
   person: personTable,
   relation: relationTable,
+  slug: slugTable,
   auditLog: auditLogTable,
   group: groupTable,
   user: userTable,

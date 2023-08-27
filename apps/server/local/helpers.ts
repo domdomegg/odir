@@ -29,7 +29,7 @@ export const getFunctionPaths = (basePath: string = join(__dirname, "..", "src",
   const results: string[] = []
   const files = readdirSync(path, { withFileTypes: true })
   for (const file of files) {
-    if (file.name.startsWith("_") || file.name.endsWith(".test.ts")) {
+    if (file.name.startsWith("_") || file.name.endsWith(".test.ts") || file.name === '.DS_Store') {
       // ignore
     } else if (file.isFile()) {
       const method = file.name.slice(0, file.name.lastIndexOf("."))

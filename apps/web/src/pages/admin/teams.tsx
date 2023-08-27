@@ -45,7 +45,6 @@ const TeamsPage: React.FC<RouteComponentProps> = () => {
             vision: { inputType: 'text' },
             priorities: { inputType: 'text' },
             notes: { inputType: 'text' },
-            type: { inputType: 'text' },
             website: { inputType: 'text' },
           }}
           initialValues={{
@@ -55,7 +54,7 @@ const TeamsPage: React.FC<RouteComponentProps> = () => {
           onSubmit={async (data) => {
             const teamId = (await req('post /admin/teams', data)).data;
             await refetchTeams();
-            navigate(`/admin/t/${teamId}`);
+            navigate(`/admin/${teamId}`);
           }}
         />
       </Modal>
@@ -65,7 +64,7 @@ const TeamsPage: React.FC<RouteComponentProps> = () => {
           name: { label: 'Name', className: 'whitespace-nowrap' },
         }}
         items={asResponseValues(teams.data?.sort((a, b) => b.lastEditedAt - a.lastEditedAt), teams)}
-        href={(team) => `/admin/t/${team.id}/`}
+        href={(team) => `/admin/${team.id}/`}
       />
       <PropertyEditor
         definition={{
