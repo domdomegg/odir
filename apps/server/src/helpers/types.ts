@@ -78,6 +78,5 @@ export interface Env {
   GOOGLE_LOGIN_ENABLED: boolean,
   IMPERSONATION_LOGIN_ENABLED: boolean,
 
-  CUSTOM_RAISE_DOMAIN: string,
-  CUSTOM_MWA_DOMAIN: string,
+  CUSTOM_ODIR_DOMAIN: string,
 }

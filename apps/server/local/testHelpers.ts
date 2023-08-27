@@ -3,12 +3,12 @@ import type {
 } from "aws-lambda"
 import jwt from "jsonwebtoken"
 import { ulid } from "ulid"
-import { fixedGroups } from "@raise/shared"
+import { fixedGroups } from "@odir/shared"
 import { AccessTokenPayload } from "../src/helpers/types"
 import env from "../src/env/env"
 import MockDate from 'mockdate';
 import * as db from "../src/helpers/db"
-import { AuditLog, Donation, Fundraiser, Payment } from "../src/schemas"
+import { AuditLog, Team } from "../src/schemas"
 
 interface CallOptions {
   path?: string,
@@ -28,7 +28,7 @@ export const call = (handler: Handler<APIGatewayProxyEventV2, APIGatewayProxyRes
   const token = typeof options.auth === "string" ? options.auth : jwt.sign(
     {
       subject: "tests",
-      groups: [fixedGroups.National, testGroupId],
+      groups: [fixedGroups.Admin, testGroupId],
       iat: now,
       exp: now + 60, // 1 minute
       ...options.auth
@@ -77,75 +77,16 @@ export const call = (handler: Handler<APIGatewayProxyEventV2, APIGatewayProxyRes
   return JSON.parse(response.body)
 }
 
-export const makeFundraiser = <Override extends Partial<Fundraiser>>(override?: Override): Fundraiser & Override => ({
+export const makeTeam = <Override extends Partial<Team>>(override?: Override): Team & Override => ({
   id: ulid(),
-  internalName: "Raise Test 2022",
-  publicName: "Raise Test",
-  activeFrom: Math.floor(new Date().getTime() / 1000),
-  activeTo: Math.floor(new Date().getTime() / 1000) + 604800, // 1 week
-  recurringDonationsTo: Math.floor(new Date().getTime() / 1000) + 2419200, // 4 weeks
-  paused: false,
-  currency: Math.random() < 0.5 ? "gbp" : "usd",
-  goal: Math.ceil(Math.random() * 4) * 500_00,
-  totalRaised: 0,
-  donationsCount: 0,
-  matchFundingRate: Math.floor(Math.random() * 6) * 50,
-  matchFundingPerDonationLimit: null,
-  matchFundingRemaining: null,
-  minimumDonationAmount: null,
-  groupsWithAccess: [testGroupId],
-  suggestedDonationAmountOneOff: Math.ceil(Math.random() * 4) * 50_00,
-  suggestedDonationAmountWeekly: Math.ceil(Math.random() * 4) * 5_00,
-  suggestedContributionAmount: 10_00,
-  eventLink: null,
-  moreInvolvedLink: null,
-  archived: false,
-  ...override,
-} as Fundraiser & Override)
-
-export const makeDonation = <Override extends Partial<Donation>>(override?: Override): Donation & Override => ({
-  id: ulid(),
-  fundraiserId: ulid(),
-  donorName: "Person McPersonface",
-  donorEmail: "person@example.com",
-  emailConsentInformational: false,
-  emailConsentMarketing: false,
+  name: 'Teamy McTeamface',
   createdAt: Math.floor(new Date().getTime() / 1000),
-  addressLine1: null,
-  addressLine2: null,
-  addressLine3: null,
-  addressPostcode: null,
-  addressCountry: null,
-  giftAid: false,
-  comment: "Keeping up the energy!",
-  donationAmount: 0,
-  matchFundingAmount: 0,
-  contributionAmount: 0,
-  recurringAmount: null,
-  recurrenceFrequency: null,
-  stripeCustomerId: null,
-  stripePaymentMethodId: null,
-  charity: "AMF",
-  overallPublic: false,
-  namePublic: false,
-  donationAmountPublic: false,
-  donationCounted: false,
+  lastEditedAt: Math.floor(new Date().getTime() / 1000),
+  lastEditedBy: ulid(),
+  vision: 'A world that is cool',
+  mission: 'Do cool things',
   ...override,
-} as Donation & Override)
-
-export const makePayment = <Override extends Partial<Payment>>(override?: Override): Payment & Override => ({
-  id: ulid(),
-  donationId: ulid(),
-  fundraiserId: ulid(),
-  at: Math.floor(new Date().getTime() / 1000),
-  donationAmount: Math.ceil(Math.random() * 9) * 10_00,
-  contributionAmount: Math.floor(Math.random() * 2) * 10_00,
-  matchFundingAmount: Math.ceil(Math.random() * 9) * 10_00,
-  method: "cash",
-  reference: "Paid to treasurer at SP",
-  status: "paid",
-  ...override,
-} as Payment & Override)
+} as Team & Override)
 
 export const makeAuditLog = <Override extends Partial<AuditLog>>(override?: Override): AuditLog & Override => ({
   id: ulid(),

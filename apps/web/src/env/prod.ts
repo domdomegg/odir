@@ -3,8 +3,7 @@ import type { Env } from '../helpers/types';
 const env: Env = {
   STAGE: 'prod',
 
-  CUSTOM_RAISE_DOMAIN: 'www.joinraise.org',
-  CUSTOM_MWA_DOMAIN: 'www.mayweekalternative.org.uk',
+  CUSTOM_ODIR_DOMAIN: 'www.joinraise.org',
 
   API_BASE_URL: 'https://5kh7xzkn5m.execute-api.eu-west-1.amazonaws.com',
 
@@ -14,8 +13,7 @@ const env: Env = {
   GOOGLE_LOGIN_ENABLED: true,
   GOOGLE_LOGIN_CLIENT_ID: '730827052132-u1tatnr4anip3vf7j5tq82k33gb5okpe.apps.googleusercontent.com',
 
-  CLOUDFLARE_WEB_ANALYTICS_TOKEN_RAISE: 'cd16cb3b71af440a8828d3bc6be5f061',
-  CLOUDFLARE_WEB_ANALYTICS_TOKEN_MWA: '88e901f7c15648c78bd891be8d8f4573',
+  CLOUDFLARE_WEB_ANALYTICS_TOKEN_ODIR: 'cd16cb3b71af440a8828d3bc6be5f061',
 };
 
 export default env;

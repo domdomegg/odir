@@ -1,5 +1,5 @@
 import { ulid } from 'ulid';
-import { fixedGroups } from '@raise/shared';
+import { fixedGroups } from '@odir/shared';
 import { middyfy } from '../../../helpers/wrapper';
 import { assertHasGroup, insert, scan } from '../../../helpers/db';
 import { userTable } from '../../../helpers/tables';
@@ -8,7 +8,7 @@ import { sendEmail } from '../../../helpers/email';
 import newUser from '../../../helpers/email/newUser';
 
 export const main = middyfy($UserCreation, $Ulid, true, async (event) => {
-  assertHasGroup(event, fixedGroups.National);
+  assertHasGroup(event, fixedGroups.Admin);
   const user = await insert(userTable, {
     id: ulid(),
     ...event.body,

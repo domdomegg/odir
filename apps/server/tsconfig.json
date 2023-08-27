@@ -1,5 +1,5 @@
 {
-  "extends": "@raise/tsconfig/base.json",
+  "extends": "@odir/tsconfig/base.json",
   "compilerOptions": {
     "noEmit": true,
     "allowSyntheticDefaultImports": true

@@ -1,4 +1,4 @@
-import { fixedGroups } from '@raise/shared';
+import { fixedGroups } from '@odir/shared';
 import { createHash } from 'crypto';
 import createHttpError from 'http-errors';
 import jwt from 'jsonwebtoken';
@@ -58,12 +58,12 @@ const SECURITY_TRAINING_VALIDITY_IN_SECONDS = 31556952; // 1 year
 const HARD_CODED_USER_MAP: Record<string, Omit<User, 'id' | 'email'>> = {
   '715ec86cfb0e42b3f41aec77fa7b4a8441128d5e': {
     name: 'Adam Jones',
-    groups: [fixedGroups.National, fixedGroups.NationalTech],
+    groups: [fixedGroups.Admin],
     securityTrainingCompletedAt: new Date('2023-01-02T18:47:46Z').getTime() / 1000,
   },
   '7b023b5154a262453b5c3f1157a866a8f3be6f63': {
     name: 'Malena Schmidt',
-    groups: [fixedGroups.National, fixedGroups.NationalTech],
+    groups: [fixedGroups.Admin],
     securityTrainingCompletedAt: new Date('2023-01-16T21:58:46Z').getTime() / 1000,
   },
 };

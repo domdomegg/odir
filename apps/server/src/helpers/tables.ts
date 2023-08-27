@@ -1,8 +1,8 @@
 import {
   JSONSchema,
-  $Donation, Donation,
-  $Fundraiser, Fundraiser,
-  $Payment, Payment,
+  $Person, Person,
+  $Team, Team,
+  $Relation, Relation,
   $AuditLog, AuditLog,
   $Group, Group,
   $User, User,
@@ -27,28 +27,28 @@ export interface Table<
   schema: JSONSchema<Schema>,
 }
 
-export const fundraiserTable: Table<'id', 'id', Fundraiser> = {
-  name: `raise-server-${env.STAGE}-fundraiser`,
-  entityName: 'fundraiser',
+export const personTable: Table<'id', 'id', Person> = {
+  name: `raise-server-${env.STAGE}-person`,
+  entityName: 'person',
   partitionKey: 'id',
   primaryKey: 'id',
-  schema: $Fundraiser,
+  schema: $Person,
 };
 
-export const donationTable: Table<'fundraiserId', 'id', Donation> = {
-  name: `raise-server-${env.STAGE}-donation`,
-  entityName: 'donation',
-  partitionKey: 'fundraiserId',
+export const teamTable: Table<'id', 'id', Team> = {
+  name: `raise-server-${env.STAGE}-team`,
+  entityName: 'team',
+  partitionKey: 'id',
   primaryKey: 'id',
-  schema: $Donation,
+  schema: $Team,
 };
 
-export const paymentTable: Table<'donationId', 'id', Payment> = {
-  name: `raise-server-${env.STAGE}-payment`,
-  entityName: 'payment',
-  partitionKey: 'donationId',
+export const relationTable: Table<'id', 'id', Relation> = {
+  name: `raise-server-${env.STAGE}-relation`,
+  entityName: 'relation',
+  partitionKey: 'id',
   primaryKey: 'id',
-  schema: $Payment,
+  schema: $Relation,
 };
 
 export const auditLogTable: Table<'object', 'id', AuditLog> = {
@@ -76,9 +76,9 @@ export const userTable: Table<'id', 'id', User> = {
 };
 
 export const tables = {
-  fundraiser: fundraiserTable,
-  donation: donationTable,
-  payment: paymentTable,
+  team: teamTable,
+  person: personTable,
+  relation: relationTable,
   auditLog: auditLogTable,
   group: groupTable,
   user: userTable,
