@@ -1,4 +1,4 @@
 module.exports = {
   root: true,
-  extends: ['@raise/eslint-config'],
+  extends: ['@odir/eslint-config'],
 };

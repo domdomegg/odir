@@ -7,7 +7,7 @@ import {
 } from '@stripe/react-stripe-js';
 import {
   format, calcMatchFunding, calcPaymentSchedule,
-} from '@raise/shared';
+} from '@odir/shared';
 import Helmet from 'react-helmet';
 import confetti from 'canvas-confetti';
 import classNames from 'classnames';

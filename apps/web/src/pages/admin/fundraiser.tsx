@@ -4,7 +4,7 @@ import {
   DownloadIcon, EyeIcon, EyeOffIcon, PlusSmIcon,
 } from '@heroicons/react/outline';
 import jsonexport from 'jsonexport/dist';
-import { fixedGroups, format } from '@raise/shared';
+import { fixedGroups, format } from '@odir/shared';
 import { useState } from 'react';
 import { asResponseValues, useReq, useRawAxios } from '../../helpers/networking';
 import Section, { SectionTitle } from '../../components/Section';
@@ -74,7 +74,7 @@ const FundraiserPage: React.FC<RouteComponentProps & { fundraiserId: string }> =
         }}
       />
 
-      <RequireGroup group={[...(fundraiser.data?.groupsWithAccess ?? []), fixedGroups.National]}>
+      <RequireGroup group={[...(fundraiser.data?.groupsWithAccess ?? []), fixedGroups.Admin]}>
         <DonationsSummaryView fundraiserId={fundraiserId} fundraiser={fundraiser.data} />
       </RequireGroup>
     </Section>
@@ -223,7 +223,7 @@ const DonationsSummaryView: React.FC<{ fundraiserId: string, fundraiser?: Fundra
         </p>
         <Button onClick={downloadAllEmails} variant="blue">Download names and emails</Button>
 
-        <RequireGroup group={fixedGroups.National} otherwise={<p className="my-4 -mb-2">To export data for AMF or for analysis, please contact the national team.</p>}>
+        <RequireGroup group={fixedGroups.Admin} otherwise={<p className="my-4 -mb-2">To export data for AMF or for analysis, please contact the national team.</p>}>
           <h2 className="mt-8 text-2xl">I want to export the data for AMF</h2>
           <p className="my-2">This contains donor data in the format Rob Mather from AMF has told us would be ideal for them.</p>
           <Button onClick={downloadForAMF} variant="blue">Download data</Button>

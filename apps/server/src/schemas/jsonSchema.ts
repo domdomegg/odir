@@ -67,196 +67,160 @@ export const $Profile: JSONSchema<S.Profile> = {
   additionalProperties: false,
 };
 
-export const $FundraiserCreation: JSONSchema<S.FundraiserCreation> = {
+export const $PersonCreation: JSONSchema<S.PersonCreation> = {
   type: 'object',
   properties: {
-    internalName: { type: 'string', minLength: 1, maxLength: 128 },
-    publicName: { type: 'string', minLength: 1, maxLength: 128 },
-    activeFrom: { type: 'integer' },
-    activeTo: { type: 'integer' },
-    recurringDonationsTo: { type: 'integer' },
-    paused: { type: 'boolean' },
-    currency: { enum: ['gbp', 'usd'] },
-    goal: { type: 'integer', exclusiveMinimum: 0 },
-    totalRaised: { type: 'integer', minimum: 0 },
-    donationsCount: { type: 'integer', minimum: 0 },
-    matchFundingRate: { type: 'integer', minimum: 0 },
-    matchFundingPerDonationLimit: { type: ['integer', 'null'], exclusiveMinimum: 0 },
-    matchFundingRemaining: { type: ['integer', 'null'], minimum: 0 },
-    minimumDonationAmount: { type: ['integer', 'null'], exclusiveMinimum: 0 },
-    suggestedDonationAmountOneOff: { type: 'integer', minimum: 0 },
-    suggestedDonationAmountWeekly: { type: 'integer', minimum: 0 },
-    suggestedContributionAmount: { type: ['integer', 'null'], minimum: 0 },
-    eventLink: { type: ['string', 'null'] },
-    moreInvolvedLink: { type: ['string', 'null'] },
-    archived: { type: 'boolean' },
-    // TODO: change to ulid once all groups migrated
-    groupsWithAccess: { type: 'array', items: { type: 'string' } },
+    name: { type: 'string' },
+    email: { type: 'string' },
+    jobTitle: { type: 'string' },
+    grade: { type: 'string' },
+    linkedin: { type: 'string' },
+    about: { type: 'string' },
+    motivation: { type: 'string' },
+    policyBackground: { type: 'string' },
+    howSupportOthers: { type: 'string' },
+    howHelpMe: { type: 'string' },
+    profilePic: { type: 'string' },
   },
+  required: ['name', 'email'],
   additionalProperties: false,
 };
 
-export const $FundraiserEdits: JSONSchema<S.FundraiserEdits> = {
+export const $PersonEdits: JSONSchema<S.PersonEdits> = {
   type: 'object',
   properties: {
-    ...$FundraiserCreation.properties,
-    previous: {
-      type: 'object',
-      properties: {
-        totalRaised: { type: 'integer', minimum: 0 },
-        donationsCount: { type: 'integer', minimum: 0 },
-      },
-      additionalProperties: false,
-    },
+    ...$PersonCreation.properties,
   },
   minProperties: 1,
   additionalProperties: false,
 };
 
-export const $Fundraiser: JSONSchema<S.Fundraiser> = {
+export const $Person: JSONSchema<S.Person> = {
   type: 'object',
   properties: {
     id: $Ulid,
-    ...$FundraiserCreation.properties,
-  },
-  required: ['id', 'internalName', 'publicName', 'activeFrom', 'activeTo', 'recurringDonationsTo', 'paused', 'currency', 'goal', 'totalRaised', 'donationsCount', 'matchFundingRate', 'matchFundingPerDonationLimit', 'matchFundingRemaining', 'minimumDonationAmount', 'suggestedDonationAmountOneOff', 'suggestedDonationAmountWeekly', 'suggestedContributionAmount', 'eventLink', 'moreInvolvedLink', 'groupsWithAccess'],
-  additionalProperties: false,
-};
-
-export const $Fundraisers: JSONSchema<S.Fundraiser[]> = { type: 'array', items: $Fundraiser };
-
-export const $DonationCreation: JSONSchema<S.DonationCreation> = {
-  type: 'object',
-  properties: {
-    donorName: { type: 'string' },
-    donorEmail: $Email,
-    emailConsentInformational: { type: 'boolean' },
-    emailConsentMarketing: { type: 'boolean' },
+    ...$PersonCreation.properties,
+    lastEditedBy: { type: 'string' },
+    lastEditedAt: { type: 'integer' },
     createdAt: { type: 'integer' },
-    addressLine1: { type: ['string', 'null'] },
-    addressLine2: { type: ['string', 'null'] },
-    addressLine3: { type: ['string', 'null'] },
-    addressPostcode: { type: ['string', 'null'] },
-    addressCountry: { type: ['string', 'null'] },
-    giftAid: { type: 'boolean' },
-    comment: { type: ['string', 'null'] },
-    recurringAmount: { type: ['integer', 'null'], minimum: 0 },
-    recurrenceFrequency: { oneOf: [{ enum: ['WEEKLY', 'MONTHLY'] }, { type: 'null' }] },
-    stripeCustomerId: { type: ['string', 'null'] },
-    stripePaymentMethodId: { type: ['string', 'null'] },
-    charity: { type: 'string' },
-    overallPublic: { type: 'boolean' },
-    namePublic: { type: 'boolean' },
-    donationAmountPublic: { type: 'boolean' },
-    donationCounted: { type: 'boolean' },
   },
+  required: ['id', ...$PersonCreation.required as string[], 'lastEditedBy', 'lastEditedAt', 'createdAt'],
   additionalProperties: false,
 };
 
-export const $DonationEdits: JSONSchema<S.DonationEdits> = {
+export const $Persons: JSONSchema<S.Person[]> = { type: 'array', items: $Person };
+
+export const $TeamCreation: JSONSchema<S.TeamCreation> = {
   type: 'object',
   properties: {
-    ...$DonationCreation.properties,
-    donationAmount: { type: 'number', minimum: 0 },
-    matchFundingAmount: { type: 'integer', minimum: 0 },
-    contributionAmount: { type: 'integer', minimum: 0 },
-    previous: {
-      type: 'object',
-      properties: {
-        donationAmount: { type: 'number', minimum: 0 },
-        matchFundingAmount: { type: 'integer', minimum: 0 },
-        contributionAmount: { type: 'integer', minimum: 0 },
-      },
-      additionalProperties: false,
-    },
+    name: { type: 'string' },
+    type: { type: 'string' },
+    website: { type: 'string' },
+    vision: { type: 'string' },
+    mission: { type: 'string' },
+    priorities: { type: 'string' },
+    logo: { type: 'string' },
+    notes: { type: 'string' },
+  },
+  required: ['name'],
+  additionalProperties: false,
+};
+
+export const $TeamEdits: JSONSchema<S.TeamEdits> = {
+  type: 'object',
+  properties: {
+    ...$TeamCreation.properties,
   },
   minProperties: 1,
   additionalProperties: false,
 };
 
-export const $Donation: JSONSchema<S.Donation> = {
+export const $Team: JSONSchema<S.Team> = {
   type: 'object',
   properties: {
-    ...$DonationCreation.properties,
     id: $Ulid,
-    fundraiserId: $Ulid,
-    donationAmount: { type: 'number', minimum: 0 },
-    matchFundingAmount: { type: 'integer', minimum: 0 },
-    contributionAmount: { type: 'integer', minimum: 0 },
+    ...$TeamCreation.properties,
+    lastEditedBy: { type: 'string' },
+    lastEditedAt: { type: 'integer' },
+    createdAt: { type: 'integer' },
   },
-  required: ['id', 'fundraiserId', 'donorName', 'donorEmail', 'emailConsentInformational', 'emailConsentMarketing', 'createdAt', 'addressLine1', 'addressLine2', 'addressLine3', 'addressPostcode', 'addressCountry', 'giftAid', 'comment', 'donationAmount', 'matchFundingAmount', 'contributionAmount', 'recurringAmount', 'recurrenceFrequency', 'stripeCustomerId', 'stripePaymentMethodId', 'charity', 'overallPublic', 'namePublic', 'donationAmountPublic', 'donationCounted'],
+  required: ['id', 'name', 'lastEditedBy', 'lastEditedAt', 'createdAt'],
   additionalProperties: false,
 };
 
-export const $Donations: JSONSchema<S.Donation[]> = { type: 'array', items: $Donation };
+export const $Teams: JSONSchema<S.Team[]> = { type: 'array', items: $Team };
 
-export const $PaymentPropertyEdits: JSONSchema<S.PaymentPropertyEdits> = {
-  oneOf: [{
-    type: 'object',
-    properties: {
-      donationAmount: { type: 'integer' },
-    },
-    required: ['donationAmount'],
-    additionalProperties: false,
-
-  }, {
-    type: 'object',
-    properties: {
-      contributionAmount: { type: 'integer' },
-    },
-    required: ['contributionAmount'],
-    additionalProperties: false,
-  }, {
-    type: 'object',
-    properties: {
-      matchFundingAmount: { type: ['integer', 'null'] }, // null means we have not calculated/allocated it yet
-    },
-    required: ['matchFundingAmount'],
-    additionalProperties: false,
-  }, {
-    type: 'object',
-    properties: {
-      reference: { type: ['string', 'null'] },
-    },
-    required: ['reference'],
-    additionalProperties: false,
-  }, {
-    type: 'object',
-    properties: {
-      status: { enum: ['paid', 'pending', 'scheduled', 'cancelled'] },
-    },
-    required: ['status'],
-    additionalProperties: false,
-  }],
-};
-
-export const $PaymentCreation: JSONSchema<S.PaymentCreation> = {
+export const $RelationCreation: JSONSchema<S.RelationCreation> = {
   type: 'object',
   properties: {
-    at: { type: 'integer' },
-    donationAmount: { type: 'integer' },
-    contributionAmount: { type: 'integer' },
-    matchFundingAmount: { type: ['integer', 'null'] }, // null means we have not calculated/allocated it yet
-    method: { enum: ['card', 'cash', 'direct_to_charity'] },
-    reference: { type: ['string', 'null'] },
+    parentId: { type: 'string' },
+    childId: { type: 'string' },
+    title: { type: 'string' },
   },
+  required: ['parentId', 'childId'],
   additionalProperties: false,
 };
 
-export const $Payment: JSONSchema<S.Payment> = {
+export const $RelationEdits: JSONSchema<S.RelationEdits> = {
   type: 'object',
   properties: {
-    ...$PaymentCreation.properties,
-    status: { enum: ['paid', 'pending', 'scheduled', 'cancelled'] },
+    ...$RelationCreation.properties,
+  },
+  minProperties: 1,
+  additionalProperties: false,
+};
+
+export const $Relation: JSONSchema<S.Relation> = {
+  type: 'object',
+  properties: {
     id: $Ulid,
-    donationId: $Ulid,
-    fundraiserId: $Ulid,
+    ...$RelationCreation.properties,
   },
-  required: ['id', 'donationId', 'fundraiserId', 'at', 'donationAmount', 'contributionAmount', 'matchFundingAmount', 'method', 'reference', 'status'],
+  required: ['id', 'parentId', 'childId'],
   additionalProperties: false,
 };
 
-export const $Payments: JSONSchema<S.Payment[]> = { type: 'array', items: $Payment };
+export const $Relations: JSONSchema<S.Relation[]> = { type: 'array', items: $Relation };
+
+export const $SearchRequest: JSONSchema<S.SearchRequest> = {
+  type: 'object',
+  properties: {
+    query: { type: 'string' },
+  },
+  required: ['query'],
+  additionalProperties: false,
+};
+
+export const $SearchResponse: JSONSchema<S.SearchResponse> = {
+  type: 'object',
+  properties: {
+    results: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          url: { type: 'string' },
+          title: { type: 'string' },
+          subtitle: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                highlight: { type: 'boolean' },
+                text: { type: 'string' },
+              }
+            }
+          },
+          type: { enum: ['team', 'person'] },
+        },
+        required: ['id', 'url', 'title', 'type']
+      }
+    },
+  },
+  required: ['results'],
+  additionalProperties: false,
+};
 
 export const $AuditLog: JSONSchema<S.AuditLog> = {
   type: 'object',
@@ -289,156 +253,6 @@ export const $AuditLog: JSONSchema<S.AuditLog> = {
 };
 
 export const $AuditLogs: JSONSchema<S.AuditLog[]> = { type: 'array', items: $AuditLog, definitions: $AuditLog.definitions };
-
-export const $PublicFundraiser: JSONSchema<S.PublicFundraiser> = {
-  type: 'object',
-  properties: {
-    id: { type: 'string' },
-    publicName: { type: 'string' },
-    activeFrom: { type: 'integer' },
-    activeTo: { type: 'integer' },
-    recurringDonationsTo: { type: 'integer' },
-    paused: { type: 'boolean' },
-    currency: { enum: ['gbp', 'usd'] },
-    goal: { type: 'integer', exclusiveMinimum: 0 },
-    totalRaised: { type: 'integer', minimum: 0 },
-    donationsCount: { type: 'integer', minimum: 0 },
-    matchFundingRate: { type: 'integer', minimum: 0 },
-    matchFundingPerDonationLimit: { type: ['integer', 'null'], exclusiveMinimum: 0 },
-    matchFundingRemaining: { type: ['integer', 'null'], minimum: 0 },
-    minimumDonationAmount: { type: ['integer', 'null'], exclusiveMinimum: 0 },
-    suggestedDonationAmountOneOff: { type: 'integer', minimum: 0 },
-    suggestedDonationAmountWeekly: { type: 'integer', minimum: 0 },
-    suggestedContributionAmount: { type: ['integer', 'null'], minimum: 0 },
-    eventLink: { type: ['string', 'null'] },
-    moreInvolvedLink: { type: ['string', 'null'] },
-    archived: { type: 'boolean' },
-    donations: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          id: { type: 'string' },
-          donorName: { type: 'string' },
-          createdAt: { type: 'integer' },
-          giftAid: { type: 'boolean' },
-          comment: { type: ['string', 'null'] },
-          donationAmount: { type: 'number', minimum: 0 },
-          matchFundingAmount: { type: 'integer', minimum: 0 },
-          recurringAmount: { type: ['integer', 'null'], minimum: 0 },
-          recurrenceFrequency: { oneOf: [{ enum: ['WEEKLY', 'MONTHLY'] }, { type: 'null' }] },
-        },
-        required: ['id', 'createdAt', 'comment'],
-        additionalProperties: false,
-      },
-    },
-  },
-  required: ['id', 'publicName', 'activeFrom', 'activeTo', 'recurringDonationsTo', 'paused', 'currency', 'goal', 'totalRaised', 'donationsCount', 'matchFundingRate', 'matchFundingPerDonationLimit', 'matchFundingRemaining', 'minimumDonationAmount', 'suggestedDonationAmountOneOff', 'suggestedDonationAmountWeekly', 'suggestedContributionAmount', 'eventLink', 'moreInvolvedLink', 'donations'],
-  additionalProperties: false,
-};
-
-export const $PublicDonationRequest: JSONSchema<S.PublicDonationRequest> = {
-  type: 'object',
-  properties: {
-    charity: { type: 'string' },
-    donationAmount: { type: 'number', minimum: 0 },
-    recurrenceFrequency: { oneOf: [{ enum: ['WEEKLY', 'MONTHLY'] }, { type: 'null' }] },
-    contributionAmount: { type: 'integer', minimum: 0 },
-    giftAid: { type: 'boolean' },
-    donorName: { type: 'string' },
-    donorEmail: $Email,
-    emailConsentInformational: { type: 'boolean' },
-    emailConsentMarketing: { type: 'boolean' },
-    addressLine1: { type: ['string', 'null'] },
-    addressLine2: { type: ['string', 'null'] },
-    addressLine3: { type: ['string', 'null'] },
-    addressPostcode: { type: ['string', 'null'] },
-    addressCountry: { type: ['string', 'null'] },
-    overallPublic: { type: 'boolean' },
-    namePublic: { type: 'boolean' },
-    donationAmountPublic: { type: 'boolean' },
-    comment: { type: ['string', 'null'] },
-  },
-  required: ['donationAmount', 'recurrenceFrequency', 'contributionAmount', 'giftAid', 'donorName', 'donorEmail', 'emailConsentInformational', 'emailConsentMarketing', 'addressLine1', 'addressLine2', 'addressLine3', 'addressPostcode', 'addressCountry', 'overallPublic', 'namePublic', 'donationAmountPublic', 'comment'],
-  additionalProperties: false,
-};
-
-export const $PublicPaymentIntentResponse: JSONSchema<S.PublicPaymentIntentResponse> = {
-  type: 'object',
-  properties: {
-    stripeClientSecret: { type: 'string' },
-    currency: { enum: ['gbp', 'usd'] },
-    amount: { type: 'integer', exclusiveMinimum: 0 },
-    totalDonationAmount: { type: 'integer', minimum: 0 },
-    futurePayments: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          amount: { type: 'integer', exclusiveMinimum: 0 },
-          at: { type: 'integer' },
-        },
-        required: ['amount', 'at'],
-        additionalProperties: false,
-      },
-    },
-  },
-  required: ['stripeClientSecret', 'currency', 'amount', 'totalDonationAmount', 'futurePayments'],
-  additionalProperties: false,
-};
-
-// https://stripe.com/docs/api/events/object
-export const $StripeWebhookRequest: JSONSchema<S.StripeWebhookRequest> = {
-  type: 'object',
-  properties: {
-    id: { type: 'string' },
-    object: { enum: ['event'] },
-    api_version: { enum: ['2020-08-27'] },
-    data: {
-      type: 'object',
-      properties: {
-        // https://stripe.com/docs/api/payment_intents/object
-        object: {
-          type: 'object',
-          properties: {
-            id: { type: 'string' },
-            object: { enum: ['payment_intent'] },
-            amount: { type: 'integer', exclusiveMinimum: 0 },
-            amount_received: { type: 'integer', exclusiveMinimum: 0 },
-            // we only accept gbp payments
-            currency: { enum: ['gbp'] },
-            // these are set when creating the payment intent
-            metadata: {
-              type: 'object',
-              properties: {
-                fundraiserId: $Ulid,
-                donationId: $Ulid,
-                paymentId: $Ulid,
-              },
-              required: ['fundraiserId', 'donationId', 'paymentId'],
-              additionalProperties: false,
-            },
-            // we only subscribe to payment_intent.succeeded
-            status: { enum: ['succeeded'] },
-            payment_method: { type: 'string' },
-            // null for one-off donations, off_session for recurring donations
-            setup_future_usage: { oneOf: [{ type: 'null' }, { enum: ['off_session'] }] },
-            created: { type: 'integer' },
-          },
-          required: ['id', 'object', 'amount', 'amount_received', 'currency', 'metadata', 'status', 'payment_method', 'setup_future_usage', 'created'],
-          additionalProperties: true,
-        },
-      },
-      required: ['object'],
-      additionalProperties: true,
-    },
-    // If we subscribe to more webhooks, we must make sure the data.object is updated accordingly
-    type: { enum: ['payment_intent.succeeded'] },
-    created: { type: 'integer' },
-  },
-  required: ['id', 'api_version', 'data', 'type', 'object', 'created'],
-  additionalProperties: true,
-};
 
 export const $Task: JSONSchema<S.Task> = {
   type: 'object',

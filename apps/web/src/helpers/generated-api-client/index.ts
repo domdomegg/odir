@@ -24,70 +24,6 @@ export type Routes = {
       "subjectId": string,
     },
   },
-  "get /admin/fundraisers": {
-    request: null,
-    response: S.Fundraisers,
-    params: null,
-  },
-  "post /admin/fundraisers": {
-    request: S.FundraiserCreation,
-    response: S.Ulid,
-    params: null,
-  },
-  "get /admin/fundraisers/{fundraiserId}/donations": {
-    request: null,
-    response: S.Donations,
-    params: {
-      "fundraiserId": string,
-    },
-  },
-  "post /admin/fundraisers/{fundraiserId}/donations": {
-    request: S.DonationCreation,
-    response: S.Ulid,
-    params: {
-      "fundraiserId": string,
-    },
-  },
-  "patch /admin/fundraisers/{fundraiserId}/donations/{donationId}": {
-    request: S.DonationEdits,
-    response: null,
-    params: {
-      "fundraiserId": string,
-      "donationId": string,
-    },
-  },
-  "get /admin/fundraisers/{fundraiserId}/donations/{donationId}/payments": {
-    request: null,
-    response: S.Payments,
-    params: {
-      "fundraiserId": string,
-      "donationId": string,
-    },
-  },
-  "post /admin/fundraisers/{fundraiserId}/donations/{donationId}/payments": {
-    request: S.PaymentCreation,
-    response: S.Ulid,
-    params: {
-      "fundraiserId": string,
-      "donationId": string,
-    },
-  },
-  "patch /admin/fundraisers/{fundraiserId}/donations/{donationId}/payments/{paymentId}": {
-    request: S.PaymentPropertyEdits,
-    response: null,
-    params: {
-      "fundraiserId": string,
-      "donationId": string,
-      "paymentId": string,
-    },
-  },
-  "patch /admin/fundraisers/{fundraiserId}": {
-    request: S.FundraiserEdits,
-    response: null,
-    params: {
-      "fundraiserId": string,
-    },
-  },
   "get /admin/groups": {
     request: null,
     response: S.Groups,
@@ -120,6 +56,16 @@ export type Routes = {
     response: S.LoginResponse,
     params: null,
   },
+  "get /admin/persons": {
+    request: null,
+    response: S.Persons,
+    params: null,
+  },
+  "post /admin/search": {
+    request: S.SearchRequest,
+    response: S.SearchResponse,
+    params: null,
+  },
   "get /admin/tasks": {
     request: null,
     response: S.Tasks,
@@ -130,6 +76,23 @@ export type Routes = {
     response: null,
     params: {
       "taskId": string,
+    },
+  },
+  "get /admin/teams": {
+    request: null,
+    response: S.Teams,
+    params: null,
+  },
+  "post /admin/teams": {
+    request: S.TeamCreation,
+    response: S.Ulid,
+    params: null,
+  },
+  "get /admin/teams/{teamId}": {
+    request: null,
+    response: S.Team,
+    params: {
+      "teamId": string,
     },
   },
   "get /admin/users": {
@@ -149,20 +112,6 @@ export type Routes = {
       "userId": string,
     },
   },
-  "post /public/fundraisers/{fundraiserId}/donation": {
-    request: S.PublicDonationRequest,
-    response: S.PublicPaymentIntentResponse,
-    params: {
-      "fundraiserId": string,
-    },
-  },
-  "get /public/fundraisers/{fundraiserId}": {
-    request: null,
-    response: S.PublicFundraiser,
-    params: {
-      "fundraiserId": string,
-    },
-  },
   "get /public/status": {
     request: null,
     response: S.Status,
@@ -170,11 +119,6 @@ export type Routes = {
   },
   "post /scheduler/collect-payments": {
     request: null,
-    response: null,
-    params: null,
-  },
-  "post /stripe/webhook": {
-    request: S.StripeWebhookRequest,
     response: null,
     params: null,
   },
@@ -201,107 +145,6 @@ export const routes = {
     }) => `/admin/audit-logs/by-subject/${subjectId}`,
     hasRequest: false,
     hasResponse: true,
-    hasParams: true,
-  },
-  "get /admin/fundraisers": {
-    method: "get",
-    makePath: ({ }: {}) => `/admin/fundraisers`,
-    hasRequest: false,
-    hasResponse: true,
-    hasParams: false,
-  },
-  "post /admin/fundraisers": {
-    method: "post",
-    makePath: ({ }: {}) => `/admin/fundraisers`,
-    hasRequest: true,
-    hasResponse: true,
-    hasParams: false,
-  },
-  "get /admin/fundraisers/{fundraiserId}/donations": {
-    method: "get",
-    makePath: ({
-      fundraiserId,
-    }: {
-      fundraiserId: string,
-    }) => `/admin/fundraisers/${fundraiserId}/donations`,
-    hasRequest: false,
-    hasResponse: true,
-    hasParams: true,
-  },
-  "post /admin/fundraisers/{fundraiserId}/donations": {
-    method: "post",
-    makePath: ({
-      fundraiserId,
-    }: {
-      fundraiserId: string,
-    }) => `/admin/fundraisers/${fundraiserId}/donations`,
-    hasRequest: true,
-    hasResponse: true,
-    hasParams: true,
-  },
-  "patch /admin/fundraisers/{fundraiserId}/donations/{donationId}": {
-    method: "patch",
-    makePath: ({
-      fundraiserId,
-      donationId,
-    }: {
-      fundraiserId: string,
-      donationId: string,
-    }) => `/admin/fundraisers/${fundraiserId}/donations/${donationId}`,
-    hasRequest: true,
-    hasResponse: false,
-    hasParams: true,
-  },
-  "get /admin/fundraisers/{fundraiserId}/donations/{donationId}/payments": {
-    method: "get",
-    makePath: ({
-      fundraiserId,
-      donationId,
-    }: {
-      fundraiserId: string,
-      donationId: string,
-    }) => `/admin/fundraisers/${fundraiserId}/donations/${donationId}/payments`,
-    hasRequest: false,
-    hasResponse: true,
-    hasParams: true,
-  },
-  "post /admin/fundraisers/{fundraiserId}/donations/{donationId}/payments": {
-    method: "post",
-    makePath: ({
-      fundraiserId,
-      donationId,
-    }: {
-      fundraiserId: string,
-      donationId: string,
-    }) => `/admin/fundraisers/${fundraiserId}/donations/${donationId}/payments`,
-    hasRequest: true,
-    hasResponse: true,
-    hasParams: true,
-  },
-  "patch /admin/fundraisers/{fundraiserId}/donations/{donationId}/payments/{paymentId}": {
-    method: "patch",
-    makePath: ({
-      fundraiserId,
-      donationId,
-      paymentId,
-    }: {
-      fundraiserId: string,
-      donationId: string,
-      paymentId: string,
-    }) => `/admin/fundraisers/${fundraiserId}/donations/${donationId}/payments/${paymentId}`,
-    hasRequest: true,
-    hasResponse: false,
-    hasParams: true,
-  },
-  "patch /admin/fundraisers/{fundraiserId}": {
-    method: "patch",
-    makePath: ({
-      fundraiserId,
-    }: {
-      fundraiserId: string,
-    }) => `/admin/fundraisers/${fundraiserId}`,
-    hasRequest: true,
-    hasResponse: false,
     hasParams: true,
   },
   "get /admin/groups": {
@@ -350,6 +193,20 @@ export const routes = {
     hasResponse: true,
     hasParams: false,
   },
+  "get /admin/persons": {
+    method: "get",
+    makePath: ({ }: {}) => `/admin/persons`,
+    hasRequest: false,
+    hasResponse: true,
+    hasParams: false,
+  },
+  "post /admin/search": {
+    method: "post",
+    makePath: ({ }: {}) => `/admin/search`,
+    hasRequest: true,
+    hasResponse: true,
+    hasParams: false,
+  },
   "get /admin/tasks": {
     method: "get",
     makePath: ({ }: {}) => `/admin/tasks`,
@@ -366,6 +223,31 @@ export const routes = {
     }) => `/admin/tasks/${taskId}`,
     hasRequest: false,
     hasResponse: false,
+    hasParams: true,
+  },
+  "get /admin/teams": {
+    method: "get",
+    makePath: ({ }: {}) => `/admin/teams`,
+    hasRequest: false,
+    hasResponse: true,
+    hasParams: false,
+  },
+  "post /admin/teams": {
+    method: "post",
+    makePath: ({ }: {}) => `/admin/teams`,
+    hasRequest: true,
+    hasResponse: true,
+    hasParams: false,
+  },
+  "get /admin/teams/{teamId}": {
+    method: "get",
+    makePath: ({
+      teamId,
+    }: {
+      teamId: string,
+    }) => `/admin/teams/${teamId}`,
+    hasRequest: false,
+    hasResponse: true,
     hasParams: true,
   },
   "get /admin/users": {
@@ -393,28 +275,6 @@ export const routes = {
     hasResponse: false,
     hasParams: true,
   },
-  "post /public/fundraisers/{fundraiserId}/donation": {
-    method: "post",
-    makePath: ({
-      fundraiserId,
-    }: {
-      fundraiserId: string,
-    }) => `/public/fundraisers/${fundraiserId}/donation`,
-    hasRequest: true,
-    hasResponse: true,
-    hasParams: true,
-  },
-  "get /public/fundraisers/{fundraiserId}": {
-    method: "get",
-    makePath: ({
-      fundraiserId,
-    }: {
-      fundraiserId: string,
-    }) => `/public/fundraisers/${fundraiserId}`,
-    hasRequest: false,
-    hasResponse: true,
-    hasParams: true,
-  },
   "get /public/status": {
     method: "get",
     makePath: ({ }: {}) => `/public/status`,
@@ -426,13 +286,6 @@ export const routes = {
     method: "post",
     makePath: ({ }: {}) => `/scheduler/collect-payments`,
     hasRequest: false,
-    hasResponse: false,
-    hasParams: false,
-  },
-  "post /stripe/webhook": {
-    method: "post",
-    makePath: ({ }: {}) => `/stripe/webhook`,
-    hasRequest: true,
     hasResponse: false,
     hasParams: false,
   },

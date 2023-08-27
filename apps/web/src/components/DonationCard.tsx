@@ -1,6 +1,6 @@
 import TimeAgo from 'react-timeago';
 import classNames from 'classnames';
-import { format } from '@raise/shared';
+import { format } from '@odir/shared';
 
 type Props = {
   donorName?: string,

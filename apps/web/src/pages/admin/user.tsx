@@ -1,5 +1,5 @@
 import { RouteComponentProps } from '@gatsbyjs/reach-router';
-import { format } from '@raise/shared';
+import { format } from '@odir/shared';
 import { asResponseValues, useReq, useRawReq } from '../../helpers/networking';
 import Section, { SectionTitle } from '../../components/Section';
 import PropertyEditor from '../../components/PropertyEditor';

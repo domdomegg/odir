@@ -1,7 +1,7 @@
 import Helmet from 'react-helmet';
 import confetti from 'canvas-confetti';
 
-import { convert, format } from '@raise/shared';
+import { convert, format } from '@odir/shared';
 import { useEffect } from 'react';
 import Page from './Page';
 import { useReq } from '../helpers/networking';

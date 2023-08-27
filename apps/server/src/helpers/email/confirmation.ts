@@ -1,6 +1,6 @@
 import {
   convert, format, calcMatchFunding,
-} from '@raise/shared';
+} from '@odir/shared';
 import env from '../../env/env';
 import { Donation, Fundraiser, Payment } from '../../schemas';
 import renderHtml, { RenderedHtml } from './renderHtml';

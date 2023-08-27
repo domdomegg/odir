@@ -1,5 +1,5 @@
 {
-  "name": "raise",
+  "name": "odir",
   "workspaces": [
     "apps/*",
     "packages/*"

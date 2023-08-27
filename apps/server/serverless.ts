@@ -98,15 +98,6 @@ const serverlessConfiguration: AWS = {
       seed: {
         sample: {
           sources: [{
-            table: tables.fundraiser.name,
-            sources: ['./local/table_fundraiser.json'],
-          }, {
-            table: tables.donation.name,
-            sources: ['./local/table_donation.json'],
-          }, {
-            table: tables.payment.name,
-            sources: ['./local/table_payment.json'],
-          }, {
             table: tables.auditLog.name,
             sources: ['./local/table_auditLog.json'],
           }, {

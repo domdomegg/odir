@@ -1,23 +1,17 @@
-# 🌌 Raise monorepo
+# 🌌 Org Directory monorepo
 
-This repository holds most of the code for Raise.
+This repository holds most of the code for an open-source organization directory project.
 
-Think any documentation is out of date, incomplete, misleading or otherwise could be improved? Open a pull request or get in touch with the national team's tech person.
+Think any documentation is out of date, incomplete, misleading or otherwise could be improved? Open a pull request or raise an issue.
 
 - [🌐 Website](./apps/web)
 - [🔃 Server](./apps/server)
 - [📦 Shared](./packages/shared)
 - [🌈 UI](./packages/ui)
 
-## 📝 Making small website changes
+## 🧑‍💻 Contributing instructions
 
-Target audience: Raise volunteers who want to make small website content changes.
-
-See the [Editing your chapter's website](https://docs.google.com/document/d/1zKPq93_yagaYJ8QvAEilO8ZveSKTM7FxHwx4GFy-vRg/edit) doc.
-
-## 🧑‍💻 Advanced (for developers)
-
-Target audience: Raise volunteers and open-source contributors who have some coding experience, and want to make changes to any part of Raise.
+Target audience: Open-source contributors who have some coding experience, and want to make changes to any part of Org Directory.
 
 These docs apply to everything across the repository. For more specific docs, see the README files inside the relevant folder.
 
@@ -58,13 +52,13 @@ All packages should have their main content in a `src` folder, and output built 
 To install external packages (choosing the appropriate workspace, and with the argument `--save-dev` for dev dependencies):
 
 ```
-npm install some-package-name --workspace @raise/server
+npm install some-package-name --workspace @odir/server
 ```
 
 And to uninstall:
 
 ```
-npm uninstall some-package-name --workspace @raise/server
+npm uninstall some-package-name --workspace @odir/server
 ```
 
 #### 🚢 Ports
@@ -97,8 +91,8 @@ To learn more about using Git, see the [VS Code source control documentation](ht
 
 ### 📦 Concepts
 
-- admin: Any human person that can login to the admin pages, including members of the national team and chapter volunteers.
-- group: A collection of zero or more admins. The groups are generally 'National', 'NationalTech' (technical members of the national team with elevated permissions) and all the combinations of 'Raise [Chapter] [Year]'.
-- fundraiser: A top-level object that represents an individual donations push. Generally corresponds to a chapter in a specific year e.g. 'Raise Demo 2021'. Has zero or more donations.
-- donation: A donation by a specific donor, e.g. 'Donation from John Doe'. Associated with a fundraiser. Has zero or more payments.
-- payment: A payment in relation to a specific donation e.g. 'John Doe's 3rd weekly recurring payment of £9'. Associated with a donation.
+- user: Any human person that can login to the directory.
+- group: A collection of zero or more users, to control permissions to viewing details of certain persons or teams. This includes a special 'admin' group which can manage all groups.
+- person: A person in the directory. The plural we use is 'persons'. Usually corresponds to exactly one user. May be part of zero to many teams, but most often will be just on one team.
+- team: A team in the directory. May have relations between it and many other teams/persons.
+- relation: A relationship between persons and/or teams. Used for example to record team membership (person -> team), team nesting (team -> team), line managers (person -> person).

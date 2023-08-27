@@ -1,6 +1,6 @@
 import { navigate } from 'gatsby';
 import { PlusSmIcon } from '@heroicons/react/outline';
-import { fixedGroups, format } from '@raise/shared';
+import { fixedGroups, format } from '@odir/shared';
 import { useState } from 'react';
 import {
   asResponseValues, useReq, useRawReq,
@@ -24,7 +24,7 @@ const UsersPanel: React.FC = () => {
     <Section>
       <div className="flex">
         <SectionTitle className="flex-1">Users</SectionTitle>
-        <RequireGroup group={fixedGroups.National}>
+        <RequireGroup group={fixedGroups.Admin}>
           <Button onClick={() => setNewUserModalOpen(true)}>
             <PlusSmIcon className="h-6 mb-1" />
             {' '}

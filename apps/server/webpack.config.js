@@ -24,7 +24,7 @@ module.exports = {
   },
   target: "node",
   externals: [nodeExternals({
-    allowlist: ['@raise/shared']
+    allowlist: ['@odir/shared']
   })],
   module: {
     rules: [

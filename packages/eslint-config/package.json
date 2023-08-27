@@ -1,5 +1,5 @@
 {
-  "name": "@raise/eslint-config",
+  "name": "@odir/eslint-config",
   "private": true,
   "main": "src/index.js",
   "scripts": {
