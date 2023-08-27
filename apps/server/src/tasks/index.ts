@@ -8,7 +8,7 @@ const tasks: TaskDefinition[] = [
   sendSlackTestMessage,
   logStackTrace,
   initializeGroups,
-  sendTestUserEmails
+  sendTestUserEmails,
 ];
 
 export default tasks;

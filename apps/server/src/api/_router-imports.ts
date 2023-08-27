@@ -13,6 +13,7 @@ export const importMap = {
   "/admin/login/get": () => import("./admin/login/get"),
   "/admin/login/google/post": () => import("./admin/login/google/post"),
   "/admin/login/impersonation/post": () => import("./admin/login/impersonation/post"),
+  "/admin/login/refresh/post": () => import("./admin/login/refresh/post"),
   "/admin/persons/get": () => import("./admin/persons/get"),
   "/admin/search/post": () => import("./admin/search/post"),
   "/admin/tasks/get": () => import("./admin/tasks/get"),
