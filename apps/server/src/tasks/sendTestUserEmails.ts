@@ -1,4 +1,4 @@
-import { fixedGroups } from '@raise/shared';
+import { fixedGroups } from '@odir/shared';
 import { sendEmail } from '../helpers/email';
 import newUser from '../helpers/email/newUser';
 import { UserCreation } from '../schemas';
@@ -8,7 +8,7 @@ const testEmail = 'Raise';
 export default {
   id: '01H7DWQ77TZG31E8E1ADWVA15W',
   name: 'Send test user email',
-  groups: [fixedGroups.National],
+  groups: [fixedGroups.Admin],
   run: async (): Promise<void> => {
     const body: UserCreation = {
       name: 'Greg McGregFace',

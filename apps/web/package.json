@@ -1,5 +1,5 @@
 {
-  "name": "@raise/web",
+  "name": "@odir/web",
   "private": true,
   "scripts": {
     "postinstall": "shx cp -n src/env/local.template.ts src/env/local.ts && shx cp -n src/env/local.ts src/env/env.ts",
@@ -13,9 +13,7 @@
     "build:local": "shx cp src/env/local.ts src/env/env.ts && npm run build:common",
     "build:dev": "shx cp src/env/dev.ts src/env/env.ts && npm run build:common",
     "build:prod": "shx cp src/env/prod.ts src/env/env.ts && npm run build:common",
-    "build:common": "shx mkdir -p dist && npm run build:common:raise && npm run build:common:mwa",
-    "build:common:raise": "npm run type-check && PREFIX_PATHS=true gatsby build && shx rm -rf dist/raise && mv public dist/raise",
-    "build:common:mwa": "shx rm -rf ../web-mwa && shx mkdir ../web-mwa && shx cp -r * ../web-mwa && cd ../web-mwa && sed -i 's|@raise/web|@raise/web-mwa|g' package.json && mv src/pages src/pages-all && mv src/pages-all/cambridge src/pages && shx rm -rf src/pages-all && sed -i 's|from '\\''../|from '\\''|g' src/pages/* && sed -i 's/CUSTOM_RAISE_DOMAIN/CUSTOM_MWA_DOMAIN/g' gatsby-config.ts && sed -i 's/CLOUDFLARE_WEB_ANALYTICS_TOKEN_RAISE/CLOUDFLARE_WEB_ANALYTICS_TOKEN_MWA/g' gatsby-config.ts && npm run type-check && PREFIX_PATHS=true gatsby build && cd ../web && shx rm -rf dist/mwa && mv ../web-mwa/public dist/mwa && shx rm -rf ../web-mwa",
+    "build:common": "shx mkdir -p dist && npm run type-check && PREFIX_PATHS=true gatsby build && shx rm -rf dist && mv public dist",
     "type-check": "tsc",
     "deploy:dev": "npm run build:dev && serverless deploy --verbose",
     "deploy:prod": "npm run build:prod && serverless deploy --verbose"
@@ -26,8 +24,8 @@
   "dependencies": {
     "@gatsbyjs/reach-router": "^2.0.1",
     "@heroicons/react": "^1.0.4",
-    "@raise/server": "*",
-    "@raise/shared": "*",
+    "@odir/server": "*",
+    "@odir/shared": "*",
     "@reach/accordion": "^0.18.0",
     "@reach/dialog": "^0.18.0",
     "@reach/disclosure": "^0.18.0",
@@ -53,7 +51,7 @@
     "canvas-confetti": "^1.4.0",
     "classnames": "^2.3.1",
     "eslint": "^8.44.0",
-    "@raise/eslint-config": "*",
+    "@odir/eslint-config": "*",
     "gatsby": "^5.7.0",
     "gatsby-plugin-canonical-urls": "^5.7.0",
     "gatsby-plugin-postcss": "^6.7.0",

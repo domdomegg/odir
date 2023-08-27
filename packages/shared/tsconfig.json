@@ -1,4 +1,4 @@
 {
-  "extends": "@raise/tsconfig/internal-package.json",
+  "extends": "@odir/tsconfig/internal-package.json",
   "include": ["src"]
 }

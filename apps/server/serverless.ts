@@ -5,7 +5,7 @@ import env from './src/env/env';
 import { Table, tables } from './src/helpers/tables';
 import { getFunctionEvent, getFunctionPaths, pascalCase } from './local/helpers';
 
-const SERVICE_NAME = 'raise-server';
+const SERVICE_NAME = 'odir-server';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createResources = (definitions: Record<string, Table<any, any, any>>): NonNullable<NonNullable<AWS['resources']>['Resources']> => Object.values(definitions).reduce<NonNullable<NonNullable<AWS['resources']>['Resources']>>((acc, table) => {
@@ -99,15 +99,6 @@ const serverlessConfiguration: AWS = {
       seed: {
         sample: {
           sources: [{
-            table: tables.fundraiser.name,
-            sources: ['./local/table_fundraiser.json'],
-          }, {
-            table: tables.donation.name,
-            sources: ['./local/table_donation.json'],
-          }, {
-            table: tables.payment.name,
-            sources: ['./local/table_payment.json'],
-          }, {
             table: tables.auditLog.name,
             sources: ['./local/table_auditLog.json'],
           }, {

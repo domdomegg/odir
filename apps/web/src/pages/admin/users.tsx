@@ -1,7 +1,7 @@
 import { RouteComponentProps } from '@gatsbyjs/reach-router';
 import { navigate } from 'gatsby';
 import { PlusSmIcon } from '@heroicons/react/outline';
-import { fixedGroups } from '@raise/shared';
+import { fixedGroups } from '@odir/shared';
 import { useState } from 'react';
 import {
   asResponseValues, useReq, useRawReq,
@@ -24,13 +24,13 @@ const UsersPage: React.FC<RouteComponentProps> = () => {
 
   return (
     <>
-      <RequireGroup group={fixedGroups.National}>
+      <RequireGroup group={fixedGroups.Admin}>
         <UsersPanel />
       </RequireGroup>
       <Section>
         <div className="flex">
           <SectionTitle className="flex-1">Groups</SectionTitle>
-          <RequireGroup group={fixedGroups.National}>
+          <RequireGroup group={fixedGroups.Admin}>
             <Button onClick={() => setNewGroupModalOpen(true)}>
               <PlusSmIcon className="h-6 mb-1" />
               {' '}

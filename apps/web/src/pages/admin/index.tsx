@@ -2,23 +2,20 @@ import Helmet from 'react-helmet';
 import { Router } from '@gatsbyjs/reach-router';
 import { useEffect, useState } from 'react';
 import Page from '../../components/Page';
-import FundraisersPage from './fundraisers';
+import TeamsPage from './teams';
 import ProfilePage from './profile';
 import TasksPage from './tasks';
 import Login, { OauthCallbackPage } from './login';
 import NotFoundPage from '../404';
 import Navigation from '../../components/Navigation';
-import FundraiserPage from './fundraiser';
+import TeamPage from './team';
 import { useAuthState } from '../../helpers/networking';
 import Alert from '../../components/Alert';
 import Section from '../../components/Section';
-import DonationPage from './donation';
-import PaymentPage from './payment';
 import AuditPage from './audit';
 import UsersPage from './users';
 import UserPage from './user';
 import GroupPage from './group';
-import { helpLink } from './_helpLink';
 
 const IndexPage = () => (
   <Page className="pb-8">
@@ -64,7 +61,6 @@ const IndexLayout = () => {
             { text: 'Audit', href: '/admin/audit' },
             { text: 'Users', href: '/admin/users' },
             { text: 'Profile', href: '/admin/profile' },
-            { text: 'Help', href: helpLink },
           ]}
           right={[
             { text: 'Logout', onClick: () => setAuth() },
@@ -81,10 +77,8 @@ const IndexLayout = () => {
 
         {auth && (
           <>
-            <FundraisersPage path="/" />
-            <FundraiserPage fundraiserId="" path="/:fundraiserId" />
-            <DonationPage fundraiserId="" donationId="" path="/:fundraiserId/:donationId" />
-            <PaymentPage fundraiserId="" donationId="" paymentId="" path="/:fundraiserId/:donationId/:paymentId" />
+            <TeamsPage path="/" />
+            <TeamPage teamId="" path="/:fundraiserId" />
             <TasksPage path="/tasks" />
             <AuditPage path="/audit" />
             <UsersPage path="/users" />

@@ -1,5 +1,5 @@
 {
-  "name": "@raise/server",
+  "name": "@odir/server",
   "private": true,
   "main": "serverless.ts",
   "scripts": {
@@ -30,7 +30,7 @@
     "@middy/core": "^2.5.3",
     "@middy/http-json-body-parser": "^2.5.3",
     "@middy/validator": "^2.5.3",
-    "@raise/shared": "*",
+    "@odir/shared": "*",
     "ajv": "^8.6.3",
     "axios": "^0.24.0",
     "escape-html": "^1.0.3",
@@ -44,7 +44,7 @@
     "ulid": "^2.3.0"
   },
   "devDependencies": {
-    "@raise/eslint-config": "*",
+    "@odir/eslint-config": "*",
     "@serverless/typescript": "^3.27.0",
     "@types/aws-lambda": "^8.10.71",
     "@types/escape-html": "^1.0.2",

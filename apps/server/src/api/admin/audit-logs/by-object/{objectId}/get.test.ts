@@ -1,5 +1,5 @@
 import { ulid } from 'ulid';
-import { fixedGroups } from '@raise/shared';
+import { fixedGroups } from '@odir/shared';
 import { insert } from '../../../../../helpers/db';
 import { auditLogTable } from '../../../../../helpers/tables';
 import { call, makeAuditLog } from '../../../../../../local/testHelpers';
@@ -20,11 +20,11 @@ test('retrieves audit logs', async () => {
   expect(response).toContainEqual(logs[1]);
 });
 
-test('rejects non-national team', async () => {
+test('rejects non-admins', async () => {
   // when we call the endpoint
   const response = await call(main, { rawResponse: true, auth: { groups: ['Test'] }, pathParameters: { objectId: ulid() } })(null);
 
   // we are rejected
   expect(response.statusCode).toBe(403);
-  expect(response.body).toContain(`[National (${fixedGroups.National})]`);
+  expect(response.body).toContain(`[Admin (${fixedGroups.Admin})]`);
 });
