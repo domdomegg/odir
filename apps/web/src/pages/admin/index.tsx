@@ -8,7 +8,7 @@ import TasksPage from './tasks';
 import Login, { OauthCallbackPage } from './login';
 import NotFoundPage from '../404';
 import Navigation from '../../components/Navigation';
-import FundraiserPage from './fundraiser';
+import TeamPage from './team';
 import { useAuthState } from '../../helpers/networking';
 import Alert from '../../components/Alert';
 import Section from '../../components/Section';
@@ -78,7 +78,7 @@ const IndexLayout = () => {
         {auth && (
           <>
             <TeamsPage path="/" />
-            <FundraiserPage fundraiserId="" path="/:fundraiserId" />
+            <TeamPage teamId="" path="/:fundraiserId" />
             <TasksPage path="/tasks" />
             <AuditPage path="/audit" />
             <UsersPage path="/users" />

@@ -5,7 +5,6 @@ import Section, { SectionTitle } from '../components/Section';
 import { TopNavigation } from '../components/Navigation';
 import Cover, { CTADown } from '../components/Cover';
 import IntroStats from '../components/IntroStats';
-import Philosophy from '../components/Philosophy';
 import Footer from '../components/Footer';
 import { SocialIconV2 } from '../components/SocialIcon';
 
@@ -34,21 +33,9 @@ const IndexPage = () => (
             protected: convert.moneyToPeopleProtected('gbp', 466495_00),
           }}
         />
-
-        <iframe
-          className="w-full max-w-2xl mx-auto my-8 rounded shadow-raise"
-          title="YouTube: Raise: A Celebration of Giving"
-          width="672"
-          height="378"
-          src="https://www.youtube-nocookie.com/embed/6bEloAzIV2c?rel=0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
       </Section>
       <CTADown text="Our philosophy" href="#our-philosophy" />
     </Cover>
-
-    <Philosophy />
 
     <Section id="contact">
       <SectionTitle>Get in Touch</SectionTitle>

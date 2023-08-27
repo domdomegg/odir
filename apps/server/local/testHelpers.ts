@@ -8,7 +8,7 @@ import { AccessTokenPayload } from "../src/helpers/types"
 import env from "../src/env/env"
 import MockDate from 'mockdate';
 import * as db from "../src/helpers/db"
-import { AuditLog } from "../src/schemas"
+import { AuditLog, Team } from "../src/schemas"
 
 interface CallOptions {
   path?: string,
@@ -76,6 +76,17 @@ export const call = (handler: Handler<APIGatewayProxyEventV2, APIGatewayProxyRes
   if (response.body === undefined) return undefined
   return JSON.parse(response.body)
 }
+
+export const makeTeam = <Override extends Partial<Team>>(override?: Override): Team & Override => ({
+  id: ulid(),
+  name: 'Teamy McTeamface',
+  createdAt: Math.floor(new Date().getTime() / 1000),
+  lastEditedAt: Math.floor(new Date().getTime() / 1000),
+  lastEditedBy: ulid(),
+  vision: 'A world that is cool',
+  mission: 'Do cool things',
+  ...override,
+} as Team & Override)
 
 export const makeAuditLog = <Override extends Partial<AuditLog>>(override?: Override): AuditLog & Override => ({
   id: ulid(),

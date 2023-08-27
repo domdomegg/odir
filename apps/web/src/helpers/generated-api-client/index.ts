@@ -100,6 +100,13 @@ export type Routes = {
       "teamId": string,
     },
   },
+  "patch /admin/teams/{teamId}": {
+    request: S.TeamEdits,
+    response: null,
+    params: {
+      "teamId": string,
+    },
+  },
   "get /admin/users": {
     request: null,
     response: S.Users,
@@ -260,6 +267,17 @@ export const routes = {
     }) => `/admin/teams/${teamId}`,
     hasRequest: false,
     hasResponse: true,
+    hasParams: true,
+  },
+  "patch /admin/teams/{teamId}": {
+    method: "patch",
+    makePath: ({
+      teamId,
+    }: {
+      teamId: string,
+    }) => `/admin/teams/${teamId}`,
+    hasRequest: true,
+    hasResponse: false,
     hasParams: true,
   },
   "get /admin/users": {

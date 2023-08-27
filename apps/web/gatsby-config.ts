@@ -13,32 +13,32 @@ const getVersion = () => {
 const config: GatsbyConfig = {
   // Always use the main site as the canonical one and where to get assets
   // This helps keep things consistent, and allows us hosting subfolders (as we do for Cambridge)
-  assetPrefix: `https://${env.CUSTOM_RAISE_DOMAIN}`,
+  assetPrefix: `https://${env.CUSTOM_ODIR_DOMAIN}`,
   siteMetadata: {
     title: 'Raise',
     description: 'A charitable movement encouraging students to adopt a positive approach towards deliberate, effective giving.',
     keywords: 'raise, charity, join raise, amf, against malaria foundation',
-    siteUrl: `https://${env.CUSTOM_RAISE_DOMAIN}/`,
+    siteUrl: `https://${env.CUSTOM_ODIR_DOMAIN}/`,
     author: {
       name: 'Raise',
-      url: `https://${env.CUSTOM_RAISE_DOMAIN}/`,
+      url: `https://${env.CUSTOM_ODIR_DOMAIN}/`,
     },
     version: getVersion(),
     // Really this should be `?? undefined` but then Gatsby complains
-    cloudflareWebAnalyticsToken: env.CLOUDFLARE_WEB_ANALYTICS_TOKEN_RAISE ?? '',
+    cloudflareWebAnalyticsToken: env.CLOUDFLARE_WEB_ANALYTICS_TOKEN_ODIR ?? '',
   },
   plugins: [
     {
       resolve: 'gatsby-plugin-canonical-urls',
       options: {
-        siteUrl: `https://${env.CUSTOM_RAISE_DOMAIN}/`,
+        siteUrl: `https://${env.CUSTOM_ODIR_DOMAIN}/`,
       },
     },
     'gatsby-plugin-typescript',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-postcss',
   ],
-  jsxRuntime: "automatic",
+  jsxRuntime: 'automatic',
 };
 
 export default config;

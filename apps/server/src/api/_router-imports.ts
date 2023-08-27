@@ -21,6 +21,7 @@ export const importMap = {
   "/admin/teams/get": () => import("./admin/teams/get"),
   "/admin/teams/post": () => import("./admin/teams/post"),
   "/admin/teams/{teamId}/get": () => import("./admin/teams/{teamId}/get"),
+  "/admin/teams/{teamId}/patch": () => import("./admin/teams/{teamId}/patch"),
   "/admin/users/get": () => import("./admin/users/get"),
   "/admin/users/post": () => import("./admin/users/post"),
   "/admin/users/{userId}/patch": () => import("./admin/users/{userId}/patch"),
