@@ -20,6 +20,7 @@ import { SectionTitle } from './Section';
 export type InputType<V> = 'hidden' | (
   | V extends string ?
     | 'text'
+    | 'textarea'
     | 'tel'
     | 'email'
     | 'select'
@@ -89,6 +90,11 @@ export type LabelledInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   prefix?: never,
   suffix?: never,
 } | {
+  type: 'textarea',
+  options?: never,
+  prefix?: never,
+  suffix?: never,
+} | {
   type: 'date' | 'datetime-local' | 'email' | 'number' | 'password' | 'tel' | 'text' | 'url',
   options?: never,
   prefix?: React.ReactChild,
@@ -142,6 +148,28 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
     );
   }
 
+  if (type === 'textarea') {
+    return (
+      <div className={className}>
+        {label && <label htmlFor={id} className={classNames('text-gray-700 font-bold block pb-1', { 'text-raise-red': error })}>{label}</label>}
+        <div className="flex flex-row mb-1">
+          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/* @ts-ignore */}
+          <textarea
+            id={id}
+            ref={ref as any}
+            className={classNames(inputClassName, 'w-full flex-1 py-2 px-3 appearance-none block border cursor-text transition-all text-gray-700 outline-none', {
+              'bg-gray-200 border-gray-200 hover:bg-gray-100 hover:border-gray-400 focus:border-gray-800 focus:bg-white': !error,
+              'bg-red-100 border-red-100 hover:bg-red-50 hover:border-red-400 focus:border-red-800 focus:bg-red-50': error,
+            })}
+            {...rest}
+          />
+        </div>
+        {error && <span className="text-raise-red">{error}</span>}
+      </div>
+    );
+  }
+
   return (
     <div className={className}>
       {label && <label htmlFor={id} className={classNames('text-gray-700 font-bold block pb-1', { 'text-raise-red': error })}>{label}</label>}
@@ -161,8 +189,6 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
           type={type}
           step={type === 'number' ? 'any' : undefined}
           className={classNames(inputClassName, 'w-full flex-1 py-2 px-3 appearance-none block border cursor-text transition-all text-gray-700 outline-none', {
-            'rounded-l': !prefix,
-            'rounded-r': !suffix,
             'bg-gray-200 border-gray-200 hover:bg-gray-100 hover:border-gray-400 focus:border-gray-800 focus:bg-white': !error,
             'bg-red-100 border-red-100 hover:bg-red-50 hover:border-red-400 focus:border-red-800 focus:bg-red-50': error,
           })}
@@ -265,11 +291,12 @@ export interface FormProps<T> {
   definition: { [K in keyof T]: PropertyDefinition<T, T[K]> },
   initialValues: T,
   showCurrent?: boolean,
+  showNew?: boolean,
   onSubmit: (item: T) => void | Promise<void>,
 }
 
 export const Form = <T extends FieldValues>({
-  title, warning, definition, initialValues, showCurrent = true, onSubmit,
+  title, warning, definition, initialValues, showCurrent = true, showNew = true, onSubmit,
 }: FormProps<T>) => {
   const [error, setError] = useState<Error | undefined>();
   const formMethods = useForm<T>({ defaultValues: mapToInput(initialValues, definition) });
@@ -309,7 +336,7 @@ export const Form = <T extends FieldValues>({
           }
 
           return (
-            <div key={k} className={i === arr.length - 1 ? 'mb-2' : 'mb-8'}>
+            <div key={k} className={i === arr.length - 1 ? 'mb-2' : 'mb-4'}>
               {v.warning && <Alert variant="warning" className="mb-4">{v.warning}</Alert>}
               {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               <LabelledInput label={v.label ?? String(k)} id={String(k)} type={nInputType as any} options={(v as any).selectOptions} {...register(k)} />
@@ -319,12 +346,14 @@ export const Form = <T extends FieldValues>({
                 {v.formatter ? v.formatter(initialValues[k], initialValues) : (initialValues[k] ?? '—')}
               </p>
               )}
+              {showNew && (
               <p className="word-wrap">
                 {showCurrent ? 'New value' : 'Value'}
                 :
                 {' '}
                 {v.formatter ? v.formatter(newValues[k], newValues) : (newValues[k] ?? '—')}
               </p>
+              )}
             </div>
           );
         })}

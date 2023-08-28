@@ -3,98 +3,84 @@
     "id": "01H8WAKXXCTQWG2JXW9N70FY9M",
     "parentId": "01H8W4Z5YBVNWKV5R3C8Q9K3F5",
     "childId": "01H8W4W7MJMVFS1A37XV2XMNW1",
-    "type": "MEMBER_OF",
-    "primary": true
+    "type": "MEMBER_OF"
   },
   {
     "id": "01H8WAKXXF1EVDS7NH1PZ3VMS4",
     "parentId": "01H8W4Z5YAH852PBM18N467F9F",
     "childId": "01H8W4W4NJ72EQ7KQQJW6MMRRV",
-    "type": "MEMBER_OF",
-    "primary": true
+    "type": "MEMBER_OF"
   },
   {
     "id": "01H8WAKXXGXJTH22HZBMSS9DEF",
     "parentId": "01H8W4Z5YCZYS471FSJ5HG1Q16",
     "childId": "01H8W4W7MJMVFS1A37XV2XMNW1",
-    "type": "MEMBER_OF",
-    "primary": true
+    "type": "MEMBER_OF"
   },
   {
     "id": "01H8WAKXXG89W04NEZKPRW5EC9",
     "parentId": "01H8W4Z5YCZYS471FSJ5HG1Q16",
     "childId": "01H8W4W4NJ72EQ7KQQJW6MMRRV",
-    "type": "MEMBER_OF",
-    "primary": true
+    "type": "MEMBER_OF"
   },
   {
     "id": "01H8WAKXXG9372A5W92EHY70E7",
     "parentId": "01H8W4Z5YCF295106MEBEKCT2Q",
     "childId": "01H8W4W7MJMVFS1A37XV2XMNW1",
-    "type": "MEMBER_OF",
-    "primary": true
+    "type": "MEMBER_OF"
   },
   {
     "id": "01H8WAKXXG5VM0MQRX2PT12YZR",
     "parentId": "01H8W4Z5YCF295106MEBEKCT2Q",
     "childId": "01H8W4W4NJ72EQ7KQQJW6MMRRV",
-    "type": "MEMBER_OF",
-    "primary": true
+    "type": "MEMBER_OF"
   },
   {
     "id": "01H8WAKXXGA8XXS9ZVECPMAT6C",
     "parentId": "01H8W4Z5YCDNW1Q3Q3Q2BY076E",
     "childId": "01H8W4W17XNRXBP5D22VHWTJ5W",
-    "type": "MEMBER_OF",
-    "primary": true
+    "type": "MEMBER_OF"
   },
   {
     "id": "01H8WAS5SZDJ00ME2K9KAH8V6J",
     "parentId": "01H8W4Z5YCF295106MEBEKCT2Q",
     "childId": "01H8W4Z5YCDNW1Q3Q3Q2BY076E",
-    "type": "PART_OF",
-    "primary": true
+    "type": "PART_OF"
   },
   {
     "id": "01H8WAS5T09G9JRXC262V4AZ0D",
     "parentId": "01H8W4Z5YAH852PBM18N467F9F",
     "childId": "01H8W4Z5YCF295106MEBEKCT2Q",
-    "type": "PART_OF",
-    "primary": true
+    "type": "PART_OF"
   },
   {
     "id": "01H8WAS5T0D5NZS35S2VPCGPY8",
     "parentId": "01H8W4Z5YAH852PBM18N467F9F",
     "childId": "01H8W4Z5YCC7HGCQPSP4PAV9BY",
-    "type": "PART_OF",
-    "primary": true
+    "type": "PART_OF"
   },
   {
     "id": "01H8WAS5T0NCHMAK1RZ8TVVQNA",
     "parentId": "01H8W4Z5YBVNWKV5R3C8Q9K3F5",
     "childId": "01H8W4Z5YCZYS471FSJ5HG1Q16",
-    "type": "PART_OF",
-    "primary": true
+    "type": "PART_OF"
   },
   {
     "id": "01H8WAS5T6TSHKHPSNRTDT1NFS",
     "parentId": "01H8W4Z5YCDNW1Q3Q3Q2BY076E",
-    "childId": "01H8WAS5T3AZ36X1RQYSPV1506",
-    "type": "MANAGER_OF",
-    "primary": true
+    "childId": "01H8W4W17XNRXBP5D22VHWTJ5W",
+    "type": "MANAGER_OF"
   },
   {
     "id": "01H8WAKXXG4A11F0NCE45RB95Y",
     "parentId": "01H8W4W4NJ72EQ7KQQJW6MMRRV",
     "childId": "01H8W4W17XNRXBP5D22VHWTJ5W",
-    "type": "LINE_MANGED_BY",
-    "primary": true
+    "type": "LINE_MANGED_BY"
   },
   {
     "id": "01H8WAS5T43WD8ZCZY3PEMZ3WS",
     "parentId": "01H8W4Z5YCDNW1Q3Q3Q2BY076E",
     "childId": "01H8WAS5T3AZ36X1RQYSPV1506",
-    "type": "MEMBER_OF",
-    "primary": true
+    "type": "MEMBER_OF"
   }
 ]

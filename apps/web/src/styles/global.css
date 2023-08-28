@@ -106,7 +106,7 @@
   }
 
   .Alert {
-    @apply rounded p-4 break-words flex items-center overflow-x-auto
+    @apply p-4 break-words flex items-center overflow-x-auto
   }
 
   @keyframes scrollUp {
@@ -116,10 +116,6 @@
     to {
       transform: translateY(-50%);
     }
-  }
-
-  .raise-google-button {
-    @apply rounded px-2 !important;
   }
 
   .bg-white-important {

@@ -73,6 +73,25 @@ export type Routes = {
     response: S.Persons,
     params: null,
   },
+  "post /admin/relations": {
+    request: S.RelationCreation,
+    response: S.Ulid,
+    params: null,
+  },
+  "delete /admin/relations/{relationId}": {
+    request: null,
+    response: null,
+    params: {
+      "relationId": string,
+    },
+  },
+  "patch /admin/relations/{relationId}": {
+    request: S.RelationEdits,
+    response: null,
+    params: {
+      "relationId": string,
+    },
+  },
   "post /admin/search": {
     request: S.SearchRequest,
     response: S.SearchResponse,
@@ -229,6 +248,35 @@ export const routes = {
     hasRequest: false,
     hasResponse: true,
     hasParams: false,
+  },
+  "post /admin/relations": {
+    method: "post",
+    makePath: ({ }: {}) => `/admin/relations`,
+    hasRequest: true,
+    hasResponse: true,
+    hasParams: false,
+  },
+  "delete /admin/relations/{relationId}": {
+    method: "delete",
+    makePath: ({
+      relationId,
+    }: {
+      relationId: string,
+    }) => `/admin/relations/${relationId}`,
+    hasRequest: false,
+    hasResponse: false,
+    hasParams: true,
+  },
+  "patch /admin/relations/{relationId}": {
+    method: "patch",
+    makePath: ({
+      relationId,
+    }: {
+      relationId: string,
+    }) => `/admin/relations/${relationId}`,
+    hasRequest: true,
+    hasResponse: false,
+    hasParams: true,
   },
   "post /admin/search": {
     method: "post",

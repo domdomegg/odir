@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-imports */
 import { DynamoDBClient, TransactionCanceledException } from '@aws-sdk/client-dynamodb';
 import {
+  DeleteCommand,
   DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand, ScanCommand, TransactWriteCommand, TransactWriteCommandInput, TransactWriteCommandOutput, UpdateCommand,
 } from '@aws-sdk/lib-dynamodb';
 import { NodeHttpHandler } from '@aws-sdk/node-http-handler';
@@ -472,4 +473,14 @@ export const update = async <
   });
   assertMatchesSchema<S>(table.schema, result.Attributes);
   return result.Attributes as S;
+};
+
+export const remove = async <
+  Pa extends string,
+  Pr extends string,
+  S extends { [K in keyof S]: DBAttributeValue } & K,
+  K extends Record<Pa | Pr, string>,
+  E extends { [_K in keyof S]?: _K extends keyof K ? never : S[_K] },
+  >(table: Table<Pa, Pr, S, K, E>, key: K): Promise<void> => {
+  await dbClient.send(new DeleteCommand({ TableName: table.name, Key: key })).catch(handleDbError(table));
 };

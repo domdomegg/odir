@@ -55,15 +55,25 @@ const findTeam = async (slug: Slug): Promise<EntityResponse & { type: 'team' }> 
 };
 
 // TODO: stop at loops or max depth
-const getBreadcrumbs = async (teamId: string, relations: Relation[]): Promise<Team[]> => {
-  const parentRelation = relations.find((r) => r.childId === teamId); // todo: use title to filter to primary parent
-  if (!parentRelation) {
-    return [];
+const getBreadcrumbs = async (teamId: string, allRelations: Relation[]): Promise<Team[]> => {
+  const parents: Team[] = [];
+
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const parentRelation = allRelations.find((r) => r.childId === (parents[0]?.id ?? teamId));
+    if (!parentRelation) {
+      return parents;
+    }
+
+    if (parents.find((p) => p.id === parentRelation.parentId)) {
+      // stop: we have found a loop
+      return parents;
+    }
+
+    // eslint-disable-next-line no-await-in-loop
+    const parentTeam = await get(teamTable, { id: parentRelation.parentId });
+    parents.unshift(parentTeam);
   }
-
-  const parentTeam = await get(teamTable, { id: parentRelation.parentId });
-
-  return [...await getBreadcrumbs(parentTeam.id, relations), parentTeam];
 };
 
 const findPerson = async (slug: Slug): Promise<EntityResponse & { type: 'person' }> => {
