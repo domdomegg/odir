@@ -26,8 +26,8 @@ module.exports = {
         'raise-yellow-dark': '#C1A114',
       },
       fontFamily: {
-        'raise-header': ['laca', ...defaultTheme.fontFamily.sans],
-        'raise-content': ['mr-eaves-sans', ...defaultTheme.fontFamily.sans],
+        'raise-header': ['Helvetica', ...defaultTheme.fontFamily.sans],
+        'raise-content': ['Helvetica', ...defaultTheme.fontFamily.sans],
       },
       skew: {
         15: '15deg',

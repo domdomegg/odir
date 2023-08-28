@@ -26,7 +26,7 @@ const Page: React.FC<React.PropsWithChildren<{ className?: string, brand?: Brand
         <meta property="raise-version" content={site.siteMetadata.version} />
         {site.siteMetadata.cloudflareWebAnalyticsToken && <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={`{"token": "${site.siteMetadata.cloudflareWebAnalyticsToken}"}`} />}
       </Helmet>
-      <div className={classNames('bg-raise-blue min-h-screen text-white font-raise-content text-2xl font-normal text-center overflow-auto', className)}>
+      <div className={classNames('font-raise-content font-normal text-center overflow-auto', className)}>
         {children}
       </div>
     </>

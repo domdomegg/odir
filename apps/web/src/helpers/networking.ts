@@ -273,7 +273,7 @@ const useReqCore = <
     if (!args.options.manual) {
       fetchData();
     }
-  }, []); // execute once only
+  }, [JSON.stringify(args)]); // execute once per unique set of options only
 
   return [{
     data, loading, error, response,

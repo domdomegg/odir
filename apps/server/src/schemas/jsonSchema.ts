@@ -142,7 +142,7 @@ export const $TeamCreation: JSONSchema<S.TeamCreation> = {
     vision: { type: 'string' },
     mission: { type: 'string' },
     priorities: { type: 'string' },
-    logo: { type: 'string' },
+    profilePic: { type: 'string' },
     notes: { type: 'string' },
     preferredSlug: { type: 'string' },
   },
@@ -191,11 +191,26 @@ export const $Slugs: JSONSchema<S.Slug[]> = { type: 'array', items: $Slug };
 export const $RelationCreation: JSONSchema<S.RelationCreation> = {
   type: 'object',
   properties: {
-    parentId: { type: 'string' },
     childId: { type: 'string' },
+    parentId: { type: 'string' },
+    type: {
+      enum: [
+        // child: team, parent: team
+        'PART_OF',
+        // child: person, parent: team
+        'MEMBER_OF',
+        // child: person, parent: person
+        'LINE_MANGED_BY',
+        // child: person, parent: team
+        // NB: managers should usually be both a member of and manager of a team
+        'MANAGER_OF',
+      ]
+    },
+    // Optional custom title for some relations e.g. if someone has different roles in different teams
     title: { type: 'string' },
+    primary: { type: 'boolean' },
   },
-  required: ['parentId', 'childId'],
+  required: ['parentId', 'childId', 'type', 'primary'],
   additionalProperties: false,
 };
 
@@ -214,7 +229,7 @@ export const $Relation: JSONSchema<S.Relation> = {
     id: $Ulid,
     ...$RelationCreation.properties,
   },
-  required: ['id', 'parentId', 'childId'],
+  required: ['id', ...$RelationCreation.required as string[]],
   additionalProperties: false,
 };
 

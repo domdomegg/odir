@@ -59,6 +59,7 @@ export interface PersonCreation {
   howSupportOthers?: string;
   howHelpMe?: string;
   profilePic?: string;
+  preferredSlug?: string;
 }
 
 export interface PersonEdits {
@@ -73,6 +74,7 @@ export interface PersonEdits {
   howSupportOthers?: string;
   howHelpMe?: string;
   profilePic?: string;
+  preferredSlug?: string;
 }
 
 export interface Person {
@@ -88,6 +90,7 @@ export interface Person {
   howSupportOthers?: string;
   howHelpMe?: string;
   profilePic?: string;
+  preferredSlug: string;
   lastEditedBy: string;
   lastEditedAt: number;
   createdAt: number;
@@ -106,6 +109,7 @@ export type Persons = {
   howSupportOthers?: string;
   howHelpMe?: string;
   profilePic?: string;
+  preferredSlug: string;
   lastEditedBy: string;
   lastEditedAt: number;
   createdAt: number;
@@ -117,7 +121,7 @@ export interface TeamCreation {
   vision?: string;
   mission?: string;
   priorities?: string;
-  logo?: string;
+  profilePic?: string;
   notes?: string;
   preferredSlug?: string;
 }
@@ -128,7 +132,7 @@ export interface TeamEdits {
   vision?: string;
   mission?: string;
   priorities?: string;
-  logo?: string;
+  profilePic?: string;
   notes?: string;
   preferredSlug?: string;
 }
@@ -140,7 +144,7 @@ export interface Team {
   vision?: string;
   mission?: string;
   priorities?: string;
-  logo?: string;
+  profilePic?: string;
   notes?: string;
   preferredSlug: string;
   lastEditedBy: string;
@@ -155,7 +159,7 @@ export type Teams = {
   vision?: string;
   mission?: string;
   priorities?: string;
-  logo?: string;
+  profilePic?: string;
   notes?: string;
   preferredSlug: string;
   lastEditedBy: string;
@@ -178,29 +182,37 @@ export type Slugs = {
 }[];
 
 export interface RelationCreation {
-  parentId: string;
   childId: string;
+  parentId: string;
+  type: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
   title?: string;
+  primary: boolean;
 }
 
 export interface RelationEdits {
-  parentId?: string;
   childId?: string;
+  parentId?: string;
+  type?: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
   title?: string;
+  primary?: boolean;
 }
 
 export interface Relation {
   id: string;
-  parentId: string;
   childId: string;
+  parentId: string;
+  type: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
   title?: string;
+  primary: boolean;
 }
 
 export type Relations = {
   id: string;
-  parentId: string;
   childId: string;
+  parentId: string;
+  type: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
   title?: string;
+  primary: boolean;
 }[];
 
 export type EntityResponse =
@@ -213,7 +225,7 @@ export type EntityResponse =
         vision?: string;
         mission?: string;
         priorities?: string;
-        logo?: string;
+        profilePic?: string;
         notes?: string;
         preferredSlug: string;
         lastEditedBy: string;
@@ -227,7 +239,7 @@ export type EntityResponse =
         vision?: string;
         mission?: string;
         priorities?: string;
-        logo?: string;
+        profilePic?: string;
         notes?: string;
         preferredSlug: string;
         lastEditedBy: string;
@@ -236,9 +248,11 @@ export type EntityResponse =
       }[];
       relations: {
         id: string;
-        parentId: string;
         childId: string;
+        parentId: string;
+        type: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
         title?: string;
+        primary: boolean;
       }[];
       teams: {
         id: string;
@@ -247,7 +261,7 @@ export type EntityResponse =
         vision?: string;
         mission?: string;
         priorities?: string;
-        logo?: string;
+        profilePic?: string;
         notes?: string;
         preferredSlug: string;
         lastEditedBy: string;
@@ -267,6 +281,7 @@ export type EntityResponse =
         howSupportOthers?: string;
         howHelpMe?: string;
         profilePic?: string;
+        preferredSlug: string;
         lastEditedBy: string;
         lastEditedAt: number;
         createdAt: number;
@@ -294,15 +309,18 @@ export type EntityResponse =
         howSupportOthers?: string;
         howHelpMe?: string;
         profilePic?: string;
+        preferredSlug: string;
         lastEditedBy: string;
         lastEditedAt: number;
         createdAt: number;
       };
       relations: {
         id: string;
-        parentId: string;
         childId: string;
+        parentId: string;
+        type: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
         title?: string;
+        primary: boolean;
       }[];
       teams: {
         id: string;
@@ -311,7 +329,7 @@ export type EntityResponse =
         vision?: string;
         mission?: string;
         priorities?: string;
-        logo?: string;
+        profilePic?: string;
         notes?: string;
         preferredSlug: string;
         lastEditedBy: string;
@@ -331,6 +349,7 @@ export type EntityResponse =
         howSupportOthers?: string;
         howHelpMe?: string;
         profilePic?: string;
+        preferredSlug: string;
         lastEditedBy: string;
         lastEditedAt: number;
         createdAt: number;
@@ -351,7 +370,7 @@ export interface SearchRequest {
 export interface SearchResponse {
   results: {
     id: string;
-    url: string;
+    slug: string;
     title: string;
     subtitle?: {
       highlight?: boolean;

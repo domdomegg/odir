@@ -35,14 +35,10 @@ const findTeam = async (slug: Slug): Promise<EntityResponse & { type: 'team' }> 
   const allRelations = await scan(relationTable);
   const relations = allRelations.filter((r) => r.childId === team.id || r.parentId === team.id);
   const breadcrumbs = await getBreadcrumbs(team.id, allRelations);
-  const teams = await Promise.all(relations.map((r) => {
-    const teamId = r.childId === team.id ? r.parentId : r.childId;
-    return get(teamTable, { id: teamId });
-  }));
-  const persons = await Promise.all(relations.map((r) => {
-    const personId = r.childId === team.id ? r.parentId : r.childId;
-    return get(personTable, { id: personId });
-  }));
+  const teamsToGet = new Set(relations.filter((r) => ['PART_OF'].includes(r.type)).map((r) => (r.childId === team.id ? r.parentId : r.childId)));
+  const teams = await Promise.all([...teamsToGet].map((id) => get(teamTable, { id })));
+  const personsToGet = new Set(relations.filter((r) => ['MEMBER_OF', 'LINE_MANAGED_BY', 'MANAGER_OF'].includes(r.type)).map((r) => (r.childId === team.id ? r.parentId : r.childId)));
+  const persons = await Promise.all([...personsToGet].map((id) => get(personTable, { id })));
   const slugs = (await scan(slugTable)).filter((s) => s.underlyingId === team.id);
   const hasDetailedAccess = true; // TODO: use groups, and filter out team info
 
@@ -58,6 +54,7 @@ const findTeam = async (slug: Slug): Promise<EntityResponse & { type: 'team' }> 
   };
 };
 
+// TODO: stop at loops or max depth
 const getBreadcrumbs = async (teamId: string, relations: Relation[]): Promise<Team[]> => {
   const parentRelation = relations.find((r) => r.childId === teamId); // todo: use title to filter to primary parent
   if (!parentRelation) {
@@ -72,14 +69,10 @@ const getBreadcrumbs = async (teamId: string, relations: Relation[]): Promise<Te
 const findPerson = async (slug: Slug): Promise<EntityResponse & { type: 'person' }> => {
   const person = await get(personTable, { id: slug.underlyingId });
   const relations = (await scan(relationTable)).filter((r) => r.childId === person.id || r.parentId === person.id);
-  const teams = await Promise.all(relations.map((r) => {
-    const teamId = r.childId === person.id ? r.parentId : r.childId;
-    return get(teamTable, { id: teamId });
-  }));
-  const persons = await Promise.all(relations.map((r) => {
-    const personId = r.childId === person.id ? r.parentId : r.childId;
-    return get(personTable, { id: personId });
-  }));
+  const teamsToGet = new Set(relations.filter((r) => ['MEMBER_OF', 'MANAGER_OF'].includes(r.type)).map((r) => (r.childId === person.id ? r.parentId : r.childId)));
+  const teams = await Promise.all([...teamsToGet].map((id) => get(teamTable, { id })));
+  const personsToGet = new Set(relations.filter((r) => ['LINE_MANAGED_BY'].includes(r.type)).map((r) => (r.childId === person.id ? r.parentId : r.childId)));
+  const persons = await Promise.all([...personsToGet].map((id) => get(personTable, { id })));
   const slugs = (await scan(slugTable)).filter((s) => s.underlyingId === person.id);
   const hasDetailedAccess = true; // TODO: use groups, and filter out person info
 
