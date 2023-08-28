@@ -14,7 +14,7 @@ interface Props {
 }
 
 const Button: React.FC<Props> = ({
-  children, href, target, onClick, variant = 'outline', size = 'normal', skew = true, className, disabled, ...other
+  children, href, target, onClick, variant = 'outline', size = 'normal', className, disabled, ...other
 }) => (
   <Link
     href={href}
@@ -29,13 +29,12 @@ const Button: React.FC<Props> = ({
       'px-2 py-0': size === 'small',
       'border-4': size === 'normal',
       'border-4 py-2 px-5 text-[130%]': size === 'large',
-      '-skew-x-15': skew,
     }, className)}
     disabled={disabled}
     role="button"
     {...other}
   >
-    <span className={classNames('inline-block', { 'skew-x-15': skew })}>{children}</span>
+    <span className="inline-block">{children}</span>
   </Link>
 );
 

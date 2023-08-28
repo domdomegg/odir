@@ -121,7 +121,7 @@ export interface TeamCreation {
   vision?: string;
   mission?: string;
   priorities?: string;
-  logo?: string;
+  profilePic?: string;
   notes?: string;
   preferredSlug?: string;
 }
@@ -132,7 +132,7 @@ export interface TeamEdits {
   vision?: string;
   mission?: string;
   priorities?: string;
-  logo?: string;
+  profilePic?: string;
   notes?: string;
   preferredSlug?: string;
 }
@@ -144,7 +144,7 @@ export interface Team {
   vision?: string;
   mission?: string;
   priorities?: string;
-  logo?: string;
+  profilePic?: string;
   notes?: string;
   preferredSlug: string;
   lastEditedBy: string;
@@ -159,7 +159,7 @@ export type Teams = {
   vision?: string;
   mission?: string;
   priorities?: string;
-  logo?: string;
+  profilePic?: string;
   notes?: string;
   preferredSlug: string;
   lastEditedBy: string;
@@ -182,29 +182,37 @@ export type Slugs = {
 }[];
 
 export interface RelationCreation {
-  parentId: string;
   childId: string;
+  parentId: string;
+  type: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
   title?: string;
+  primary: boolean;
 }
 
 export interface RelationEdits {
-  parentId?: string;
   childId?: string;
+  parentId?: string;
+  type?: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
   title?: string;
+  primary?: boolean;
 }
 
 export interface Relation {
   id: string;
-  parentId: string;
   childId: string;
+  parentId: string;
+  type: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
   title?: string;
+  primary: boolean;
 }
 
 export type Relations = {
   id: string;
-  parentId: string;
   childId: string;
+  parentId: string;
+  type: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
   title?: string;
+  primary: boolean;
 }[];
 
 export type EntityResponse =
@@ -217,7 +225,7 @@ export type EntityResponse =
         vision?: string;
         mission?: string;
         priorities?: string;
-        logo?: string;
+        profilePic?: string;
         notes?: string;
         preferredSlug: string;
         lastEditedBy: string;
@@ -231,7 +239,7 @@ export type EntityResponse =
         vision?: string;
         mission?: string;
         priorities?: string;
-        logo?: string;
+        profilePic?: string;
         notes?: string;
         preferredSlug: string;
         lastEditedBy: string;
@@ -240,9 +248,11 @@ export type EntityResponse =
       }[];
       relations: {
         id: string;
-        parentId: string;
         childId: string;
+        parentId: string;
+        type: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
         title?: string;
+        primary: boolean;
       }[];
       teams: {
         id: string;
@@ -251,7 +261,7 @@ export type EntityResponse =
         vision?: string;
         mission?: string;
         priorities?: string;
-        logo?: string;
+        profilePic?: string;
         notes?: string;
         preferredSlug: string;
         lastEditedBy: string;
@@ -306,9 +316,11 @@ export type EntityResponse =
       };
       relations: {
         id: string;
-        parentId: string;
         childId: string;
+        parentId: string;
+        type: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
         title?: string;
+        primary: boolean;
       }[];
       teams: {
         id: string;
@@ -317,7 +329,7 @@ export type EntityResponse =
         vision?: string;
         mission?: string;
         priorities?: string;
-        logo?: string;
+        profilePic?: string;
         notes?: string;
         preferredSlug: string;
         lastEditedBy: string;

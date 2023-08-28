@@ -64,7 +64,7 @@ const TeamsPage: React.FC<RouteComponentProps> = () => {
           name: { label: 'Name', className: 'whitespace-nowrap' },
         }}
         items={asResponseValues(teams.data?.sort((a, b) => b.lastEditedAt - a.lastEditedAt), teams)}
-        href={(team) => `/admin/${team.id}/`}
+        href={(team) => `/admin/${team.preferredSlug}/`}
       />
       <PropertyEditor
         definition={{
