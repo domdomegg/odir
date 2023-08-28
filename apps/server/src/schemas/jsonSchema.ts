@@ -138,15 +138,15 @@ export const $TeamCreation: JSONSchema<S.TeamCreation> = {
   type: 'object',
   properties: {
     name: { type: 'string' },
-    website: { type: 'string' },
-    vision: { type: 'string' },
-    mission: { type: 'string' },
-    priorities: { type: 'string' },
-    profilePic: { type: 'string' },
-    notes: { type: 'string' },
+    website: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    vision: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    mission: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    priorities: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    profilePic: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    notes: { anyOf: [{ type: 'string' }, { type: 'null' }] },
     preferredSlug: { type: 'string' },
   },
-  required: ['name'],
+  required: ['name', 'website', 'vision', 'mission', 'priorities', 'profilePic', 'notes', 'preferredSlug'],
   additionalProperties: false,
 };
 
@@ -168,7 +168,7 @@ export const $Team: JSONSchema<S.Team> = {
     lastEditedAt: { type: 'integer' },
     createdAt: { type: 'integer' },
   },
-  required: ['id', 'name', 'preferredSlug', 'lastEditedBy', 'lastEditedAt', 'createdAt'],
+  required: ['id', ...$TeamCreation.required as string[], 'lastEditedBy', 'lastEditedAt', 'createdAt'],
   additionalProperties: false,
 };
 
@@ -207,10 +207,9 @@ export const $RelationCreation: JSONSchema<S.RelationCreation> = {
       ]
     },
     // Optional custom title for some relations e.g. if someone has different roles in different teams
-    title: { type: 'string' },
-    primary: { type: 'boolean' },
+    title: { anyOf: [{ type: 'string' }, { type: 'null' }] },
   },
-  required: ['parentId', 'childId', 'type', 'primary'],
+  required: ['parentId', 'childId', 'type'],
   additionalProperties: false,
 };
 
@@ -277,6 +276,7 @@ export const $SearchRequest: JSONSchema<S.SearchRequest> = {
   type: 'object',
   properties: {
     query: { type: 'string' },
+    types: { type: 'array', items: { enum: ['team', 'person'] } },
   },
   required: ['query'],
   additionalProperties: false,
@@ -300,12 +300,15 @@ export const $SearchResponse: JSONSchema<S.SearchResponse> = {
               properties: {
                 highlight: { type: 'boolean' },
                 text: { type: 'string' },
-              }
+              },
+              required: ['highlight', 'text'],
+              additionalProperties: false,
             }
           },
           type: { enum: ['team', 'person'] },
         },
-        required: ['id', 'slug', 'title', 'type']
+        required: ['id', 'slug', 'title', 'type'],
+        additionalProperties: false,
       }
     },
   },

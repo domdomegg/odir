@@ -1,28 +1,33 @@
+import { scan } from '../../../helpers/db';
+import { personTable, teamTable } from '../../../helpers/tables';
 import { middyfy } from '../../../helpers/wrapper';
 import { $SearchRequest, $SearchResponse, SearchResponse } from '../../../schemas';
 
-export const main = middyfy($SearchRequest, $SearchResponse, true, async () => {
-  // TODO: actually search records. This is placeholder data
-  const mockResults: SearchResponse = {
-    results: [{
-      id: 'usr_1',
-      type: 'person',
-      slug: 'usr_2',
-      title: 'Adam Jones',
-      subtitle: [{ text: '...enjoys getting around by ', highlight: false }, { text: 'bike', highlight: true }, { text: ', and will encourage you to...', highlight: false }],
-    }, {
-      id: 'usr_2',
-      type: 'person',
-      slug: 'usr_2',
-      title: 'Malena Schmidt',
-      subtitle: [{ text: 'I have a ', highlight: false }, { text: 'bike', highlight: true }, { text: ' and sometimes cycle to...', highlight: false }],
-    }, {
-      id: 'team_1',
-      type: 'team',
-      slug: 'team_1',
-      title: 'Company Bike Club',
-    }]
-  };
+export const main = middyfy($SearchRequest, $SearchResponse, true, async (event) => {
+  const types = event.body.types ?? ['team', 'person'];
+  const query = event.body.query.toLowerCase();
 
-  return mockResults;
+  const results: SearchResponse['results'] = [];
+  if (types.includes('person')) {
+    const allPersons = await scan(personTable);
+    const matchingPersons = allPersons.filter((p) => p.name.toLowerCase().includes(query));
+    results.push(...matchingPersons.map<SearchResponse['results'][number]>((p) => ({
+      id: p.id,
+      type: 'person',
+      slug: p.preferredSlug,
+      title: p.name,
+    })));
+  }
+  if (types.includes('team')) {
+    const allTeams = await scan(teamTable);
+    const matchingTeams = allTeams.filter((t) => t.name.toLowerCase().includes(query));
+    results.push(...matchingTeams.map<SearchResponse['results'][number]>((t) => ({
+      id: t.id,
+      type: 'team',
+      slug: t.preferredSlug,
+      title: t.name,
+    })));
+  }
+
+  return { results };
 });

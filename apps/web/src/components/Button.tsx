@@ -14,7 +14,7 @@ interface Props {
 }
 
 const Button: React.FC<Props> = ({
-  children, href, target, onClick, variant = 'outline', size = 'normal', className, disabled, ...other
+  children, href, target, onClick, variant = 'gray', size = 'normal', className, disabled, ...other
 }) => (
   <Link
     href={href}

@@ -117,35 +117,35 @@ export type Persons = {
 
 export interface TeamCreation {
   name: string;
-  website?: string;
-  vision?: string;
-  mission?: string;
-  priorities?: string;
-  profilePic?: string;
-  notes?: string;
-  preferredSlug?: string;
+  website: string | null;
+  vision: string | null;
+  mission: string | null;
+  priorities: string | null;
+  profilePic: string | null;
+  notes: string | null;
+  preferredSlug: string;
 }
 
 export interface TeamEdits {
   name?: string;
-  website?: string;
-  vision?: string;
-  mission?: string;
-  priorities?: string;
-  profilePic?: string;
-  notes?: string;
+  website?: string | null;
+  vision?: string | null;
+  mission?: string | null;
+  priorities?: string | null;
+  profilePic?: string | null;
+  notes?: string | null;
   preferredSlug?: string;
 }
 
 export interface Team {
   id: string;
   name: string;
-  website?: string;
-  vision?: string;
-  mission?: string;
-  priorities?: string;
-  profilePic?: string;
-  notes?: string;
+  website: string | null;
+  vision: string | null;
+  mission: string | null;
+  priorities: string | null;
+  profilePic: string | null;
+  notes: string | null;
   preferredSlug: string;
   lastEditedBy: string;
   lastEditedAt: number;
@@ -155,12 +155,12 @@ export interface Team {
 export type Teams = {
   id: string;
   name: string;
-  website?: string;
-  vision?: string;
-  mission?: string;
-  priorities?: string;
-  profilePic?: string;
-  notes?: string;
+  website: string | null;
+  vision: string | null;
+  mission: string | null;
+  priorities: string | null;
+  profilePic: string | null;
+  notes: string | null;
   preferredSlug: string;
   lastEditedBy: string;
   lastEditedAt: number;
@@ -185,16 +185,14 @@ export interface RelationCreation {
   childId: string;
   parentId: string;
   type: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
-  title?: string;
-  primary: boolean;
+  title?: string | null;
 }
 
 export interface RelationEdits {
   childId?: string;
   parentId?: string;
   type?: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
-  title?: string;
-  primary?: boolean;
+  title?: string | null;
 }
 
 export interface Relation {
@@ -202,8 +200,7 @@ export interface Relation {
   childId: string;
   parentId: string;
   type: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
-  title?: string;
-  primary: boolean;
+  title?: string | null;
 }
 
 export type Relations = {
@@ -211,8 +208,7 @@ export type Relations = {
   childId: string;
   parentId: string;
   type: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
-  title?: string;
-  primary: boolean;
+  title?: string | null;
 }[];
 
 export type EntityResponse =
@@ -221,12 +217,12 @@ export type EntityResponse =
       team: {
         id: string;
         name: string;
-        website?: string;
-        vision?: string;
-        mission?: string;
-        priorities?: string;
-        profilePic?: string;
-        notes?: string;
+        website: string | null;
+        vision: string | null;
+        mission: string | null;
+        priorities: string | null;
+        profilePic: string | null;
+        notes: string | null;
         preferredSlug: string;
         lastEditedBy: string;
         lastEditedAt: number;
@@ -235,12 +231,12 @@ export type EntityResponse =
       breadcrumbs: {
         id: string;
         name: string;
-        website?: string;
-        vision?: string;
-        mission?: string;
-        priorities?: string;
-        profilePic?: string;
-        notes?: string;
+        website: string | null;
+        vision: string | null;
+        mission: string | null;
+        priorities: string | null;
+        profilePic: string | null;
+        notes: string | null;
         preferredSlug: string;
         lastEditedBy: string;
         lastEditedAt: number;
@@ -251,18 +247,17 @@ export type EntityResponse =
         childId: string;
         parentId: string;
         type: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
-        title?: string;
-        primary: boolean;
+        title?: string | null;
       }[];
       teams: {
         id: string;
         name: string;
-        website?: string;
-        vision?: string;
-        mission?: string;
-        priorities?: string;
-        profilePic?: string;
-        notes?: string;
+        website: string | null;
+        vision: string | null;
+        mission: string | null;
+        priorities: string | null;
+        profilePic: string | null;
+        notes: string | null;
         preferredSlug: string;
         lastEditedBy: string;
         lastEditedAt: number;
@@ -319,18 +314,17 @@ export type EntityResponse =
         childId: string;
         parentId: string;
         type: "PART_OF" | "MEMBER_OF" | "LINE_MANGED_BY" | "MANAGER_OF";
-        title?: string;
-        primary: boolean;
+        title?: string | null;
       }[];
       teams: {
         id: string;
         name: string;
-        website?: string;
-        vision?: string;
-        mission?: string;
-        priorities?: string;
-        profilePic?: string;
-        notes?: string;
+        website: string | null;
+        vision: string | null;
+        mission: string | null;
+        priorities: string | null;
+        profilePic: string | null;
+        notes: string | null;
         preferredSlug: string;
         lastEditedBy: string;
         lastEditedAt: number;
@@ -365,6 +359,7 @@ export type EntityResponse =
 
 export interface SearchRequest {
   query: string;
+  types?: ("team" | "person")[];
 }
 
 export interface SearchResponse {
@@ -373,12 +368,10 @@ export interface SearchResponse {
     slug: string;
     title: string;
     subtitle?: {
-      highlight?: boolean;
-      text?: string;
-      [k: string]: unknown;
+      highlight: boolean;
+      text: string;
     }[];
     type: "team" | "person";
-    [k: string]: unknown;
   }[];
 }
 
