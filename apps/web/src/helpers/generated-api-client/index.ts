@@ -73,6 +73,13 @@ export type Routes = {
     response: S.Persons,
     params: null,
   },
+  "patch /admin/persons/{personId}": {
+    request: S.PersonEdits,
+    response: null,
+    params: {
+      "personId": string,
+    },
+  },
   "post /admin/relations": {
     request: S.RelationCreation,
     response: S.Ulid,
@@ -248,6 +255,17 @@ export const routes = {
     hasRequest: false,
     hasResponse: true,
     hasParams: false,
+  },
+  "patch /admin/persons/{personId}": {
+    method: "patch",
+    makePath: ({
+      personId,
+    }: {
+      personId: string,
+    }) => `/admin/persons/${personId}`,
+    hasRequest: true,
+    hasResponse: false,
+    hasParams: true,
   },
   "post /admin/relations": {
     method: "post",

@@ -6,10 +6,11 @@ export interface SearchBoxProps<T> {
   onSelect: (item: T) => void
   formatOptionLabel: (item: T) => React.ReactNode,
   placeholder?: string,
+  autoFocus?: boolean,
 }
 
 export const SearchBox = <T,>({
-  getItems, onSelect, formatOptionLabel, placeholder
+  getItems, onSelect, formatOptionLabel, placeholder, autoFocus
 }: SearchBoxProps<T>): React.ReactNode => {
   return (
     <AsyncSelect<T>
@@ -19,6 +20,7 @@ export const SearchBox = <T,>({
       value={null}
       placeholder={placeholder}
       noOptionsMessage={({ inputValue }) => (inputValue ? 'No results' : 'Start typing to search')}
+      autoFocus={autoFocus}
     />
   );
 };
