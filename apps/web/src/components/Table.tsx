@@ -31,12 +31,12 @@ const Table = <I extends Record<string, any>>({
 
   // Loading and error states
   if (items && !Array.isArray(items)) {
-    if (items.loading) return <div className={classNames(className, 'overflow-x-auto bg-black bg-opacity-20 rounded p-4')}><span className="animate-pulse">Loading...</span></div>;
+    if (items.loading) return <div className={classNames(className, 'overflow-x-auto bg-black bg-opacity-10 rounded p-4')}><span className="animate-pulse">Loading...</span></div>;
     if (items.error) return <Alert className={className} variant="error">{items.error}</Alert>;
   }
 
   return (
-    <div className={classNames(className, 'overflow-x-auto bg-black bg-opacity-20 rounded py-2')}>
+    <div className={classNames(className, 'overflow-x-auto bg-black bg-opacity-10 rounded py-2')}>
       <table className="w-full">
         <thead>
           <tr>
@@ -47,7 +47,7 @@ const Table = <I extends Record<string, any>>({
         </thead>
         <tbody>
           {nItems.map(renderItem || ((item, rowIndex) => (
-            <tr key={nPrimaryKey ? String(item[nPrimaryKey]) : rowIndex} className={classNames('hover:bg-black hover:bg-opacity-20')}>
+            <tr key={nPrimaryKey ? String(item[nPrimaryKey]) : rowIndex} className={classNames('hover:bg-black hover:bg-opacity-10')}>
               {Object.entries(definition).map(([k, v], cellIndex, arr) => (
                 <td key={k} className={classNames('p-2', { 'pl-4': cellIndex === 0, 'pr-4': cellIndex === arr.length - 1 }, v.className)}><Link href={href === undefined ? undefined : href(item)} onClick={onClick === undefined ? undefined : (e : React.MouseEvent<Element, MouseEvent>) => onClick(item, e)}><div>{v.formatter ? v.formatter(item[k as keyof I], item) : (item[k as keyof I] ?? '—')}</div></Link></td>
               ))}

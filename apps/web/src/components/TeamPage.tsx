@@ -1,22 +1,21 @@
-import {
-  CheckIcon, PencilIcon, PlusSmIcon, TrashIcon
-} from '@heroicons/react/outline';
+import { CheckIcon, PencilIcon, TrashIcon } from '@heroicons/react/outline';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHotkeys } from 'react-hotkeys-hook';
 import Section, { SectionTitle } from './Section';
 import {
-  EntityResponse, Person, Relation, SearchResponse, Slug, Team, TeamEdits
+  EntityResponse, Person, Relation, Slug, Team, TeamEdits
 } from '../helpers/generated-api-client';
 import Link from './Link';
 import Button from './Button';
 import Modal from './Modal';
 import { Form } from './Form';
 import { useRawReq } from '../helpers/networking';
-import { SearchBox } from './SearchBox';
+import { SearchBox, renderSearchResult } from './SearchBox';
 import { Breadcrumbs } from './Breadcrumbs';
 import { TeamCardGrid } from './TeamCard';
 import { ChevronList, ChevronListButton } from './ChevronList';
+import { PersonCardGrid } from './PersonCard';
 
 type EditorState = 'closed' | 'menu' | 'details' | 'members' | 'children' | 'parents' | 'slugs';
 
@@ -61,9 +60,7 @@ const TeamPage: React.FC<{ data: EntityResponse & { type: 'team' }, refetch: () 
       <div className="flex">
         <div className="flex-1">
           <Breadcrumbs parentChain={breadcrumbs} directParents={parentTeams} />
-          <SectionTitle>{team.name}</SectionTitle>
-          {/* TODO: convert user id to user name */}
-          {/* <p className="-mt-2 mb-2 text-gray-600">Last edited by {team.lastEditedBy} <ReactTimeago date={team.lastEditedAt * 1000} /></p> */}
+          <SectionTitle className="mt-2">{team.name}</SectionTitle>
         </div>
         <div>
           <div>
@@ -87,31 +84,7 @@ const TeamPersons: React.FC<{ persons: Person[], relations: Relation[], team: Te
     return <div className="-mt-2">There are no people on this team.</div>;
   }
 
-  return (
-    <div className="grid grid-cols-4 gap-4">
-      {persons.map((p) => <PersonCard key={p.id} person={p} relations={relations} team={team} />)}
-      {/* TODO: add new card */}
-    </div>
-  );
-};
-
-const PersonCard: React.FC<{ person: Person, relations: Relation[], team: Team }> = ({ person, relations, team }) => {
-  const teamMemberRelation = relations.find((r) => r.type === 'MEMBER_OF' && r.childId === person.id && r.parentId === team.id);
-  const teamManagerRelation = relations.find((r) => r.type === 'MANAGER_OF' && r.childId === person.id && r.parentId === team.id);
-
-  return (
-    <Link href={`/admin/${person.preferredSlug}`}>
-      <div className="shadow border text-black text-center flex flex-col hover:shadow-lg transition-all">
-        {/* TODO: nicer missing profile pic image */}
-        <img src={person.profilePic ?? 'https://upload.wikimedia.org/wikipedia/commons/4/48/No_image_%28male%29.svg'} alt="" className="aspect-square object-cover" />
-        {teamManagerRelation && <div className="text-xs p-0.5 bg-purple-500 text-white font-bold">Manages this team</div>}
-        <div className="p-2">
-          <div className="text-xl">{person.name}</div>
-          <div className="text-gray-600">{teamMemberRelation?.title ?? person.jobTitle}</div>
-        </div>
-      </div>
-    </Link>
-  );
+  return <PersonCardGrid persons={persons} relations={relations} team={team} />;
 };
 
 const TeamTeams: React.FC<{ teams: Team[], relations: Relation[], team: Team }> = ({ teams, relations, team }) => {
@@ -134,6 +107,7 @@ const TeamAbout: React.FC<{ team: Team }> = ({
 }) => {
   return (
     <div className="flex flex-col gap-4">
+      {!team.vision && !team.mission && !team.priorities && !team.notes && !team.website && <p>There's no additional information on this team yet.</p>}
       {team.vision && (
       <div>
         <p className="font-bold">Vision</p>
@@ -215,24 +189,26 @@ const TeamEditorModal: React.FC<{ editorState: EditorState, setEditorState: (edi
     contents = (
       <div>
         <SectionTitle>Edit team members</SectionTitle>
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <SearchBox<SearchResponse['results'][number]>
-              getItems={async (query) => {
-                const res = await req('post /admin/search', { query, types: ['person'] });
-                return res.data.results.filter((r) => !persons.map((p) => p.id).includes(r.id));
-              }}
-              onSelect={async (personResult) => {
-                await req('post /admin/relations', { type: 'MEMBER_OF', childId: personResult.id, parentId: team.id });
-                refetch();
-              }}
-              formatOptionLabel={renderSearchResult}
-              placeholder="Add an existing person..."
-              autoFocus
-            />
-          </div>
-          <Button onClick={() => alert('TODO')}><PlusSmIcon className="h-5 mb-0.5 mr-0.5" />New person</Button>
-        </div>
+        <SearchBox
+          getItems={async (query) => {
+            const res = await req('post /admin/search', { query, types: ['person'] });
+            return res.data.results.filter((r) => !persons.map((p) => p.id).includes(r.id));
+          }}
+          onSelect={async (personResult) => {
+            if ('__isNew__' in personResult) {
+              const personId = (await req('post /admin/persons', { name: personResult.value })).data;
+              await req('post /admin/relations', { type: 'MEMBER_OF', childId: personId, parentId: team.id });
+            } else {
+              await req('post /admin/relations', { type: 'MEMBER_OF', childId: personResult.id, parentId: team.id });
+            }
+
+            refetch();
+          }}
+          formatOptionLabel={renderSearchResult}
+          placeholder="Add a team member..."
+          autoFocus
+          createable
+        />
         <div className="flex flex-col gap-2 my-4">
           {persons.length === 0 && 'This team currently has no members'}
           {persons.map((p) => <TeamMemberEditorCard key={p.id} person={p} team={team} relations={relations} refetch={refetch} />)}
@@ -252,24 +228,26 @@ const TeamEditorModal: React.FC<{ editorState: EditorState, setEditorState: (edi
     contents = (
       <div>
         <SectionTitle>Edit subteams</SectionTitle>
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <SearchBox<SearchResponse['results'][number]>
-              getItems={async (query) => {
-                const res = await req('post /admin/search', { query, types: ['team'] });
-                return res.data.results.filter((r) => !existingSubTeams.map(([,t]) => t.id).includes(r.id));
-              }}
-              onSelect={async (teamResult) => {
-                await req('post /admin/relations', { type: 'PART_OF', childId: teamResult.id, parentId: team.id });
-                refetch();
-              }}
-              formatOptionLabel={renderSearchResult}
-              placeholder="Add an existing team..."
-              autoFocus
-            />
-          </div>
-          <Button onClick={() => alert('TODO')}><PlusSmIcon className="h-5 mb-0.5 mr-0.5" />New team</Button>
-        </div>
+        <SearchBox
+          getItems={async (query) => {
+            const res = await req('post /admin/search', { query, types: ['team'] });
+            return res.data.results.filter((r) => !existingSubTeams.map(([,t]) => t.id).includes(r.id));
+          }}
+          onSelect={async (teamResult) => {
+            if ('__isNew__' in teamResult) {
+              const teamId = (await req('post /admin/teams', { name: teamResult.value })).data;
+              await req('post /admin/relations', { type: 'PART_OF', childId: teamId, parentId: team.id });
+            } else {
+              await req('post /admin/relations', { type: 'PART_OF', childId: teamResult.id, parentId: team.id });
+            }
+
+            refetch();
+          }}
+          formatOptionLabel={renderSearchResult}
+          placeholder="Add an existing team..."
+          autoFocus
+          createable
+        />
         <div className="flex flex-col gap-2 my-4">
           {existingSubTeams.length === 0 && 'This team currently has no subteams'}
           {existingSubTeams.map(([relation, subTeam]) => <TeamTeamEditorCard key={subTeam.id} subTeam={subTeam} relation={relation} refetch={refetch} />)}
@@ -317,15 +295,6 @@ const TeamEditorModal: React.FC<{ editorState: EditorState, setEditorState: (edi
     <Modal open onClose={internalOnClose}>
       {contents}
     </Modal>
-  );
-};
-
-const renderSearchResult = (item: SearchResponse['results'][number]): React.ReactNode => {
-  return (
-    <div>
-      <div>{item.title}</div>
-      {item.subtitle && <div className="text-xs">{item.subtitle.map((fragment) => <span className={fragment.highlight ? 'bg-yellow-400' : ''}>{fragment.text}</span>)}</div>}
-    </div>
   );
 };
 
@@ -378,7 +347,7 @@ const TeamMemberEditorCard: React.FC<{ person: Person, team: Team, relations: Re
         <div className="grid grid-cols-2 flex-1 mb-2">
           <div>
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label>Team title (optional): <input className="bg-gray-200 px-1.5 py-1 w-60" type="text" placeholder={person.jobTitle} {...register('teamTitle')} /></label>
+            <label>Team title (optional): <input className="bg-gray-200 px-1.5 py-1 w-60" type="text" placeholder={person.jobTitle ?? ''} {...register('teamTitle')} /></label>
           </div>
           <div className="mt-1">
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}

@@ -16,6 +16,8 @@ import UsersPage from './users';
 import UserPage from './user';
 import GroupPage from './group';
 import EntityPage from './entity';
+import NewTeamPage from './new-team';
+import NewPersonPage from './new-person';
 
 const IndexPage = () => (
   <Page className="pb-8">
@@ -79,6 +81,8 @@ const IndexLayout = () => {
           <>
             <TeamsPage path="/" />
             <EntityPage entitySlug="" path="/:entitySlug" />
+            <NewTeamPage path="/new-team" />
+            <NewPersonPage path="/new-person" />
             <TasksPage path="/tasks" />
             <AuditPage path="/audit" />
             <UsersPage path="/users" />

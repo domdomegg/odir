@@ -2,17 +2,17 @@ import { ulid } from 'ulid';
 import { fixedGroups } from '@odir/shared';
 import { middyfy } from '../../../helpers/wrapper';
 import { assertHasGroup, inTransaction, insertT } from '../../../helpers/db';
-import { slugTable, teamTable } from '../../../helpers/tables';
-import { $TeamCreation, $Ulid } from '../../../schemas';
+import { personTable, slugTable } from '../../../helpers/tables';
+import { $PersonCreation, $Ulid } from '../../../schemas';
 import { getSlug } from '../../../helpers/getSlug';
 
-export const main = middyfy($TeamCreation, $Ulid, true, async (event) => {
+export const main = middyfy($PersonCreation, $Ulid, true, async (event) => {
   assertHasGroup(event, fixedGroups.Admin);
 
   const { id, slug } = await getSlug(event.body.preferredSlug ?? event.body.name);
 
   await inTransaction([
-    insertT(teamTable, {
+    insertT(personTable, {
       id,
       ...event.body,
       preferredSlug: slug,
@@ -22,13 +22,13 @@ export const main = middyfy($TeamCreation, $Ulid, true, async (event) => {
     }),
     insertT(slugTable, {
       id: ulid(),
-      type: 'team',
+      type: 'person',
       underlyingId: id,
       value: id,
     }),
     insertT(slugTable, {
       id: ulid(),
-      type: 'team',
+      type: 'person',
       underlyingId: id,
       value: slug,
     }),
