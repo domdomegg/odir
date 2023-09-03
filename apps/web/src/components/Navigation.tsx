@@ -62,7 +62,7 @@ const Navigation: React.FC<{ left: LinkDefinition[], right: LinkDefinition[] }> 
                       key={item.text}
                       href={item.href}
                       onClick={item.onClick}
-                      className={classNames('hover:text-gray-100 transform transition-all duration-250 scale-100 hover:scale-105 p-2', { 'pl-0': i === 0 })}
+                      className={classNames('hover:text-gray-700 transform transition-all duration-250 scale-100 hover:scale-105 p-2', { 'pl-0': i === 0 })}
                     >
                       {item.text}
                     </Link>

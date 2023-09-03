@@ -1,9 +1,9 @@
 import {
-  CheckIcon,
-  ChevronRightIcon, PencilIcon, PlusSmIcon, TrashIcon
+  CheckIcon, PencilIcon, PlusSmIcon, TrashIcon
 } from '@heroicons/react/outline';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useHotkeys } from 'react-hotkeys-hook';
 import Section, { SectionTitle } from './Section';
 import {
   EntityResponse, Person, Relation, SearchResponse, Slug, Team, TeamEdits
@@ -14,6 +14,11 @@ import Modal from './Modal';
 import { Form } from './Form';
 import { useRawReq } from '../helpers/networking';
 import { SearchBox } from './SearchBox';
+import { Breadcrumbs } from './Breadcrumbs';
+import { TeamCardGrid } from './TeamCard';
+import { ChevronList, ChevronListButton } from './ChevronList';
+
+type EditorState = 'closed' | 'menu' | 'details' | 'members' | 'children' | 'parents' | 'slugs';
 
 const TeamPage: React.FC<{ data: EntityResponse & { type: 'team' }, refetch: () => Promise<unknown> }> = ({
   data: {
@@ -26,20 +31,43 @@ const TeamPage: React.FC<{ data: EntityResponse & { type: 'team' }, refetch: () 
     return parentTeam;
   });
 
-  const [showEditModal, setShowEditModal] = useState(false);
+  const [editorState, setEditorState] = useState<EditorState>('closed');
+  useHotkeys('e', () => {
+    if (editorState === 'closed') {
+      setEditorState('menu');
+    }
+  });
+  useHotkeys('d', (event) => {
+    if (editorState === 'closed' || editorState === 'menu') {
+      setEditorState('details');
+      event.preventDefault();
+    }
+  });
+  useHotkeys('m', (event) => {
+    if (editorState === 'closed' || editorState === 'menu') {
+      setEditorState('members');
+      event.preventDefault();
+    }
+  });
+  useHotkeys('s', (event) => {
+    if (editorState === 'closed' || editorState === 'menu') {
+      setEditorState('children');
+      event.preventDefault();
+    }
+  });
 
   return (
     <Section>
       <div className="flex">
         <div className="flex-1">
-          <Breadcrumbs breadcrumbs={breadcrumbs} parentTeams={parentTeams} />
+          <Breadcrumbs parentChain={breadcrumbs} directParents={parentTeams} />
           <SectionTitle>{team.name}</SectionTitle>
           {/* TODO: convert user id to user name */}
           {/* <p className="-mt-2 mb-2 text-gray-600">Last edited by {team.lastEditedBy} <ReactTimeago date={team.lastEditedAt * 1000} /></p> */}
         </div>
         <div>
           <div>
-            <Button onClick={() => setShowEditModal(true)}><PencilIcon className="h-5 mb-0.5 mr-0.5" /> Edit team</Button>
+            <Button onClick={() => setEditorState('menu')}><PencilIcon className="h-5 mb-0.5 mr-0.5" /> Edit team</Button>
           </div>
         </div>
       </div>
@@ -48,40 +76,8 @@ const TeamPage: React.FC<{ data: EntityResponse & { type: 'team' }, refetch: () 
       <TeamTeams teams={teams} relations={relations} team={team} />
       <h2 className="font-raise-header text-3xl font-bold mt-6 mb-1">About</h2>
       <TeamAbout team={team} />
-      <TeamEditorModal open={showEditModal} onClose={() => setShowEditModal(false)} team={team} relations={relations} teams={teams} persons={persons} slugs={slugs} hasDetailedAccess={hasDetailedAccess} refetch={refetch} />
+      <TeamEditorModal editorState={editorState} setEditorState={setEditorState} team={team} relations={relations} teams={teams} persons={persons} slugs={slugs} hasDetailedAccess={hasDetailedAccess} refetch={refetch} />
     </Section>
-  );
-};
-
-const Breadcrumbs: React.FC<{ breadcrumbs: Team[], parentTeams: Team[] }> = ({ breadcrumbs, parentTeams }) => {
-  if (parentTeams.length > 1 || breadcrumbs.length === 1) {
-    return (
-      <div>
-        Part of {parentTeams.flatMap((b, i) => {
-        const crumb = <Breadcrumb breadcrumb={b} />;
-
-        return (i === 0) ? [crumb] : [' and ', crumb];
-      })}
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex gap-2">
-      {breadcrumbs.flatMap((b, i) => {
-        const crumb = <Breadcrumb breadcrumb={b} />;
-
-        return (i === 0) ? [crumb] : ['/', crumb];
-      })}
-    </div>
-  );
-};
-
-const Breadcrumb: React.FC<{ breadcrumb: Team }> = ({ breadcrumb }) => {
-  return (
-    <Link href={`/admin/${breadcrumb.preferredSlug}`} className="underline">
-      {breadcrumb.name}
-    </Link>
   );
 };
 
@@ -93,7 +89,7 @@ const TeamPersons: React.FC<{ persons: Person[], relations: Relation[], team: Te
 
   return (
     <div className="grid grid-cols-4 gap-4">
-      {persons.map((p) => <PersonCard person={p} relations={relations} team={team} />)}
+      {persons.map((p) => <PersonCard key={p.id} person={p} relations={relations} team={team} />)}
       {/* TODO: add new card */}
     </div>
   );
@@ -130,26 +126,7 @@ const TeamTeams: React.FC<{ teams: Team[], relations: Relation[], team: Team }> 
     return <div>This team has no sub-teams.</div>;
   }
 
-  return (
-    <div className="grid grid-cols-2 gap-4">
-      {subTeams.map((t) => <TeamCard team={t} />)}
-    </div>
-  );
-};
-
-const TeamCard: React.FC<{ team: Team }> = ({ team }) => {
-  return (
-    <Link href={`/admin/${team.preferredSlug}`}>
-      <div className="shadow border bg-white text-black text-left flex flex-row hover:shadow-lg transition-all">
-        {/* TODO: nicer missing profile pic image */}
-        <img src={team.profilePic ?? 'https://upload.wikimedia.org/wikipedia/commons/4/48/No_image_%28male%29.svg'} alt="" className="aspect-square object-cover h-28" />
-        <div className="py-2 px-3 min-w-0">
-          <div className="text-xl mb-1.5">{team.name}</div>
-          <div className="text-gray-600 whitespace-nowrap overflow-hidden text-ellipsis">{team.vision}</div>
-        </div>
-      </div>
-    </Link>
-  );
+  return <TeamCardGrid teams={subTeams} />;
 };
 
 const TeamAbout: React.FC<{ team: Team }> = ({
@@ -191,24 +168,22 @@ const TeamAbout: React.FC<{ team: Team }> = ({
   );
 };
 
-const TeamEditorModal: React.FC<{ open: boolean, onClose: () => void, team: Team, relations: Relation[], teams: Team[], persons: Person[], slugs: Slug[], hasDetailedAccess: boolean, refetch: () => Promise<unknown> }> = ({
+const TeamEditorModal: React.FC<{ editorState: EditorState, setEditorState: (editorState: EditorState) => void, team: Team, relations: Relation[], teams: Team[], persons: Person[], slugs: Slug[], hasDetailedAccess: boolean, refetch: () => Promise<unknown> }> = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  open, onClose, team, relations, teams, persons, slugs, hasDetailedAccess, refetch
+  editorState, setEditorState, team, relations, teams, persons, slugs, hasDetailedAccess, refetch
 }) => {
-  const [editorType, setEditorType] = useState<undefined | 'details' | 'members' | 'children' | 'parents' | 'slugs'>();
   const req = useRawReq();
   const internalOnClose = async () => {
-    setEditorType(undefined);
+    setEditorState('closed');
     await refetch();
-    onClose();
   };
 
-  if (!open) {
+  if (editorState === 'closed') {
     return null;
   }
 
   let contents: JSX.Element;
-  if (editorType === 'details') {
+  if (editorState === 'details') {
     contents = (
       <Form<TeamEdits>
         title="Edit team details"
@@ -236,7 +211,7 @@ const TeamEditorModal: React.FC<{ open: boolean, onClose: () => void, team: Team
         }}
       />
     );
-  } else if (editorType === 'members') {
+  } else if (editorState === 'members') {
     contents = (
       <div>
         <SectionTitle>Edit team members</SectionTitle>
@@ -253,16 +228,18 @@ const TeamEditorModal: React.FC<{ open: boolean, onClose: () => void, team: Team
               }}
               formatOptionLabel={renderSearchResult}
               placeholder="Add an existing person..."
+              autoFocus
             />
           </div>
           <Button onClick={() => alert('TODO')}><PlusSmIcon className="h-5 mb-0.5 mr-0.5" />New person</Button>
         </div>
         <div className="flex flex-col gap-2 my-4">
-          {persons.map((p) => <TeamMemberEditorCard person={p} team={team} relations={relations} refetch={refetch} />)}
+          {persons.length === 0 && 'This team currently has no members'}
+          {persons.map((p) => <TeamMemberEditorCard key={p.id} person={p} team={team} relations={relations} refetch={refetch} />)}
         </div>
       </div>
     );
-  } else if (editorType === 'children') {
+  } else if (editorState === 'children') {
     const existingSubTeams = relations
       .filter((r) => r.type === 'PART_OF' && r.parentId === team.id)
       .map((r) => {
@@ -288,21 +265,23 @@ const TeamEditorModal: React.FC<{ open: boolean, onClose: () => void, team: Team
               }}
               formatOptionLabel={renderSearchResult}
               placeholder="Add an existing team..."
+              autoFocus
             />
           </div>
           <Button onClick={() => alert('TODO')}><PlusSmIcon className="h-5 mb-0.5 mr-0.5" />New team</Button>
         </div>
         <div className="flex flex-col gap-2 my-4">
-          {existingSubTeams.map(([relation, subTeam]) => <TeamTeamEditorCard subTeam={subTeam} relation={relation} refetch={refetch} />)}
+          {existingSubTeams.length === 0 && 'This team currently has no subteams'}
+          {existingSubTeams.map(([relation, subTeam]) => <TeamTeamEditorCard key={subTeam.id} subTeam={subTeam} relation={relation} refetch={refetch} />)}
         </div>
       </div>
     );
-  } else if (editorType === 'parents') {
+  } else if (editorState === 'parents') {
     // TODO
     contents = (
       <p>Parents</p>
     );
-  } else if (editorType === 'slugs') {
+  } else if (editorState === 'slugs') {
     // TODO
     contents = (
       <p>Slugs</p>
@@ -311,48 +290,33 @@ const TeamEditorModal: React.FC<{ open: boolean, onClose: () => void, team: Team
     contents = (
       <>
         <SectionTitle>What do you want to edit?</SectionTitle>
-        <div className="flex flex-col gap-4">
-          <ChevronListButton onClick={() => setEditorType('details')}>
-            <h3 className="font-bold">Details</h3>
-            <p>Change the name, vision, mission, priorities, etc.</p>
+        <ChevronList>
+          <ChevronListButton title="Details" onClick={() => setEditorState('details')}>
+            Change the name, vision, mission, priorities, etc.
           </ChevronListButton>
-          <ChevronListButton onClick={() => setEditorType('members')}>
-            <h3 className="font-bold">Members</h3>
-            <p>Change team members and managers</p>
+          <ChevronListButton title="Members" onClick={() => setEditorState('members')}>
+            Change team members and managers
           </ChevronListButton>
-          <ChevronListButton onClick={() => setEditorType('children')}>
-            <h3 className="font-bold">Subteams</h3>
-            <p>Add or remove subteams</p>
+          <ChevronListButton title="Subteams" onClick={() => setEditorState('children')}>
+            Add or remove subteams
           </ChevronListButton>
-          {/* <ChevronListButton onClick={() => setEditorType('parents')}>
+          {/* <ChevronListButton onClick={() => setEditorState('parents')}>
             <h3 className="font-bold">Parent teams</h3>
             <p>Change which teams this is part of</p>
           </ChevronListButton> */}
-          {/* <ChevronListButton onClick={() => setEditorType('slugs')}>
+          {/* <ChevronListButton onClick={() => setEditorState('slugs')}>
             <h3 className="font-bold">Slugs</h3>
             <p>Manage short URLs for this team</p>
           </ChevronListButton> */}
-        </div>
+        </ChevronList>
       </>
     );
   }
 
   return (
-    <Modal open={open} onClose={internalOnClose}>
+    <Modal open onClose={internalOnClose}>
       {contents}
     </Modal>
-  );
-};
-
-const ChevronListButton: React.FC<React.PropsWithChildren<{ onClick: () => void }>> = ({ onClick, children }) => {
-  return (
-    // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    <Link onClick={onClick} className="p-4 bg-gray-100 hover:bg-gray-200 transition-all flex items-center">
-      <div className="flex-1">
-        {children}
-      </div>
-      <ChevronRightIcon className="h-5" />
-    </Link>
   );
 };
 

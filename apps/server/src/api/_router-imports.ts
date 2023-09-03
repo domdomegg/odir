@@ -16,6 +16,7 @@ export const importMap = {
   "/admin/login/impersonation/post": () => import("./admin/login/impersonation/post"),
   "/admin/login/refresh/post": () => import("./admin/login/refresh/post"),
   "/admin/persons/get": () => import("./admin/persons/get"),
+  "/admin/persons/{personId}/patch": () => import("./admin/persons/{personId}/patch"),
   "/admin/relations/post": () => import("./admin/relations/post"),
   "/admin/relations/{relationId}/delete": () => import("./admin/relations/{relationId}/delete"),
   "/admin/relations/{relationId}/patch": () => import("./admin/relations/{relationId}/patch"),

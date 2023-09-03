@@ -68,6 +68,7 @@
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.43.2",
+    "react-hotkeys-hook": "^4.4.1",
     "react-select": "^5.7.4",
     "react-timeago": "^7.1.0",
     "serverless": "^3.27.0",

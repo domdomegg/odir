@@ -6,16 +6,24 @@ import Spinner from '../../components/Spinner';
 import Alert from '../../components/Alert';
 import TeamPage from '../../components/TeamPage';
 import Section from '../../components/Section';
+import PersonPage from '../../components/PersonPage';
 
 const EntityPage: React.FC<RouteComponentProps & { entitySlug: string }> = ({ entitySlug }) => {
   const [entity, refetchEntity] = useReq('get /admin/entity/{entitySlug}', { entitySlug });
 
+  // Redirect to the preferred slug, if not already on it.
   useEffect(() => {
-    if (entity.data?.type === 'team') {
-      navigate(`/admin/${entity.data.team.preferredSlug}`);
+    if (!entity.data) {
+      return;
     }
-    if (entity.data?.type === 'person') {
-      navigate(`/admin/${entity.data.person.preferredSlug}`);
+
+    const newUrl = `/admin/${
+      // eslint-disable-next-line no-nested-ternary
+      entity.data.type === 'team' ? entity.data.team.preferredSlug
+        : entity.data.type === 'person' ? entity.data.person.preferredSlug
+          : ''}/`;
+    if (newUrl !== window.location.pathname) {
+      navigate(newUrl, { replace: true });
     }
   }, [entity.data]);
 
@@ -33,6 +41,10 @@ const EntityPage: React.FC<RouteComponentProps & { entitySlug: string }> = ({ en
 
   if (entity.data.type === 'team') {
     return <TeamPage data={entity.data} refetch={refetchEntity} />;
+  }
+
+  if (entity.data.type === 'person') {
+    return <PersonPage data={entity.data} refetch={refetchEntity} />;
   }
 
   return <Section><h1>Entity not yet supported: {entity.data.type}</h1></Section>;
