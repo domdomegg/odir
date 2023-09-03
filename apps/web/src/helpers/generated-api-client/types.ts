@@ -49,47 +49,47 @@ export interface Profile {
 
 export interface PersonCreation {
   name: string;
-  email: string;
-  jobTitle?: string;
-  grade?: string;
-  linkedin?: string;
-  about?: string;
-  motivation?: string;
-  policyBackground?: string;
-  howSupportOthers?: string;
-  howHelpMe?: string;
-  profilePic?: string;
+  email?: string | null;
+  jobTitle?: string | null;
+  grade?: string | null;
+  linkedin?: string | null;
+  about?: string | null;
+  motivation?: string | null;
+  policyBackground?: string | null;
+  howSupportOthers?: string | null;
+  howHelpMe?: string | null;
+  profilePic?: string | null;
   preferredSlug?: string;
 }
 
 export interface PersonEdits {
   name?: string;
-  email?: string;
-  jobTitle?: string;
-  grade?: string;
-  linkedin?: string;
-  about?: string;
-  motivation?: string;
-  policyBackground?: string;
-  howSupportOthers?: string;
-  howHelpMe?: string;
-  profilePic?: string;
+  email?: string | null;
+  jobTitle?: string | null;
+  grade?: string | null;
+  linkedin?: string | null;
+  about?: string | null;
+  motivation?: string | null;
+  policyBackground?: string | null;
+  howSupportOthers?: string | null;
+  howHelpMe?: string | null;
+  profilePic?: string | null;
   preferredSlug?: string;
 }
 
 export interface Person {
   id: string;
   name: string;
-  email: string;
-  jobTitle?: string;
-  grade?: string;
-  linkedin?: string;
-  about?: string;
-  motivation?: string;
-  policyBackground?: string;
-  howSupportOthers?: string;
-  howHelpMe?: string;
-  profilePic?: string;
+  email?: string | null;
+  jobTitle?: string | null;
+  grade?: string | null;
+  linkedin?: string | null;
+  about?: string | null;
+  motivation?: string | null;
+  policyBackground?: string | null;
+  howSupportOthers?: string | null;
+  howHelpMe?: string | null;
+  profilePic?: string | null;
   preferredSlug: string;
   lastEditedBy: string;
   lastEditedAt: number;
@@ -99,16 +99,16 @@ export interface Person {
 export type Persons = {
   id: string;
   name: string;
-  email: string;
-  jobTitle?: string;
-  grade?: string;
-  linkedin?: string;
-  about?: string;
-  motivation?: string;
-  policyBackground?: string;
-  howSupportOthers?: string;
-  howHelpMe?: string;
-  profilePic?: string;
+  email?: string | null;
+  jobTitle?: string | null;
+  grade?: string | null;
+  linkedin?: string | null;
+  about?: string | null;
+  motivation?: string | null;
+  policyBackground?: string | null;
+  howSupportOthers?: string | null;
+  howHelpMe?: string | null;
+  profilePic?: string | null;
   preferredSlug: string;
   lastEditedBy: string;
   lastEditedAt: number;
@@ -117,13 +117,13 @@ export type Persons = {
 
 export interface TeamCreation {
   name: string;
-  website: string | null;
-  vision: string | null;
-  mission: string | null;
-  priorities: string | null;
-  profilePic: string | null;
-  notes: string | null;
-  preferredSlug: string;
+  website?: string | null;
+  vision?: string | null;
+  mission?: string | null;
+  priorities?: string | null;
+  profilePic?: string | null;
+  notes?: string | null;
+  preferredSlug?: string;
 }
 
 export interface TeamEdits {
@@ -140,12 +140,12 @@ export interface TeamEdits {
 export interface Team {
   id: string;
   name: string;
-  website: string | null;
-  vision: string | null;
-  mission: string | null;
-  priorities: string | null;
-  profilePic: string | null;
-  notes: string | null;
+  website?: string | null;
+  vision?: string | null;
+  mission?: string | null;
+  priorities?: string | null;
+  profilePic?: string | null;
+  notes?: string | null;
   preferredSlug: string;
   lastEditedBy: string;
   lastEditedAt: number;
@@ -155,12 +155,12 @@ export interface Team {
 export type Teams = {
   id: string;
   name: string;
-  website: string | null;
-  vision: string | null;
-  mission: string | null;
-  priorities: string | null;
-  profilePic: string | null;
-  notes: string | null;
+  website?: string | null;
+  vision?: string | null;
+  mission?: string | null;
+  priorities?: string | null;
+  profilePic?: string | null;
+  notes?: string | null;
   preferredSlug: string;
   lastEditedBy: string;
   lastEditedAt: number;
@@ -217,12 +217,12 @@ export type EntityResponse =
       team: {
         id: string;
         name: string;
-        website: string | null;
-        vision: string | null;
-        mission: string | null;
-        priorities: string | null;
-        profilePic: string | null;
-        notes: string | null;
+        website?: string | null;
+        vision?: string | null;
+        mission?: string | null;
+        priorities?: string | null;
+        profilePic?: string | null;
+        notes?: string | null;
         preferredSlug: string;
         lastEditedBy: string;
         lastEditedAt: number;
@@ -231,12 +231,12 @@ export type EntityResponse =
       breadcrumbs: {
         id: string;
         name: string;
-        website: string | null;
-        vision: string | null;
-        mission: string | null;
-        priorities: string | null;
-        profilePic: string | null;
-        notes: string | null;
+        website?: string | null;
+        vision?: string | null;
+        mission?: string | null;
+        priorities?: string | null;
+        profilePic?: string | null;
+        notes?: string | null;
         preferredSlug: string;
         lastEditedBy: string;
         lastEditedAt: number;
@@ -252,12 +252,12 @@ export type EntityResponse =
       teams: {
         id: string;
         name: string;
-        website: string | null;
-        vision: string | null;
-        mission: string | null;
-        priorities: string | null;
-        profilePic: string | null;
-        notes: string | null;
+        website?: string | null;
+        vision?: string | null;
+        mission?: string | null;
+        priorities?: string | null;
+        profilePic?: string | null;
+        notes?: string | null;
         preferredSlug: string;
         lastEditedBy: string;
         lastEditedAt: number;
@@ -266,16 +266,16 @@ export type EntityResponse =
       persons: {
         id: string;
         name: string;
-        email: string;
-        jobTitle?: string;
-        grade?: string;
-        linkedin?: string;
-        about?: string;
-        motivation?: string;
-        policyBackground?: string;
-        howSupportOthers?: string;
-        howHelpMe?: string;
-        profilePic?: string;
+        email?: string | null;
+        jobTitle?: string | null;
+        grade?: string | null;
+        linkedin?: string | null;
+        about?: string | null;
+        motivation?: string | null;
+        policyBackground?: string | null;
+        howSupportOthers?: string | null;
+        howHelpMe?: string | null;
+        profilePic?: string | null;
         preferredSlug: string;
         lastEditedBy: string;
         lastEditedAt: number;
@@ -294,16 +294,16 @@ export type EntityResponse =
       person: {
         id: string;
         name: string;
-        email: string;
-        jobTitle?: string;
-        grade?: string;
-        linkedin?: string;
-        about?: string;
-        motivation?: string;
-        policyBackground?: string;
-        howSupportOthers?: string;
-        howHelpMe?: string;
-        profilePic?: string;
+        email?: string | null;
+        jobTitle?: string | null;
+        grade?: string | null;
+        linkedin?: string | null;
+        about?: string | null;
+        motivation?: string | null;
+        policyBackground?: string | null;
+        howSupportOthers?: string | null;
+        howHelpMe?: string | null;
+        profilePic?: string | null;
         preferredSlug: string;
         lastEditedBy: string;
         lastEditedAt: number;
@@ -319,12 +319,12 @@ export type EntityResponse =
       teams: {
         id: string;
         name: string;
-        website: string | null;
-        vision: string | null;
-        mission: string | null;
-        priorities: string | null;
-        profilePic: string | null;
-        notes: string | null;
+        website?: string | null;
+        vision?: string | null;
+        mission?: string | null;
+        priorities?: string | null;
+        profilePic?: string | null;
+        notes?: string | null;
         preferredSlug: string;
         lastEditedBy: string;
         lastEditedAt: number;
@@ -333,16 +333,16 @@ export type EntityResponse =
       persons: {
         id: string;
         name: string;
-        email: string;
-        jobTitle?: string;
-        grade?: string;
-        linkedin?: string;
-        about?: string;
-        motivation?: string;
-        policyBackground?: string;
-        howSupportOthers?: string;
-        howHelpMe?: string;
-        profilePic?: string;
+        email?: string | null;
+        jobTitle?: string | null;
+        grade?: string | null;
+        linkedin?: string | null;
+        about?: string | null;
+        motivation?: string | null;
+        policyBackground?: string | null;
+        howSupportOthers?: string | null;
+        howHelpMe?: string | null;
+        profilePic?: string | null;
         preferredSlug: string;
         lastEditedBy: string;
         lastEditedAt: number;

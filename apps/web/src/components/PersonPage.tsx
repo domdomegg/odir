@@ -12,6 +12,7 @@ import { Form } from './Form';
 import { useRawReq } from '../helpers/networking';
 import { ChevronList, ChevronListButton } from './ChevronList';
 import { TeamCardGrid } from './TeamCard';
+import { GRADES } from '../helpers/grades';
 
 type EditorState = 'closed' | 'menu' | 'details' | 'teams' | 'manager' | 'slugs';
 
@@ -36,7 +37,7 @@ const PersonPage: React.FC<{ data: EntityResponse & { type: 'person' }, refetch:
   return (
     <Section>
       <div className="flex gap-4">
-        <img src={person.profilePic ?? 'https://upload.wikimedia.org/wikipedia/commons/4/48/No_image_%28male%29.svg'} alt="" className="aspect-square object-cover w-80" />
+        <img src={person.profilePic ?? 'https://upload.wikimedia.org/wikipedia/commons/4/48/No_image_%28male%29.svg'} alt="" className="aspect-square object-cover w-80 shadow" />
         <div className="flex-1">
           <div className="flex gap-4">
             <div className="flex-1">
@@ -81,6 +82,7 @@ const PersonAbout: React.FC<{ person: Person }> = ({
 }) => {
   return (
     <div className="flex flex-col gap-4">
+      {!person.about && !person.howHelpMe && !person.howSupportOthers && !person.motivation && !person.policyBackground && <p>There's no additional information on this person yet.</p>}
       {person.about && (
       <div>
         <p className="font-bold">Who am I?</p>
@@ -137,8 +139,7 @@ const PersonEditorModal: React.FC<{ editorState: EditorState, setEditorState: (e
         definition={{
           name: { label: 'Name', inputType: 'text' },
           jobTitle: { label: 'Job title', inputType: 'text' },
-          // TODO: make this a more sensible list
-          grade: { label: 'Grade', inputType: 'select', selectOptions: ['Secretary of State', 'Minister of State', 'Under Secretary of State', 'Permanent Secretary', 'Director General', 'Director', 'Deputy Director', 'G6', 'G7', 'SEO', 'HEO', 'Other', 'Unknown'] },
+          grade: { label: 'Grade', inputType: 'select', selectOptions: GRADES },
           email: { label: 'Email', inputType: 'text' },
           linkedin: { label: 'LinkedIn', inputType: 'text' },
           about: { label: 'Who am I?', inputType: 'textarea' },

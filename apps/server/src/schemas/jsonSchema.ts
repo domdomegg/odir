@@ -94,19 +94,19 @@ export const $PersonCreation: JSONSchema<S.PersonCreation> = {
   type: 'object',
   properties: {
     name: { type: 'string' },
-    email: { type: 'string' },
-    jobTitle: { type: 'string' },
-    grade: { type: 'string' },
-    linkedin: { type: 'string' },
-    about: { type: 'string' },
-    motivation: { type: 'string' },
-    policyBackground: { type: 'string' },
-    howSupportOthers: { type: 'string' },
-    howHelpMe: { type: 'string' },
-    profilePic: { type: 'string' },
+    email: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    jobTitle: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    grade: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    linkedin: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    about: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    motivation: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    policyBackground: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    howSupportOthers: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    howHelpMe: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    profilePic: { anyOf: [{ type: 'string' }, { type: 'null' }] },
     preferredSlug: { type: 'string' },
   },
-  required: ['name', 'email'],
+  required: ['name'],
   additionalProperties: false,
 };
 
@@ -146,7 +146,7 @@ export const $TeamCreation: JSONSchema<S.TeamCreation> = {
     notes: { anyOf: [{ type: 'string' }, { type: 'null' }] },
     preferredSlug: { type: 'string' },
   },
-  required: ['name', 'website', 'vision', 'mission', 'priorities', 'profilePic', 'notes', 'preferredSlug'],
+  required: ['name'],
   additionalProperties: false,
 };
 
@@ -168,7 +168,7 @@ export const $Team: JSONSchema<S.Team> = {
     lastEditedAt: { type: 'integer' },
     createdAt: { type: 'integer' },
   },
-  required: ['id', ...$TeamCreation.required as string[], 'lastEditedBy', 'lastEditedAt', 'createdAt'],
+  required: ['id', ...$TeamCreation.required as string[], 'preferredSlug', 'lastEditedBy', 'lastEditedAt', 'createdAt'],
   additionalProperties: false,
 };
 
