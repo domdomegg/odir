@@ -73,6 +73,7 @@ npm uninstall some-package-name --workspace @odir/server
 - `8004`: serverless-dynamodb instance of DynamoDB for serverless-offline
 - `8005`: serverless-dynamodb instance of DynamoDB for tests
 - `8006`: serverless-offline-ses-v2 instance of ses
+- `8007`: serverless-s3-local instance of S3
 
 ### 🔀 Change process
 

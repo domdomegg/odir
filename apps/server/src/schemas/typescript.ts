@@ -9,6 +9,8 @@ export type Email = string;
 
 export type Ulid = string;
 
+export type Url = string;
+
 export interface Status {
   message: string;
 }
@@ -373,6 +375,10 @@ export interface SearchResponse {
     }[];
     type: "team" | "person";
   }[];
+}
+
+export interface BlobCreation {
+  data: string;
 }
 
 export type AuditLogMetadata =

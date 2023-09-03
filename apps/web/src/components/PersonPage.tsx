@@ -1,5 +1,5 @@
 import { PencilIcon } from '@heroicons/react/outline';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import Section, { SectionTitle } from './Section';
 import {
@@ -8,13 +8,13 @@ import {
 import Link from './Link';
 import Button from './Button';
 import Modal from './Modal';
-import { Form } from './Form';
+import { Form, LabelledInput } from './Form';
 import { useRawReq } from '../helpers/networking';
 import { ChevronList, ChevronListButton } from './ChevronList';
 import { TeamCardGrid } from './TeamCard';
 import { GRADES } from '../helpers/grades';
 
-type EditorState = 'closed' | 'menu' | 'details' | 'teams' | 'manager' | 'slugs';
+type EditorState = 'closed' | 'menu' | 'details' | 'photo' | 'teams' | 'manager' | 'slugs';
 
 const PersonPage: React.FC<{ data: EntityResponse & { type: 'person' }, refetch: () => Promise<unknown> }> = ({
   data: {
@@ -33,6 +33,12 @@ const PersonPage: React.FC<{ data: EntityResponse & { type: 'person' }, refetch:
       event.preventDefault();
     }
   });
+  useHotkeys('p', (event) => {
+    if (editorState === 'closed' || editorState === 'menu') {
+      setEditorState('photo');
+      event.preventDefault();
+    }
+  });
 
   return (
     <Section>
@@ -45,7 +51,7 @@ const PersonPage: React.FC<{ data: EntityResponse & { type: 'person' }, refetch:
             </div>
             <div>
               <div>
-                <Button onClick={() => setEditorState('details')}><PencilIcon className="h-5 mb-0.5 mr-0.5" /> Edit person</Button>
+                <Button onClick={() => setEditorState('menu')}><PencilIcon className="h-5 mb-0.5 mr-0.5" /> Edit person</Button>
               </div>
             </div>
           </div>
@@ -168,6 +174,10 @@ const PersonEditorModal: React.FC<{ editorState: EditorState, setEditorState: (e
         }}
       />
     );
+  } else if (editorState === 'photo') {
+    contents = (
+      <ProfilePhotoEditor person={person} onComplete={internalOnClose} />
+    );
   } else {
     contents = (
       <>
@@ -175,6 +185,9 @@ const PersonEditorModal: React.FC<{ editorState: EditorState, setEditorState: (e
         <ChevronList>
           <ChevronListButton title="Details" onClick={() => setEditorState('details')}>
             Change the person's name, job title, biography, etc.
+          </ChevronListButton>
+          <ChevronListButton title="Photo" onClick={() => setEditorState('photo')}>
+            Upload a new profile picture for this person.
           </ChevronListButton>
           {/* <ChevronListButton onClick={() => setEditorState('members')}>
             <h3 className="font-bold">Members</h3>
@@ -201,6 +214,62 @@ const PersonEditorModal: React.FC<{ editorState: EditorState, setEditorState: (e
     <Modal open onClose={internalOnClose}>
       {contents}
     </Modal>
+  );
+};
+
+const ProfilePhotoEditor: React.FC<{
+  person: Person,
+  onComplete: () => void
+}> = ({ person, onComplete }) => {
+  const req = useRawReq();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    fileInputRef.current?.click();
+  }, [fileInputRef.current]);
+
+  return (
+    <>
+      <SectionTitle>Upload new profile photo</SectionTitle>
+      <div className="my-4">
+        {/* eslint-disable-next-line jsx-a11y/no-autofocus */}
+        <input type="file" className="py-2" accept="image/jpeg, image/png" capture="user" ref={fileInputRef} autoFocus />
+      </div>
+      <Button
+        variant="blue"
+        onClick={async () => {
+          try {
+            const file = fileInputRef.current?.files?.[0];
+            if (!file) {
+              throw new Error('No file selected');
+            }
+
+            if (file.size > 5_000_000) {
+              throw new Error('The maximum file size you can upload is 5MB. Try compressing your image first.');
+            }
+
+            const dataUriBase64 = await new Promise<string>((resolve) => {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                if (typeof reader.result === 'string') {
+                  resolve(reader.result);
+                } else {
+                  throw new Error(`Invalid reader result type: ${typeof reader.result}`);
+                }
+              };
+              reader.readAsDataURL(file);
+            });
+
+            const profilePhotoUri = (await req('post /admin/blobs', { data: dataUriBase64 })).data;
+            await req('patch /admin/persons/{personId}', { personId: person.id }, { profilePic: profilePhotoUri });
+            onComplete();
+          } catch (error) {
+            alert(error);
+          }
+        }}
+      >Submit
+      </Button>
+    </>
   );
 };
 

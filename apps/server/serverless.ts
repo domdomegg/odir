@@ -6,6 +6,7 @@ import { Table, tables } from './src/helpers/tables';
 import { getFunctionEvent, getFunctionPaths, pascalCase } from './local/helpers';
 
 const SERVICE_NAME = 'odir-server';
+const S3_BUCKET_NAME = `${SERVICE_NAME}-${env.STAGE}`;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createResources = (definitions: Record<string, Table<any, any, any>>): NonNullable<NonNullable<AWS['resources']>['Resources']> => Object.values(definitions).reduce<NonNullable<NonNullable<AWS['resources']>['Resources']>>((acc, table) => {
@@ -123,6 +124,10 @@ const serverlessConfiguration: AWS = {
         },
       },
     },
+    s3: { // serverless-s3-local
+      port: 8007,
+      directory: './.s3'
+    },
     'serverless-offline-ses-v2': {
       port: 8006,
     },
@@ -137,6 +142,7 @@ const serverlessConfiguration: AWS = {
     'serverless-offline',
     'serverless-offline-ses-v2',
     'serverless-offline-watcher',
+    'serverless-s3-local',
   ],
   provider: {
     name: 'aws',
@@ -175,6 +181,19 @@ const serverlessConfiguration: AWS = {
             ],
             Resource: '*',
           },
+          {
+            Effect: 'Allow',
+            Action: [
+              's3:GetObject',
+              's3:PutObject',
+              's3:ListBucket',
+              's3:DeleteObject'
+            ],
+            Resource: [
+              `arn:aws:s3:::${S3_BUCKET_NAME}`,
+              `arn:aws:s3:::${S3_BUCKET_NAME}/*`
+            ]
+          }
         ],
       },
     },
@@ -204,6 +223,16 @@ const serverlessConfiguration: AWS = {
       // multiple table design makes sense. As we're using on-demand mode billing
       // (as opposed to provisioned capacity) the costs aren't much higher.
       ...tableResources,
+
+      // The types appear a bit broken here, hence the weird spreading / casting
+      ...{
+        BlobBucket: {
+          Type: 'AWS::S3::Bucket',
+          Properties: {
+            BucketName: S3_BUCKET_NAME
+          }
+        }
+      } as NonNullable<NonNullable<AWS['resources']>['Resources']>,
     },
   },
 };
