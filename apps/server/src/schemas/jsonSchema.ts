@@ -16,6 +16,11 @@ export const $Ulid: JSONSchema<S.Ulid> = {
   pattern: '^[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$',
 };
 
+export const $Url: JSONSchema<S.Url> = {
+  type: 'string',
+  pattern: '^https?:\\/\\/[-a-zA-Z0-9@:%._\\+~#=]+\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)$',
+};
+
 export const $Status: JSONSchema<S.Status> = {
   type: 'object',
   properties: {
@@ -313,6 +318,15 @@ export const $SearchResponse: JSONSchema<S.SearchResponse> = {
     },
   },
   required: ['results'],
+  additionalProperties: false,
+};
+
+export const $BlobCreation: JSONSchema<S.BlobCreation> = {
+  type: 'object',
+  properties: {
+    data: { type: 'string', pattern: '^data:image/(?:png|jpeg)(?:;charset=utf-8)?;base64,(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/][AQgw]==|[A-Za-z0-9+/]{2}[AEIMQUYcgkosw048]=)?$', maxLength: 7_000_000 /* approx 5 MB */ },
+  },
+  required: ['data'],
   additionalProperties: false,
 };
 

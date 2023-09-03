@@ -24,6 +24,11 @@ export type Routes = {
       "subjectId": string,
     },
   },
+  "post /admin/blobs": {
+    request: S.BlobCreation,
+    response: S.Url,
+    params: null,
+  },
   "get /admin/entity/{entitySlug}": {
     request: null,
     response: S.EntityResponse,
@@ -189,6 +194,13 @@ export const routes = {
     hasRequest: false,
     hasResponse: true,
     hasParams: true,
+  },
+  "post /admin/blobs": {
+    method: "post",
+    makePath: ({ }: {}) => `/admin/blobs`,
+    hasRequest: true,
+    hasResponse: true,
+    hasParams: false,
   },
   "get /admin/entity/{entitySlug}": {
     method: "get",
