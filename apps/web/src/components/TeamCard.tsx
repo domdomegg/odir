@@ -1,9 +1,10 @@
+import { ENTITY_PREFIX } from '../helpers/entityPrefix';
 import { Team } from '../helpers/generated-api-client';
 import Link from './Link';
 
 export const TeamCard: React.FC<{ team: Team }> = ({ team }) => {
   return (
-    <Link href={`/admin/${team.preferredSlug}`}>
+    <Link href={`${ENTITY_PREFIX}${team.preferredSlug}`}>
       <div className="shadow border bg-white text-black text-left flex flex-row hover:shadow-lg transition-all">
         {/* TODO: nicer missing profile pic image */}
         <img src={team.profilePic ?? 'https://upload.wikimedia.org/wikipedia/commons/4/48/No_image_%28male%29.svg'} alt="" className="aspect-square object-cover h-28" />

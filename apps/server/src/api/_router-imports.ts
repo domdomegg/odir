@@ -15,6 +15,7 @@ export const importMap = {
   "/admin/login/get": () => import("./admin/login/get"),
   "/admin/login/google/post": () => import("./admin/login/google/post"),
   "/admin/login/impersonation/post": () => import("./admin/login/impersonation/post"),
+  "/admin/login/methods/{email}/get": () => import("./admin/login/methods/{email}/get"),
   "/admin/login/refresh/post": () => import("./admin/login/refresh/post"),
   "/admin/persons/get": () => import("./admin/persons/get"),
   "/admin/persons/post": () => import("./admin/persons/post"),

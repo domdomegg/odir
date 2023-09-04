@@ -1,5 +1,3 @@
-export type Brand = 'MWA' | 'Raise';
-
 export interface Env {
   STAGE: 'local' | 'dev' | 'prod',
 

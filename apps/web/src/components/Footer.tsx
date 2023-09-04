@@ -4,19 +4,20 @@ import Logo from './Logo';
 import { SectionNoPadding } from './Section';
 
 const Footer: React.FC = () => (
-  <footer className="mt-12 py-8 text-left text-xl bg-raise-blue-dark">
+  <footer className="mt-12 py-6 text-left bg-primary-100">
     <SectionNoPadding>
       <div className="flex gap-4">
-        <Link href={`//${env.CUSTOM_ODIR_DOMAIN}`}><Logo className="h-6" /></Link>
+        <Link href={`//${env.CUSTOM_ODIR_DOMAIN}`}><Logo className="h-10 mt-1" /></Link>
         <div>
-          <Link href="https://register-of-charities.charitycommission.gov.uk/charity-search/-/charity-details/5208930" className="inline-block transition-all hover:scale-105">Raise: A Celebration of Giving is a registered charity in England and Wales (number 1202899).</Link>
+          <p className="mb-0.5">Directory Navigator is a project by <Link href="https://adamjones.me" target="_blank" className="inline-block hover:underline">Adam Jones</Link> and others.</p>
 
           <div className="flex gap-2">
-            <Link href={`//${env.CUSTOM_ODIR_DOMAIN}/chapters/`} className="inline-block transition-all hover:scale-105">Find my chapter</Link>
+            <Link href="https://docs.google.com/forms/d/e/1FAIpQLSdL0wKeFtzQpcpcyPp25x3vKn8x9WoLS-qbQ97hxjHOsll9EA/viewform?usp=pp_url&entry.260031422=Hey,+I+had+some+feedback+about+Directory+Navigator:%0A%0A" target="_blank" className="inline-block hover:underline">Feedback</Link>
             ·
-            <Link href={`//${env.CUSTOM_ODIR_DOMAIN}/team/`} className="inline-block transition-all hover:scale-105">Our people</Link>
-            ·
-            <Link href={`//${env.CUSTOM_ODIR_DOMAIN}/policies/`} className="inline-block transition-all hover:scale-105">Our policies</Link>
+            <Link href="mailto:domdomegg+directory_navigator@gmail.com?subject=Directory%20Navigator%20Support" className="inline-block hover:underline">Support</Link>
+            {/* TODO: add about page */}
+            {/* ·
+            <Link href={`//${env.CUSTOM_ODIR_DOMAIN}/about/`} className="inline-block hover:underline">About</Link> */}
           </div>
         </div>
       </div>

@@ -69,9 +69,9 @@ const TeamPage: React.FC<{ data: EntityResponse & { type: 'team' }, refetch: () 
         </div>
       </div>
       <TeamPersons persons={persons} relations={relations} team={team} />
-      <h2 className="font-raise-header text-3xl font-bold mt-6 mb-1">Teams</h2>
+      <h2 className="font-odir-header text-3xl font-bold mt-6 mb-1">Teams</h2>
       <TeamTeams teams={teams} relations={relations} team={team} />
-      <h2 className="font-raise-header text-3xl font-bold mt-6 mb-1">About</h2>
+      <h2 className="font-odir-header text-3xl font-bold mt-6 mb-1">About</h2>
       <TeamAbout team={team} />
       <TeamEditorModal editorState={editorState} setEditorState={setEditorState} team={team} relations={relations} teams={teams} persons={persons} slugs={slugs} hasDetailedAccess={hasDetailedAccess} refetch={refetch} />
     </Section>
@@ -269,13 +269,13 @@ const TeamEditorModal: React.FC<{ editorState: EditorState, setEditorState: (edi
       <>
         <SectionTitle>What do you want to edit?</SectionTitle>
         <ChevronList>
-          <ChevronListButton title="Details" onClick={() => setEditorState('details')}>
+          <ChevronListButton title="Details" onClick={() => setEditorState('details')} variant="secondary">
             Change the name, vision, mission, priorities, etc.
           </ChevronListButton>
-          <ChevronListButton title="Members" onClick={() => setEditorState('members')}>
+          <ChevronListButton title="Members" onClick={() => setEditorState('members')} variant="secondary">
             Change team members and managers
           </ChevronListButton>
-          <ChevronListButton title="Subteams" onClick={() => setEditorState('children')}>
+          <ChevronListButton title="Subteams" onClick={() => setEditorState('children')} variant="secondary">
             Add or remove subteams
           </ChevronListButton>
           {/* <ChevronListButton onClick={() => setEditorState('parents')}>

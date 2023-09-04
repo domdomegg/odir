@@ -5,7 +5,7 @@ import Page from '../../components/Page';
 import TeamsPage from './teams';
 import ProfilePage from './profile';
 import TasksPage from './tasks';
-import Login, { OauthCallbackPage } from './login';
+import Login, { OauthCallbackPage } from './loginOld';
 import NotFoundPage from '../404';
 import Navigation from '../../components/Navigation';
 import { useAuthState } from '../../helpers/networking';
@@ -22,7 +22,7 @@ import NewPersonPage from './new-person';
 const IndexPage = () => (
   <Page className="pb-8">
     <Helmet>
-      <title>Odir</title>
+      <title>Directory Navigator</title>
       <meta property="og:title" content="Raise Admin" />
       <meta name="robots" content="noindex" />
     </Helmet>
@@ -75,7 +75,7 @@ const IndexLayout = () => {
         </Section>
       )}
       <Router basepath="/admin" className="text-left">
-        <OauthCallbackPage path="/oauth-callback" />
+        <OauthCallbackPage path="/oauth-callback/google" />
 
         {auth && (
           <>

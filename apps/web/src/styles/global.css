@@ -36,7 +36,7 @@
   }
 
   .tooltip {
-    @apply absolute invisible group-hover:visible bg-black text-white font-normal p-3 rounded mt-8 text-base pointer-events-none z-10 shadow-raise;
+    @apply absolute invisible group-hover:visible bg-black text-white font-normal p-3 rounded mt-8 text-base pointer-events-none z-10 shadow;
     width: 95%;
     left: 2.5%;
   }
@@ -51,14 +51,6 @@
 
   b {
     @apply font-bold
-  }
-
-  p a, li a {
-    @apply text-blue-700
-  }
-
-  p a:hover, li a:hover {
-    @apply text-blue-500
   }
 
   .FAQ + .FAQ {
@@ -106,7 +98,7 @@
   }
 
   .Alert {
-    @apply p-4 break-words flex items-center overflow-x-auto
+    @apply p-4 break-words flex items-center overflow-x-auto text-left
   }
 
   @keyframes scrollUp {

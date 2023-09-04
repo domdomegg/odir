@@ -13,8 +13,8 @@ const Alert: React.FC<Props> = ({ children, variant = 'error', className }) => (
   <p className={classNames(
     'Alert',
     {
-      'bg-raise-red text-white': variant === 'error',
-      'bg-raise-yellow text-black': variant === 'warning',
+      'bg-error-700 text-white': variant === 'error',
+      'bg-warning-600 text-black': variant === 'warning',
       'bg-green-600 text-white': variant === 'success',
     },
     className,

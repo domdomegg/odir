@@ -15,16 +15,18 @@ export interface Status {
   message: string;
 }
 
+export interface LoginMethodsResponse {
+  methods: ("google" | "microsoft" | "email" | "impersonation")[];
+}
+
 export interface LoginResponse {
   accessToken: {
     value: string;
     expiresAt: number;
-    [k: string]: unknown;
   };
   refreshToken: {
     value: string;
     expiresAt: number;
-    [k: string]: unknown;
   };
   groups: string[];
 }

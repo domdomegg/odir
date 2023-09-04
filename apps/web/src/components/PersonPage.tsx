@@ -43,7 +43,7 @@ const PersonPage: React.FC<{ data: EntityResponse & { type: 'person' }, refetch:
   return (
     <Section>
       <div className="flex gap-4">
-        <img src={person.profilePic ?? 'https://upload.wikimedia.org/wikipedia/commons/4/48/No_image_%28male%29.svg'} alt="" className="aspect-square object-cover w-80 shadow" />
+        <img src={person.profilePic ?? 'https://upload.wikimedia.org/wikipedia/commons/4/48/No_image_%28male%29.svg'} alt="" className="aspect-square object-cover w-80 shadow bg-white" />
         <div className="flex-1">
           <div className="flex gap-4">
             <div className="flex-1">
@@ -60,9 +60,9 @@ const PersonPage: React.FC<{ data: EntityResponse & { type: 'person' }, refetch:
           {person.linkedin && <Link href={person.linkedin} className="underline block py-1">{person.linkedin}</Link>}
         </div>
       </div>
-      <h2 className="font-raise-header text-3xl font-bold mt-6 mb-1">Teams</h2>
+      <h2 className="font-odir-header text-3xl font-bold mt-6 mb-1">Teams</h2>
       <PersonTeams person={person} teams={teams} relations={relations} />
-      <h2 className="font-raise-header text-3xl font-bold mt-6 mb-1">About</h2>
+      <h2 className="font-odir-header text-3xl font-bold mt-6 mb-1">About</h2>
       <PersonAbout person={person} />
       <PersonEditorModal editorState={editorState} setEditorState={setEditorState} person={person} relations={relations} teams={teams} persons={persons} slugs={slugs} hasDetailedAccess={hasDetailedAccess} refetch={refetch} />
     </Section>
@@ -183,10 +183,10 @@ const PersonEditorModal: React.FC<{ editorState: EditorState, setEditorState: (e
       <>
         <SectionTitle>What do you want to edit?</SectionTitle>
         <ChevronList>
-          <ChevronListButton title="Details" onClick={() => setEditorState('details')}>
+          <ChevronListButton title="Details" onClick={() => setEditorState('details')} variant="secondary">
             Change the person's name, job title, biography, etc.
           </ChevronListButton>
-          <ChevronListButton title="Photo" onClick={() => setEditorState('photo')}>
+          <ChevronListButton title="Photo" onClick={() => setEditorState('photo')} variant="secondary">
             Upload a new profile picture for this person.
           </ChevronListButton>
           {/* <ChevronListButton onClick={() => setEditorState('members')}>
@@ -236,7 +236,6 @@ const ProfilePhotoEditor: React.FC<{
         <input type="file" className="py-2" accept="image/jpeg, image/png" capture="user" ref={fileInputRef} autoFocus />
       </div>
       <Button
-        variant="blue"
         onClick={async () => {
           try {
             const file = fileInputRef.current?.files?.[0];

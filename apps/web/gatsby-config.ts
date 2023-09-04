@@ -15,12 +15,11 @@ const config: GatsbyConfig = {
   // This helps keep things consistent, and allows us hosting subfolders (as we do for Cambridge)
   assetPrefix: `https://${env.CUSTOM_ODIR_DOMAIN}`,
   siteMetadata: {
-    title: 'Raise',
-    description: 'A charitable movement encouraging students to adopt a positive approach towards deliberate, effective giving.',
-    keywords: 'raise, charity, join raise, amf, against malaria foundation',
+    title: 'Directory Navigator',
+    description: 'Directory Navigator helps organizations map themselves and their partners.',
     siteUrl: `https://${env.CUSTOM_ODIR_DOMAIN}/`,
     author: {
-      name: 'Raise',
+      name: 'Odir',
       url: `https://${env.CUSTOM_ODIR_DOMAIN}/`,
     },
     version: getVersion(),

@@ -6,10 +6,10 @@ import { GatsbyNode } from 'gatsby';
 export const onCreatePage: GatsbyNode['onCreatePage'] = async ({ page, actions }) => {
   const { deletePage } = actions;
 
-  if (page.path === '/admin/') {
+  if (page.path === '/') {
     // eslint-disable-next-line no-param-reassign
-    page.matchPath = '/admin/*';
-  } else if (page.path.startsWith('/admin/')) {
+    page.matchPath = '/*';
+  } else if (page.path.startsWith('/')) {
     deletePage(page);
   }
 };

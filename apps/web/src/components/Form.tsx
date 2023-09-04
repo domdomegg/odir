@@ -117,7 +117,7 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
           {/* @ts-ignore */}
           <Select type={type} value={value} onChange={(v) => { setValue(v); if (rest.onChange) rest.onChange({ target: { value: v } } as React.ChangeEvent<HTMLInputElement>); }} error={error} options={options} />
-          {error && <span className="text-raise-red">{error}</span>}
+          {error && <span className="text-error-700">{error}</span>}
         </div>
       );
     }
@@ -132,7 +132,7 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
             {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
             {/* @ts-ignore */}
             <Select type={type} value={field.value} onChange={(v) => field.onChange({ target: { value: v } } as React.ChangeEvent<HTMLInputElement>)} error={error} options={options} />
-            {error && <span className="text-raise-red">{error}</span>}
+            {error && <span className="text-error-700">{error}</span>}
           </div>
         )}
       />
@@ -143,7 +143,7 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
     return (
       <div className={classNames(className, 'flex items-center my-3')}>
         {type === 'checkbox' && <input id={id} ref={ref} type={type} className="flex-shrink-0 mr-1" {...rest} />}
-        {label && <label htmlFor={id} className={classNames('text-gray-700 font-bold leading-none', { 'block pb-1': type !== 'checkbox', 'text-raise-red': error })}>{label}</label>}
+        {label && <label htmlFor={id} className={classNames('text-gray-700 font-bold leading-none', { 'block pb-1': type !== 'checkbox', 'text-error-700': error })}>{label}</label>}
       </div>
     );
   }
@@ -151,7 +151,7 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
   if (type === 'textarea') {
     return (
       <div className={className}>
-        {label && <label htmlFor={id} className={classNames('text-gray-700 font-bold block pb-1', { 'text-raise-red': error })}>{label}</label>}
+        {label && <label htmlFor={id} className={classNames('text-gray-700 font-bold block pb-1', { 'text-error-700': error })}>{label}</label>}
         <div className="flex flex-row mb-1">
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
           {/* @ts-ignore */}
@@ -165,14 +165,14 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
             {...rest}
           />
         </div>
-        {error && <span className="text-raise-red">{error}</span>}
+        {error && <span className="text-error-700">{error}</span>}
       </div>
     );
   }
 
   return (
     <div className={className}>
-      {label && <label htmlFor={id} className={classNames('text-gray-700 font-bold block pb-1', { 'text-raise-red': error })}>{label}</label>}
+      {label && <label htmlFor={id} className={classNames('text-gray-700 font-bold block pb-1', { 'text-error-700': error })}>{label}</label>}
       <div className="flex flex-row mb-1">
         {prefix && (
           <span className={classNames(inputClassName, 'rounded-l py-2 px-3', {
@@ -204,7 +204,7 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
           </span>
         )}
       </div>
-      {error && <span className="text-raise-red">{error}</span>}
+      {error && <span className="text-error-700">{error}</span>}
     </div>
   );
 });
@@ -358,7 +358,7 @@ export const Form = <T extends FieldValues>({
           );
         })}
         {error && <Alert className="mt-2">{error}</Alert>}
-        <Button variant="blue" className="mt-4" onClick={handleSubmit(internalOnSubmit)} disabled={isSubmitting}>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
+        <Button className="mt-4" onClick={handleSubmit(internalOnSubmit)} disabled={isSubmitting}>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
       </form>
     </FormProvider>
   );

@@ -5,6 +5,7 @@ import Section from '../../components/Section';
 import { Form } from '../../components/Form';
 import { PersonCreation } from '../../helpers/generated-api-client';
 import { GRADES } from '../../helpers/grades';
+import { ENTITY_PREFIX } from '../../helpers/entityPrefix';
 
 const NewPersonPage: React.FC<RouteComponentProps> = () => {
   const req = useRawReq();
@@ -41,7 +42,7 @@ const NewPersonPage: React.FC<RouteComponentProps> = () => {
         showNew={false}
         onSubmit={async (data) => {
           const personId = (await req('post /admin/persons', data)).data;
-          navigate(`/admin/${personId}`);
+          navigate(`${ENTITY_PREFIX}${personId}`);
         }}
       />
     </Section>

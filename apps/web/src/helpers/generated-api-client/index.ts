@@ -68,6 +68,13 @@ export type Routes = {
     response: S.LoginResponse,
     params: null,
   },
+  "get /admin/login/methods/{email}": {
+    request: null,
+    response: S.LoginMethodsResponse,
+    params: {
+      "email": string,
+    },
+  },
   "post /admin/login/refresh": {
     request: S.RefreshLoginRequest,
     response: S.LoginResponse,
@@ -258,6 +265,17 @@ export const routes = {
     hasRequest: true,
     hasResponse: true,
     hasParams: false,
+  },
+  "get /admin/login/methods/{email}": {
+    method: "get",
+    makePath: ({
+      email,
+    }: {
+      email: string,
+    }) => `/admin/login/methods/${email}`,
+    hasRequest: false,
+    hasResponse: true,
+    hasParams: true,
   },
   "post /admin/login/refresh": {
     method: "post",

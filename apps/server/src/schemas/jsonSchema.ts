@@ -30,6 +30,15 @@ export const $Status: JSONSchema<S.Status> = {
   additionalProperties: false,
 };
 
+export const $LoginMethodsResponse: JSONSchema<S.LoginMethodsResponse> = {
+  type: 'object',
+  properties: {
+    methods: { type: 'array', items: { enum: ['google', 'microsoft', 'email', 'impersonation'] } },
+  },
+  required: ['methods'],
+  additionalProperties: false,
+};
+
 export const $LoginResponse: JSONSchema<S.LoginResponse> = {
   type: 'object',
   properties: {
@@ -39,7 +48,8 @@ export const $LoginResponse: JSONSchema<S.LoginResponse> = {
         value: { type: 'string' },
         expiresAt: { type: 'integer' },
       },
-      required: ['value', 'expiresAt']
+      required: ['value', 'expiresAt'],
+      additionalProperties: false,
     },
     refreshToken: {
       type: 'object',
@@ -47,7 +57,8 @@ export const $LoginResponse: JSONSchema<S.LoginResponse> = {
         value: { type: 'string' },
         expiresAt: { type: 'integer' },
       },
-      required: ['value', 'expiresAt']
+      required: ['value', 'expiresAt'],
+      additionalProperties: false,
     },
     groups: { type: 'array', items: { type: 'string' } },
   },
