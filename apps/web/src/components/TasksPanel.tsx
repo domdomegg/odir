@@ -18,7 +18,6 @@ const TasksPanel: React.FC = () => {
       <Modal open={!!selected} onClose={() => { setSelected(undefined); }}>
         <SectionTitle>{selected?.name}</SectionTitle>
         <Button
-          variant="blue"
           onClick={async () => {
             try {
               await runTask();

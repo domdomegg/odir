@@ -7,6 +7,7 @@ import Alert from '../../components/Alert';
 import TeamPage from '../../components/TeamPage';
 import Section from '../../components/Section';
 import PersonPage from '../../components/PersonPage';
+import { ENTITY_PREFIX } from '../../helpers/entityPrefix';
 
 const EntityPage: React.FC<RouteComponentProps & { entitySlug: string }> = ({ entitySlug }) => {
   const [entity, refetchEntity] = useReq('get /admin/entity/{entitySlug}', { entitySlug });
@@ -17,7 +18,7 @@ const EntityPage: React.FC<RouteComponentProps & { entitySlug: string }> = ({ en
       return;
     }
 
-    const newUrl = `/admin/${
+    const newUrl = `${ENTITY_PREFIX}${
       // eslint-disable-next-line no-nested-ternary
       entity.data.type === 'team' ? entity.data.team.preferredSlug
         : entity.data.type === 'person' ? entity.data.person.preferredSlug
@@ -47,7 +48,9 @@ const EntityPage: React.FC<RouteComponentProps & { entitySlug: string }> = ({ en
     return <PersonPage data={entity.data} refetch={refetchEntity} />;
   }
 
-  return <Section><h1>Entity not yet supported: {entity.data.type}</h1></Section>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const ensureNever: never = entity.data;
+  return <Section><h1>Entity not yet supported: {(entity.data as { type: string }).type}</h1></Section>;
 };
 
 export default EntityPage;

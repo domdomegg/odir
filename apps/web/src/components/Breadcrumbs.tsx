@@ -32,7 +32,7 @@ export const Breadcrumbs: React.FC<{ parentChain: BreadcrumbItem[], directParent
 
 const Breadcrumb: React.FC<{ item: BreadcrumbItem }> = ({ item }) => {
   return (
-    <Link href={`/admin/${item.preferredSlug}`} className="underline">
+    <Link href={`/${item.preferredSlug}`} className="underline">
       {item.name}
     </Link>
   );

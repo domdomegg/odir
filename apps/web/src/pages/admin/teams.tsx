@@ -16,6 +16,7 @@ import { Form } from '../../components/Form';
 import PropertyEditor from '../../components/PropertyEditor';
 import { RequireGroup } from '../../helpers/security';
 import { TeamCreation } from '../../helpers/generated-api-client';
+import { ENTITY_PREFIX } from '../../helpers/entityPrefix';
 
 const TeamsPage: React.FC<RouteComponentProps> = () => {
   const [teams, refetchTeams] = useReq('get /admin/teams');
@@ -54,7 +55,7 @@ const TeamsPage: React.FC<RouteComponentProps> = () => {
           onSubmit={async (data) => {
             const teamId = (await req('post /admin/teams', data)).data;
             await refetchTeams();
-            navigate(`/admin/${teamId}`);
+            navigate(`${ENTITY_PREFIX}${teamId}`);
           }}
         />
       </Modal>
@@ -64,7 +65,7 @@ const TeamsPage: React.FC<RouteComponentProps> = () => {
           name: { label: 'Name', className: 'whitespace-nowrap' },
         }}
         items={asResponseValues(teams.data?.sort((a, b) => b.lastEditedAt - a.lastEditedAt), teams)}
-        href={(team) => `/admin/${team.preferredSlug}/`}
+        href={(team) => `${ENTITY_PREFIX}${team.preferredSlug}/`}
       />
       <PropertyEditor
         definition={{
