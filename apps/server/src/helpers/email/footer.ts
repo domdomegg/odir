@@ -3,8 +3,8 @@ import renderHtml from './renderHtml';
 export default () => {
   return (renderHtml`
     <footer>
-        <div class="md-rounded-bottom" style="background:#eeeeee;background-color:#eeeeee;margin:0px auto;max-width:600px;">
-            <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#eeeeee;background-color:#eeeeee;width:100%;">
+        <div style="background:#fef9eb;background-color:#fef9eb;margin:0px auto;max-width:600px;">
+            <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#fef9eb;background-color:#fef9eb;width:100%;">
             <tbody>
                 <tr>
                 <td style="direction:ltr;font-size:0px;padding:10px;text-align:center;">
@@ -19,7 +19,7 @@ export default () => {
                                 <tr>
                                     <td align="center" style="font-size:0px;padding:4px;word-break:break-word;">
                                     <div style="font-family:'Helvetica', 'Arial', sans-serif;font-size:12px;line-height:1.5;text-align:center;color:#000000;">
-                                    Raise: A Celebration of Giving is a registered charity in England and Wales (number 1202899)
+                                    Directory Navigator is a project by Adam Jones and others.
                                     </div>
                                     </td>
                                 </tr>

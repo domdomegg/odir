@@ -22,7 +22,7 @@ const getMethodsForEmail = (email: string): LoginMethodsResponse['methods'] => {
 
   // TODO: do this via a database lookup?
   if (isEmailInDomains('gmail.com', 'joinraise.org', 'bluedotimpact.org')) {
-    return ['google'];
+    return ['google', 'email'];
   }
 
   return ['email'];

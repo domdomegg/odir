@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { UserManager, UserManagerSettings } from 'oidc-client';
 import { RouteComponentProps } from '@gatsbyjs/reach-router';
+import { navigate } from 'gatsby';
 import Section, { SectionTitle } from '../../components/Section';
 import Button from '../../components/Button';
 import Logo from '../../components/Logo';
@@ -22,8 +23,8 @@ export const LoginPage: React.FC<RouteComponentProps> = () => {
   );
 };
 
-export const GoogleOauthCallbackPage: React.FC<RouteComponentProps> = () => {
-  const [error, setError] = useState<undefined | React.ReactNode | Error>();
+export const GoogleLoginCallbackPage: React.FC<RouteComponentProps> = () => {
+  const [error, setError] = useState<undefined | Error>();
 
   useEffect(() => {
     try {
@@ -31,6 +32,37 @@ export const GoogleOauthCallbackPage: React.FC<RouteComponentProps> = () => {
     } catch (err) {
       setError(err instanceof Error ? err : new Error(String(err)));
     }
+  }, []);
+
+  return (
+    <Section className="mt-8 text-center">
+      {error && <Alert variant="error">{error}</Alert>}
+      {!error && <h1>Logging you in...</h1>}
+    </Section>
+  );
+};
+
+export const EmailLoginCallbackPage: React.FC<RouteComponentProps> = () => {
+  const [error, setError] = useState<undefined | Error>();
+  const [, setAuthState] = useAuthState();
+  const req = useRawReq();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+        if (!token) {
+          setError(new Error('Missing token parameter.'));
+          return;
+        }
+        const res = await req('post /admin/login/email', { token });
+        setAuthState(res.data);
+        navigate('/');
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error(String(err)));
+      }
+    })();
   }, []);
 
   return (
@@ -62,6 +94,10 @@ const LoginForm: React.FC = () => {
 
   if (loginFormState.state === 'method: google') {
     return <LoginViaGoogle loginFormState={loginFormState} setLoginFormState={setLoginFormState} />;
+  }
+
+  if (loginFormState.state === 'method: email') {
+    return <LoginViaEmail loginFormState={loginFormState} setLoginFormState={setLoginFormState} />;
   }
 
   if (loginFormState.state === 'method: impersonation') {
@@ -136,12 +172,15 @@ const googleRequiredScopes = [
 const googleUserManagerSettings: UserManagerSettings = {
   authority: 'https://accounts.google.com',
   client_id: env.GOOGLE_LOGIN_CLIENT_ID,
-  redirect_uri: `${(typeof window !== 'undefined') ? window.location.origin : ''}/admin/oauth-callback/google`,
+  redirect_uri: `${(typeof window !== 'undefined') ? window.location.origin : ''}/login-callback/google`,
   scope: googleRequiredScopes.join(' '),
   response_type: 'id_token',
 };
 
-const LoginViaGoogle: React.FC<{ loginFormState: LoginFormState & { state: 'method: google' }, setLoginFormState: (s: LoginFormState) => void }> = ({ loginFormState, setLoginFormState }) => {
+const LoginViaGoogle: React.FC<{
+  loginFormState: LoginFormState & { state: 'method: google' },
+  setLoginFormState: (s: LoginFormState) => void
+}> = ({ loginFormState, setLoginFormState }) => {
   const req = useRawReq();
 
   const login = async () => {
@@ -163,7 +202,10 @@ const LoginViaGoogle: React.FC<{ loginFormState: LoginFormState & { state: 'meth
   return <LoginAutomatically login={login} loginFormState={loginFormState} setLoginFormState={setLoginFormState} />;
 };
 
-const LoginViaImpersonation: React.FC<{ loginFormState: LoginFormState & { state: 'method: impersonation' }, setLoginFormState: (s: LoginFormState) => void }> = ({ loginFormState, setLoginFormState }) => {
+const LoginViaImpersonation: React.FC<{
+  loginFormState: LoginFormState & { state: 'method: impersonation' },
+  setLoginFormState: (s: LoginFormState) => void
+}> = ({ loginFormState, setLoginFormState }) => {
   const req = useRawReq();
 
   const login = async () => {
@@ -178,7 +220,11 @@ const LoginViaImpersonation: React.FC<{ loginFormState: LoginFormState & { state
   return <LoginAutomatically login={login} loginFormState={loginFormState} setLoginFormState={setLoginFormState} />;
 };
 
-const LoginAutomatically: React.FC<{ login: () => Promise<AuthState>, loginFormState: LoginFormState, setLoginFormState: (s: LoginFormState) => void }> = ({ login, setLoginFormState }) => {
+const LoginAutomatically: React.FC<{
+  login: () => Promise<AuthState>,
+  loginFormState: LoginFormState,
+  setLoginFormState: (s: LoginFormState) => void
+}> = ({ login, setLoginFormState }) => {
   const [loading, setLoading] = useState<string | false>('Initializing...');
   const [error, setError] = useState<Error | undefined>();
 
@@ -215,6 +261,60 @@ const LoginAutomatically: React.FC<{ login: () => Promise<AuthState>, loginFormS
       <Alert className="mb-2">{error ?? 'Something went wrong signing you in'}</Alert>
       <Button onClick={attemptLogin}>Try again</Button>
       <Button variant="secondary" onClick={() => { setLoginFormState({ state: 'triage' }); }}>Cancel</Button>
+    </>
+  );
+};
+
+const LoginViaEmail: React.FC<{
+  loginFormState: LoginFormState & { state: 'method: email' },
+  setLoginFormState: (s: LoginFormState) => void
+}> = ({ loginFormState, setLoginFormState }) => {
+  const [loading, setLoading] = useState<string | false>('Initializing...');
+  const [error, setError] = useState<Error | undefined>();
+  const req = useRawReq();
+
+  const attemptLogin = async () => {
+    setError(undefined);
+    setLoading('Requesting email login...');
+    try {
+      await req('post /admin/login/email/initiate', { email: loginFormState.email });
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error(String(err)));
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    attemptLogin();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center">
+        {error && <Alert>{error}</Alert>}
+        <Spinner />
+        <p className="mt-2">{loading}</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Alert className="mb-2">{error}</Alert>
+        <Button onClick={attemptLogin}>Try again</Button>
+        <Button variant="secondary" onClick={() => { setLoginFormState({ state: 'triage' }); }}>Cancel</Button>
+      </>
+    );
+  }
+
+  const emailLink = loginFormState.email.endsWith('@gmail.com') ? { name: 'Gmail', href: `https://mail.google.com/mail/u/${loginFormState.email}/#search/from%3Ahi%40directorynavigator.com` }
+    : null;
+
+  return (
+    <>
+      <p>Login request successful. Check your email to complete login.</p>
+      {emailLink && <Button className="mt-4" href={emailLink.href}>Open {emailLink.name}</Button>}
     </>
   );
 };

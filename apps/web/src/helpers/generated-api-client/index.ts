@@ -53,6 +53,16 @@ export type Routes = {
       "groupId": string,
     },
   },
+  "post /admin/login/email/initiate": {
+    request: S.EmailInitiateLoginRequest,
+    response: null,
+    params: null,
+  },
+  "post /admin/login/email": {
+    request: S.EmailLoginRequest,
+    response: S.LoginResponse,
+    params: null,
+  },
   "get /admin/login": {
     request: null,
     response: S.Profile,
@@ -244,6 +254,20 @@ export const routes = {
     hasRequest: true,
     hasResponse: false,
     hasParams: true,
+  },
+  "post /admin/login/email/initiate": {
+    method: "post",
+    makePath: ({ }: {}) => `/admin/login/email/initiate`,
+    hasRequest: true,
+    hasResponse: false,
+    hasParams: false,
+  },
+  "post /admin/login/email": {
+    method: "post",
+    makePath: ({ }: {}) => `/admin/login/email`,
+    hasRequest: true,
+    hasResponse: true,
+    hasParams: false,
   },
   "get /admin/login": {
     method: "get",

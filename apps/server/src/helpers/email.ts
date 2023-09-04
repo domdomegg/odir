@@ -3,7 +3,7 @@ import { NodeHttpHandler } from '@aws-sdk/node-http-handler';
 import env from '../env/env';
 import { RenderedHtml } from './email/renderHtml';
 
-const raiseEmailAddress = 'raisenational@gmail.com';
+const fromEmailAddress = 'hi@directorynavigator.com';
 
 const requestHandler = new NodeHttpHandler({
   connectionTimeout: 30_000,
@@ -24,7 +24,7 @@ const sesClient = env.STAGE === 'local'
     requestHandler,
   });
 
-export const sendEmail = async (subject: string, html: RenderedHtml, to: string, fromName = 'Raise'): Promise<void> => {
+export const sendEmail = async (subject: string, html: RenderedHtml, to: string, fromName = 'Directory Navigator'): Promise<void> => {
   await sesClient.send(new SendEmailCommand({
     Content: {
       Simple: {
@@ -42,6 +42,6 @@ export const sendEmail = async (subject: string, html: RenderedHtml, to: string,
     Destination: {
       ToAddresses: [to],
     },
-    FromEmailAddress: `"${fromName.replace(/[^a-z0-9 ]+/ig, ' ').trim()}" <${raiseEmailAddress}>`,
+    FromEmailAddress: `"${fromName.replace(/[^a-z0-9 ]+/ig, ' ').trim()}" <${fromEmailAddress}>`,
   }));
 };

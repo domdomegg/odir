@@ -84,6 +84,36 @@ export const $ImpersonationLoginRequest: JSONSchema<S.ImpersonationLoginRequest>
   additionalProperties: false,
 };
 
+export const $EmailInitiateLoginRequest: JSONSchema<S.EmailInitiateLoginRequest> = {
+  type: 'object',
+  properties: {
+    email: $Email,
+  },
+  required: ['email'],
+  additionalProperties: false,
+};
+
+export const $EmailLoginRequest: JSONSchema<S.EmailLoginRequest> = {
+  type: 'object',
+  properties: {
+    token: $Ulid,
+  },
+  required: ['token'],
+  additionalProperties: false,
+};
+
+export const $EmailLogin: JSONSchema<S.EmailLogin> = {
+  type: 'object',
+  properties: {
+    id: $Ulid,
+    email: $Email,
+    createdAt: { type: 'integer' },
+    ttl: { type: 'integer' },
+  },
+  required: ['id', 'email', 'createdAt', 'ttl'],
+  additionalProperties: false,
+};
+
 export const $RefreshLoginRequest: JSONSchema<S.RefreshLoginRequest> = {
   type: 'object',
   properties: {

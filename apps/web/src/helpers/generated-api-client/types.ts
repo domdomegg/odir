@@ -39,6 +39,21 @@ export interface ImpersonationLoginRequest {
   email: string;
 }
 
+export interface EmailInitiateLoginRequest {
+  email: string;
+}
+
+export interface EmailLoginRequest {
+  token: string;
+}
+
+export interface EmailLogin {
+  id: string;
+  email: string;
+  createdAt: number;
+  ttl: number;
+}
+
 export interface RefreshLoginRequest {
   refreshToken: string;
 }
