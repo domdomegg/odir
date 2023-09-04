@@ -5,7 +5,6 @@ import Page from '../../components/Page';
 import TeamsPage from './teams';
 import ProfilePage from './profile';
 import TasksPage from './tasks';
-import Login, { OauthCallbackPage } from './loginOld';
 import NotFoundPage from '../404';
 import Navigation from '../../components/Navigation';
 import { useAuthState } from '../../helpers/networking';
@@ -75,25 +74,17 @@ const IndexLayout = () => {
         </Section>
       )}
       <Router basepath="/admin" className="text-left">
-        <OauthCallbackPage path="/oauth-callback/google" />
-
-        {auth && (
-          <>
-            <TeamsPage path="/" />
-            <EntityPage entitySlug="" path="/:entitySlug" />
-            <NewTeamPage path="/new-team" />
-            <NewPersonPage path="/new-person" />
-            <TasksPage path="/tasks" />
-            <AuditPage path="/audit" />
-            <UsersPage path="/users" />
-            <UserPage userId="" path="/users/:userId" />
-            <GroupPage groupId="" path="/groups/:groupId" />
-            <ProfilePage path="/profile" />
-            <NotFoundPage default />
-          </>
-        )}
-
-        {!auth && <Login default />}
+        <TeamsPage path="/" />
+        <EntityPage entitySlug="" path="/:entitySlug" />
+        <NewTeamPage path="/new-team" />
+        <NewPersonPage path="/new-person" />
+        <TasksPage path="/tasks" />
+        <AuditPage path="/audit" />
+        <UsersPage path="/users" />
+        <UserPage userId="" path="/users/:userId" />
+        <GroupPage groupId="" path="/groups/:groupId" />
+        <ProfilePage path="/profile" />
+        <NotFoundPage default />
       </Router>
     </>
   );

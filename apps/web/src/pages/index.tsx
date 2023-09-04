@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Router } from '@gatsbyjs/reach-router';
 import Page from '../components/Page';
 import Footer from '../components/Footer';
-import { GoogleOauthCallbackPage, LoginPage } from './admin/login';
+import { EmailLoginCallbackPage, GoogleLoginCallbackPage, LoginPage } from './admin/login';
 import { useAuthState } from '../helpers/networking';
 import Navigation from '../components/Navigation';
 import Section from '../components/Section';
@@ -83,7 +83,8 @@ const IndexLayout: React.FC = () => {
         </Section>
       )}
       <Router basepath="/" className="text-left">
-        <GoogleOauthCallbackPage path="/admin/oauth-callback/google" />
+        <GoogleLoginCallbackPage path="/login-callback/google" />
+        <EmailLoginCallbackPage path="/login-callback/email" />
 
         {auth && (
           <>
