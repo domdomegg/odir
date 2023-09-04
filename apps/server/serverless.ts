@@ -126,6 +126,7 @@ const serverlessConfiguration: AWS = {
     },
     s3: { // serverless-s3-local
       port: 8007,
+      address: '0.0.0.0',
       directory: './.s3'
     },
     'serverless-offline-ses-v2': {
