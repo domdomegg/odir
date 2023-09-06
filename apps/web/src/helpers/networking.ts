@@ -19,7 +19,7 @@ export interface AuthState {
   groups: string[],
 }
 
-const LS_AUTH_KEY = 'raise_auth';
+const LS_AUTH_KEY = 'odir_auth';
 const getAuthFromLocalStorage = (): AuthState | undefined => {
   const value = typeof localStorage === 'undefined' ? null : localStorage.getItem(LS_AUTH_KEY);
   if (value !== null) {

@@ -111,16 +111,29 @@ type LoginTriageFormValues = {
   email: string
 };
 
+const LS_EMAIL_KEY = 'odir_email';
 const LoginTriageForm: React.FC<{ setLoginFormState: (s: LoginFormState) => void }> = ({ setLoginFormState }) => {
-  const { register, handleSubmit } = useForm<LoginTriageFormValues>({ shouldUseNativeValidation: true });
+  const { register, handleSubmit, watch } = useForm<LoginTriageFormValues>({
+    shouldUseNativeValidation: true,
+    defaultValues: {
+      email: localStorage.getItem(LS_EMAIL_KEY) ?? '',
+    }
+  });
   const req = useRawReq();
   const [error, setError] = useState<Error | undefined>();
+
+  if (watch('email') === '') {
+    localStorage.removeItem(LS_EMAIL_KEY);
+  }
 
   const onSubmit = async ({ email }: LoginTriageFormValues) => {
     try {
       setError(undefined);
-      if (!email) return;
+      if (!email) {
+        return;
+      }
       const { data: { methods } } = await req('get /admin/login/methods/{email}', { email });
+      localStorage.setItem(LS_EMAIL_KEY, email);
       setLoginFormState({ state: 'method selection', methods, email });
     } catch (err) {
       setError(err instanceof Error ? err : new Error(String(err)));
