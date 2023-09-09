@@ -8,7 +8,7 @@ import {
 import Link from './Link';
 import Button from './Button';
 import Modal from './Modal';
-import { Form, LabelledInput } from './Form';
+import { Form } from './Form';
 import { useRawReq } from '../helpers/networking';
 import { ChevronList, ChevronListButton } from './ChevronList';
 import { TeamCardGrid } from './TeamCard';

@@ -365,7 +365,7 @@ export const $SearchResponse: JSONSchema<S.SearchResponse> = {
 export const $BlobCreation: JSONSchema<S.BlobCreation> = {
   type: 'object',
   properties: {
-    data: { type: 'string', pattern: '^data:image/(?:png|jpeg)(?:;charset=utf-8)?;base64,(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/][AQgw]==|[A-Za-z0-9+/]{2}[AEIMQUYcgkosw048]=)?$', maxLength: 7_000_000 /* approx 5 MB */ },
+    data: { type: 'string', pattern: '^data:image/(?:png|jpeg)(?:;charset=utf-8)?;base64,(?:[A-Za-z0-9+/]{2}[A-Za-z0-9+/]{2})*(?:[A-Za-z0-9+/][AQgw]==|[A-Za-z0-9+/]{2}[AEIMQUYcgkosw048]=)?$', maxLength: 7_000_000 /* approx 5 MB */ },
   },
   required: ['data'],
   additionalProperties: false,
