@@ -153,6 +153,11 @@ export type Routes = {
     response: S.Ulid,
     params: null,
   },
+  "get /admin/teams/top": {
+    request: null,
+    response: S.Teams,
+    params: null,
+  },
   "patch /admin/teams/{teamId}": {
     request: S.TeamEdits,
     response: null,
@@ -398,6 +403,13 @@ export const routes = {
     method: "post",
     makePath: ({ }: {}) => `/admin/teams`,
     hasRequest: true,
+    hasResponse: true,
+    hasParams: false,
+  },
+  "get /admin/teams/top": {
+    method: "get",
+    makePath: ({ }: {}) => `/admin/teams/top`,
+    hasRequest: false,
     hasResponse: true,
     hasParams: false,
   },

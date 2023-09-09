@@ -11,7 +11,7 @@ import Button from './Button';
 import Modal from './Modal';
 import { Form } from './Form';
 import { useRawReq } from '../helpers/networking';
-import { SearchBox, renderSearchResult } from './SearchBox';
+import { EntitySearchBox } from './SearchBox';
 import { Breadcrumbs } from './Breadcrumbs';
 import { TeamCardGrid } from './TeamCard';
 import { ChevronList, ChevronListButton } from './ChevronList';
@@ -42,13 +42,13 @@ const TeamPage: React.FC<{ data: EntityResponse & { type: 'team' }, refetch: () 
       event.preventDefault();
     }
   });
-  useHotkeys('m', (event) => {
+  useHotkeys(['m', 'p'], (event) => {
     if (editorState === 'closed' || editorState === 'menu') {
       setEditorState('members');
       event.preventDefault();
     }
   });
-  useHotkeys('s', (event) => {
+  useHotkeys(['s', 't'], (event) => {
     if (editorState === 'closed' || editorState === 'menu') {
       setEditorState('children');
       event.preventDefault();
@@ -189,22 +189,15 @@ const TeamEditorModal: React.FC<{ editorState: EditorState, setEditorState: (edi
     contents = (
       <div>
         <SectionTitle>Edit team members</SectionTitle>
-        <SearchBox
-          getItems={async (query) => {
-            const res = await req('post /admin/search', { query, types: ['person'] });
-            return res.data.results.filter((r) => !persons.map((p) => p.id).includes(r.id));
-          }}
-          onSelect={async (personResult) => {
-            if ('__isNew__' in personResult) {
-              const personId = (await req('post /admin/persons', { name: personResult.value })).data;
-              await req('post /admin/relations', { type: 'MEMBER_OF', childId: personId, parentId: team.id });
-            } else {
-              await req('post /admin/relations', { type: 'MEMBER_OF', childId: personResult.id, parentId: team.id });
-            }
-
+        <EntitySearchBox
+          types={['person']}
+          excludedIds={new Set(persons.map((p) => p.id))}
+          idContext={{ teamId: team.id }}
+          onSelectExisting={async (result) => {
+            await req('post /admin/relations', { type: 'MEMBER_OF', childId: result.id, parentId: team.id });
             refetch();
           }}
-          formatOptionLabel={renderSearchResult}
+          onAfterCreate={() => refetch()}
           placeholder="Add a team member..."
           autoFocus
           createable
@@ -228,23 +221,16 @@ const TeamEditorModal: React.FC<{ editorState: EditorState, setEditorState: (edi
     contents = (
       <div>
         <SectionTitle>Edit subteams</SectionTitle>
-        <SearchBox
-          getItems={async (query) => {
-            const res = await req('post /admin/search', { query, types: ['team'] });
-            return res.data.results.filter((r) => !existingSubTeams.map(([,t]) => t.id).includes(r.id));
-          }}
-          onSelect={async (teamResult) => {
-            if ('__isNew__' in teamResult) {
-              const teamId = (await req('post /admin/teams', { name: teamResult.value })).data;
-              await req('post /admin/relations', { type: 'PART_OF', childId: teamId, parentId: team.id });
-            } else {
-              await req('post /admin/relations', { type: 'PART_OF', childId: teamResult.id, parentId: team.id });
-            }
-
+        <EntitySearchBox
+          types={['team']}
+          excludedIds={new Set(existingSubTeams.map(([,t]) => t.id))}
+          idContext={{ teamId: team.id }}
+          onSelectExisting={async (result) => {
+            await req('post /admin/relations', { type: 'PART_OF', childId: result.id, parentId: team.id });
             refetch();
           }}
-          formatOptionLabel={renderSearchResult}
-          placeholder="Add an existing team..."
+          onAfterCreate={() => refetch()}
+          placeholder="Add a team..."
           autoFocus
           createable
         />

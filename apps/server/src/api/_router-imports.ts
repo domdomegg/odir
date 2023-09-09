@@ -30,6 +30,7 @@ export const importMap = {
   "/admin/tasks/{taskId}/post": () => import("./admin/tasks/{taskId}/post"),
   "/admin/teams/get": () => import("./admin/teams/get"),
   "/admin/teams/post": () => import("./admin/teams/post"),
+  "/admin/teams/top/get": () => import("./admin/teams/top/get"),
   "/admin/teams/{teamId}/patch": () => import("./admin/teams/{teamId}/patch"),
   "/admin/users/get": () => import("./admin/users/get"),
   "/admin/users/post": () => import("./admin/users/post"),

@@ -19,6 +19,7 @@ import UserPage from './admin/user';
 import GroupPage from './admin/group';
 import ProfilePage from './admin/profile';
 import NotFoundPage from './404';
+import HomePage from './admin/home';
 
 const IndexPage = () => {
   return (
@@ -88,7 +89,8 @@ const IndexLayout: React.FC = () => {
 
         {auth && (
           <>
-            <TeamsPage path="/" />
+            <HomePage path="/" />
+            <TeamsPage path="/teams" />
             <EntityPage entitySlug="" path="/:entitySlug" />
             <NewTeamPage path="/new-team" />
             <NewPersonPage path="/new-person" />

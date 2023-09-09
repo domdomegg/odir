@@ -8,7 +8,7 @@ export const TeamCard: React.FC<{ team: Team }> = ({ team }) => {
       <div className="shadow border bg-white text-black text-left flex flex-row hover:shadow-lg transition-all">
         {/* TODO: nicer missing profile pic image */}
         <img src={team.profilePic ?? 'https://upload.wikimedia.org/wikipedia/commons/4/48/No_image_%28male%29.svg'} alt="" className="aspect-square object-cover h-28" />
-        <div className="py-2 px-3 min-w-0">
+        <div className="py-2 px-3 min-w-0 border-l">
           <div className="text-xl mb-1.5">{team.name}</div>
           <div className="text-gray-600 whitespace-nowrap overflow-hidden text-ellipsis">{team.vision}</div>
         </div>

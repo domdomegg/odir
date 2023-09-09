@@ -23,6 +23,13 @@ module.exports = {
             ],
             "message": "Use src/env/env.ts instead",
           },
+          {
+            "name": "@gatsbyjs/reach-router",
+            "importNames": [
+              "navigate"
+            ],
+            "message": "Use navigate from 'gatsby' instead"
+          }
         ],
         "patterns": [
           {
