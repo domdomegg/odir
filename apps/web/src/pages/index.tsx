@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Router } from '@gatsbyjs/reach-router';
 import Page from '../components/Page';
 import Footer from '../components/Footer';
-import { EmailLoginCallbackPage, GoogleLoginCallbackPage, LoginPage } from './login';
+import LoginPage, { EmailLoginCallbackPage, GoogleLoginCallbackPage } from './login';
 import { useAuthState } from '../helpers/networking';
 import Navigation from '../components/Navigation';
 import Section from '../components/Section';

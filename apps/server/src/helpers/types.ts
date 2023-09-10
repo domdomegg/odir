@@ -66,10 +66,6 @@ export interface Env {
 
   GOOGLE_LOGIN_CLIENT_ID: string,
 
-  STRIPE_PUBLISHABLE_KEY: string,
-  STRIPE_SECRET_KEY: string,
-  STRIPE_WEBHOOK_SECRET: string,
-
   SLACK_BOT_TOKEN: string,
   SLACK_CHANNEL_ID: string,
 

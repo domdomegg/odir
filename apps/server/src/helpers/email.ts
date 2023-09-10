@@ -3,7 +3,7 @@ import { NodeHttpHandler } from '@aws-sdk/node-http-handler';
 import env from '../env/env';
 import { RenderedHtml } from './email/renderHtml';
 
-const fromEmailAddress = 'hi@directorynavigator.com';
+const fromEmailAddress = 'hi@directory.adamjones.me';
 
 const requestHandler = new NodeHttpHandler({
   connectionTimeout: 30_000,

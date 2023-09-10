@@ -13,7 +13,7 @@ import { ChevronList, ChevronListButton } from '../components/ChevronList';
 import Spinner from '../components/Spinner';
 import env from '../env/env';
 
-export const LoginPage: React.FC<RouteComponentProps> = () => {
+const LoginPage: React.FC<RouteComponentProps> = () => {
   return (
     <Section className="md:py-12 md:max-w-3xl px-8 my-8 md:my-24 md:bg-primary-100 text-center">
       <Logo className="h-24 mb-8" />
@@ -22,6 +22,8 @@ export const LoginPage: React.FC<RouteComponentProps> = () => {
     </Section>
   );
 };
+
+export default LoginPage;
 
 export const GoogleLoginCallbackPage: React.FC<RouteComponentProps> = () => {
   const [error, setError] = useState<undefined | Error>();
@@ -321,7 +323,8 @@ const LoginViaEmail: React.FC<{
     );
   }
 
-  const emailLink = loginFormState.email.endsWith('@gmail.com') ? { name: 'Gmail', href: `https://mail.google.com/mail/u/${loginFormState.email}/#search/from%3Ahi%40directorynavigator.com` }
+  const fromEmailAddress = 'hi@directory.adamjones.me';
+  const emailLink = loginFormState.email.endsWith('@gmail.com') ? { name: 'Gmail', href: `https://mail.google.com/mail/u/${loginFormState.email}/#search/from%3A${encodeURIComponent(fromEmailAddress)}` }
     : null;
 
   return (
