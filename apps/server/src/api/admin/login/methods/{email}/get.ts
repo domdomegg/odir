@@ -19,7 +19,7 @@ export const main = middyfy(null, $LoginMethodsResponse, false, async (event) =>
   };
 });
 
-const getMethodsForEmail = async (email: string): Promise<LoginMethodsResponse['methods']> => {
+export const getMethodsForEmail = async (email: string): Promise<LoginMethodsResponse['methods']> => {
   const emailParts = email.split('@');
   const emailDomain = emailParts[emailParts.length - 1];
   const domainsFromDb = await scan(domainTable);

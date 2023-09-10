@@ -41,8 +41,7 @@ const env: Env = {
   // NB: changing this is pointless if the JWT private key has been exposed
   JWT_REQUIRE_ISSUED_AT_AFTER: undefined,
 
-  // Whether to enable login methods
-  GOOGLE_LOGIN_ENABLED: true,
+  // Whether to enable impersonation login
   IMPERSONATION_LOGIN_ENABLED: true,
 
   CUSTOM_ODIR_DOMAIN: 'localhost:8000',

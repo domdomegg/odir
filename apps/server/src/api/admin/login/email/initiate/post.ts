@@ -8,9 +8,12 @@ import { emailLoginTable } from '../../../../../helpers/tables';
 import { sendEmail } from '../../../../../helpers/email';
 import emailLoginEmail from '../../../../../helpers/email/emailLogin';
 import { EMAIL_LOGIN_VALIDITY_IN_SECONDS } from '../post';
+import { getMethodsForEmail } from '../../methods/{email}/get';
 
 export const main = middyfy($EmailInitiateLoginRequest, null, false, async (event) => {
-  // TODO: validate the email is appropriate for email login
+  if (!(await getMethodsForEmail(event.body.email)).includes('email')) {
+    throw new createHttpError.Forbidden(`Your account, ${event.body.email}, is not eligible for email login. Choose a different login method.`);
+  }
 
   const previousLogins = (await scan(emailLoginTable)).filter((l) => l.email === event.body.email);
   const loginsLastHour = previousLogins.filter((l) => l.createdAt > Date.now() / 1000 - 3600);

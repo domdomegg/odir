@@ -1,8 +1,6 @@
 import { ulid } from 'ulid';
-import { fixedGroups } from '@odir/shared';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { middyfy } from '../../../helpers/wrapper';
-import { assertHasGroup } from '../../../helpers/db';
 import { $BlobCreation, $Url } from '../../../schemas';
 import env from '../../../env/env';
 
@@ -23,8 +21,6 @@ const BUCKET_BASE_URL = env.STAGE === 'local'
   : `https://${BUCKET_NAME}.s3.eu-west-1.amazonaws.com`;
 
 export const main = middyfy($BlobCreation, $Url, true, async (event) => {
-  assertHasGroup(event, fixedGroups.Admin);
-
   const id = ulid();
   const [, dataBase64] = event.body.data.split(',');
   const [dataPrefix] = event.body.data.split(';');
