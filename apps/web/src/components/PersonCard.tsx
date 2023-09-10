@@ -1,3 +1,4 @@
+import { withAssetPrefix } from 'gatsby';
 import { ENTITY_PREFIX } from '../helpers/entityPrefix';
 import { Person, Relation, Team } from '../helpers/generated-api-client';
 import Link from './Link';
@@ -8,9 +9,8 @@ export const PersonCard: React.FC<{ person: Person, relations: Relation[], team:
 
   return (
     <Link href={`${ENTITY_PREFIX}${person.preferredSlug}`}>
-      <div className="shadow border bg-white text-black text-center flex flex-col hover:shadow-lg transition-all">
-        {/* TODO: nicer missing profile pic image */}
-        <img src={person.profilePic ?? 'https://upload.wikimedia.org/wikipedia/commons/4/48/No_image_%28male%29.svg'} alt="" className="aspect-square object-cover" />
+      <div className="shadow border bg-white text-black text-center flex flex-col hover:shadow-md transition-all">
+        <img src={person.profilePic ?? withAssetPrefix('/shared/images/missing-person-avatar.svg')} alt="" className="aspect-square object-cover" />
         {teamManagerRelation && <div className="text-xs p-0.5 bg-purple-500 text-white font-bold">Manages this team</div>}
         <div className="p-2">
           <div className="text-xl">{person.name}</div>
@@ -23,8 +23,7 @@ export const PersonCard: React.FC<{ person: Person, relations: Relation[], team:
 
 export const PersonCardGrid: React.FC<{ persons: Person[], relations: Relation[], team: Team }> = ({ persons, relations, team }) => {
   return (
-
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
       {persons.map((p) => <PersonCard key={p.id} person={p} relations={relations} team={team} />)}
     </div>
   );

@@ -11,6 +11,6 @@ export const GRADES = [
   'G7',
   'SEO',
   'HEO',
-  'Other',
-  'Unknown'
+  'Other grade',
+  'Unknown grade'
 ];

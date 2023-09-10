@@ -28,7 +28,7 @@ const HomePage: React.FC<RouteComponentProps> = () => {
         </div>
       </Section>
       <SectionNoPadding className="mt-4">
-        <SectionTitle className="mt-28 sm:text-3xl">Or browse by organisation...</SectionTitle>
+        <SectionTitle className="mt-28 !text-3xl">Or browse by organisation...</SectionTitle>
         {teams.data ? <TeamCardGrid teams={teams.data} /> : <div className="text-center mt-8"><Spinner /></div>}
 
       </SectionNoPadding>
