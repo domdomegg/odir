@@ -4,20 +4,23 @@ import { middyfy } from '../../../../helpers/wrapper';
 import env from '../../../../env/env';
 import { login } from '../../../../helpers/login';
 import { $GoogleLoginRequest, $LoginResponse } from '../../../../schemas';
+import { getMethodsForEmail } from '../methods/{email}/get';
 
 // Exchanges a Google id and access token for a Raise access token
 export const main = middyfy($GoogleLoginRequest, $LoginResponse, false, async (event) => {
-  if (!env.GOOGLE_LOGIN_ENABLED) throw new createHttpError.Unauthorized('Google login is not enabled');
-
   const client = new OAuth2Client();
   const tokenPayload = (await client.verifyIdToken({
     idToken: event.body.idToken,
     audience: env.GOOGLE_LOGIN_CLIENT_ID,
-  }).catch(() => { throw new createHttpError.Unauthorized('idToken: not valid'); })).getPayload();
+  }).catch(() => { throw new createHttpError.Unauthorized('idToken: Invalid token'); })).getPayload();
 
-  if (!tokenPayload) throw new createHttpError.Unauthorized('idToken: missing payload');
-  if (!tokenPayload.email) throw new createHttpError.Unauthorized('idToken: missing email');
-  if (!tokenPayload.email_verified) throw new createHttpError.Unauthorized('idToken: email not verified');
+  if (!tokenPayload) throw new createHttpError.Unauthorized('idToken: Missing payload');
+  if (!tokenPayload.email) throw new createHttpError.Unauthorized('Your Google account is missing an email');
+  if (!tokenPayload.email_verified) throw new createHttpError.Unauthorized('Your Google account email is not verified. See https://support.google.com/accounts/answer/63950');
+
+  if (!(await getMethodsForEmail(tokenPayload.email)).includes('google')) {
+    throw new createHttpError.Forbidden(`Your account, ${tokenPayload.email}, is not eligible for Google login. Choose a different login method.`);
+  }
 
   return login(tokenPayload.email);
 });
