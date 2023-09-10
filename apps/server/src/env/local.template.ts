@@ -16,15 +16,6 @@ const env: Env = {
   // OAuth 2 client id for Google sign-in
   GOOGLE_LOGIN_CLIENT_ID: '480471114257-4vu9sclokbujb8l809o9jdlbn7qqlbs2.apps.googleusercontent.com',
 
-  // Stripe keys and secrets
-  // Secret key is the restricted key with Customers and PaymentIntents read and write
-  // https://dashboard.stripe.com/test/apikeys
-  // https://dashboard.stripe.com/webhooks (locally: stripe listen --forward-to localhost:8001/stripe/webhook)
-  // These tokens are for the Raise Local Stripe account (acct_1KCByfI5VgKIYyWl) in test mode
-  STRIPE_PUBLISHABLE_KEY: 'pk_test_51KCByfI5VgKIYyWlqwp6p3qRFscr4s7bAaIC7EjZAunHLJEQoclC4it33M4Iv0U5jCVlDMQ0g8nMcJngVnIwjIOJ00vfxDTCMw',
-  STRIPE_SECRET_KEY: 'rk_test_51KCByfI5VgKIYyWltRhqNIY4rOF2N4NUugjagIsndS0VntmICvubfWqdUS54vbtyKOueWdFJ78gmE1MczkVul9rm00asSiKk1n',
-  STRIPE_WEBHOOK_SECRET: 'whsec_124d2009087e0de6ddbc1ee044d209ce4be661ae6419d7729dd2e7c89fbacc8c',
-
   // Slack configuration
   // The bot should have the chat:write scope and be able to access the channel
   // This token is for the 'Raise Local' bot, added to the #test-channel in the domdomegg.slack.com workspace

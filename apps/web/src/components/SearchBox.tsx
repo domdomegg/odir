@@ -46,7 +46,7 @@ export const SearchBox = <T = SearchResponse['results'][number],>({
   createable = DEFAULTS.createable,
   className = DEFAULTS.className,
   selectRef,
-}: SearchBoxProps<T>): React.ReactNode => {
+}: SearchBoxProps<T>): React.ReactElement => {
   const SelectComponent = createable ? AsyncCreatableSelect : AsyncSelect;
 
   return (
@@ -98,7 +98,7 @@ export type EntitySearchBoxProps = {
   selectRef?: SelectRef,
 };
 
-export const EntitySearchBox = ({
+export const EntitySearchBox: React.FC<EntitySearchBoxProps> = ({
   onSelectExisting = ({ slug }) => navigate(`${ENTITY_PREFIX}${slug}`),
   onAfterCreate = (id) => navigate(`${ENTITY_PREFIX}${id}`),
   types = DEFAULTS.types,
@@ -109,7 +109,7 @@ export const EntitySearchBox = ({
   idContext = {},
   excludedIds = new Set(),
   selectRef,
-}: EntitySearchBoxProps): React.ReactNode => {
+}) => {
   const req = useRawReq();
 
   if (createable && types.length !== 1) {

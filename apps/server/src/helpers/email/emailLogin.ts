@@ -125,7 +125,7 @@ export default (href: string): RenderedHtml => {
                                   <tbody>
                                     <tr>
                                       <td style="width:125px;">
-                                        <img height="auto" src="https://www.directorynavigator.com/shared/email-images/logo-black.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="125" />
+                                        <img height="auto" src="https://${env.CUSTOM_ODIR_DOMAIN}/shared/email-images/logo-black.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="125" />
                                       </td>
                                     </tr>
                                   </tbody>

@@ -14,7 +14,7 @@ interface Props<I> {
   definition: Partial<{ [K in keyof I]: PropertyDefinition<I, I[K]> } & { [s: `_${string}`]: PropertyDefinition<I, unknown> }>,
   items?: I[] | ResponseValues<I[], unknown, unknown>,
   primaryKey?: keyof I,
-  onClick?: (item: I, event: React.MouseEvent<Element, MouseEvent>) => void,
+  onClick?: (item: I, event: React.MouseEvent | React.KeyboardEvent) => void,
   emptyMessage?: string,
   renderItem?: (item: I, index: number) => JSX.Element,
   className?: string,

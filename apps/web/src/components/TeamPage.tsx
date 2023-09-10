@@ -168,7 +168,6 @@ const TeamEditorModal: React.FC<{ editorState: EditorState, setEditorState: (edi
           mission: { label: 'Mission', inputType: 'textarea' },
           priorities: { label: 'Priorities', inputType: 'textarea' },
           website: { label: 'Website', inputType: 'text' },
-          profilePic: { label: 'Profile picture', inputType: 'text' },
         }}
         initialValues={{
           name: team.name,
@@ -176,7 +175,6 @@ const TeamEditorModal: React.FC<{ editorState: EditorState, setEditorState: (edi
           mission: team.mission,
           priorities: team.priorities,
           website: team.website,
-          profilePic: team.profilePic,
         }}
         showCurrent={false}
         showNew={false}
