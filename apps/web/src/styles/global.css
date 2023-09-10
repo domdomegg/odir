@@ -82,7 +82,7 @@
   }
 
   .Section + .Section {
-    @apply mt-16
+    @apply mt-8
   }
 
   .SectionNoPadding {

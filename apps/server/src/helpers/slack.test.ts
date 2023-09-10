@@ -46,7 +46,7 @@ test('sendMessageWithLogsLink calls Slack API correctly when can determine logs 
     },
     data: {
       channel: env.SLACK_CHANNEL_ID,
-      text: 'This message was sent from slack.test.ts. <https://eu-test-1.console.aws.amazon.com/cloudwatch/home?region=eu-test-1#logsV2:log-groups/log-group/aws$252Flambda$252Fraise-server-stage-myFunc/log-events/2022$252F01$252F01$252F$255B$2524LATEST$255D123456789|View the logs>.',
+      text: 'This message was sent from slack.test.ts. <https://eu-test-1.console.aws.amazon.com/cloudwatch/home?region=eu-test-1#logsV2:log-groups/log-group/aws$252Flambda$252Fodir-server-stage-myFunc/log-events/2022$252F01$252F01$252F$255B$2524LATEST$255D123456789|View the logs>.',
     },
   });
 

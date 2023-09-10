@@ -5,7 +5,7 @@ import {
   $Relation, Relation,
   $AuditLog, AuditLog,
   $Group, Group,
-  $User, User, Slug, $Slug, EmailLogin, $EmailLogin,
+  $User, User, Slug, $Slug, EmailLogin, $EmailLogin, $Domain, Domain,
 } from '../schemas';
 import env from '../env/env';
 
@@ -28,7 +28,7 @@ export interface Table<
 }
 
 export const personTable: Table<'id', 'id', Person> = {
-  name: `raise-server-${env.STAGE}-person`,
+  name: `odir-server-${env.STAGE}-person`,
   entityName: 'person',
   partitionKey: 'id',
   primaryKey: 'id',
@@ -36,7 +36,7 @@ export const personTable: Table<'id', 'id', Person> = {
 };
 
 export const teamTable: Table<'id', 'id', Team> = {
-  name: `raise-server-${env.STAGE}-team`,
+  name: `odir-server-${env.STAGE}-team`,
   entityName: 'team',
   partitionKey: 'id',
   primaryKey: 'id',
@@ -44,7 +44,7 @@ export const teamTable: Table<'id', 'id', Team> = {
 };
 
 export const relationTable: Table<'id', 'id', Relation> = {
-  name: `raise-server-${env.STAGE}-relation`,
+  name: `odir-server-${env.STAGE}-relation`,
   entityName: 'relation',
   partitionKey: 'id',
   primaryKey: 'id',
@@ -52,7 +52,7 @@ export const relationTable: Table<'id', 'id', Relation> = {
 };
 
 export const slugTable: Table<'id', 'id', Slug> = {
-  name: `raise-server-${env.STAGE}-slug`,
+  name: `odir-server-${env.STAGE}-slug`,
   entityName: 'slug',
   partitionKey: 'id',
   primaryKey: 'id',
@@ -60,7 +60,7 @@ export const slugTable: Table<'id', 'id', Slug> = {
 };
 
 export const emailLoginTable: Table<'id', 'id', EmailLogin> = {
-  name: `raise-server-${env.STAGE}-email-login`,
+  name: `odir-server-${env.STAGE}-email-login`,
   entityName: 'email login',
   partitionKey: 'id',
   primaryKey: 'id',
@@ -68,7 +68,7 @@ export const emailLoginTable: Table<'id', 'id', EmailLogin> = {
 };
 
 export const auditLogTable: Table<'object', 'id', AuditLog> = {
-  name: `raise-server-${env.STAGE}-audit-log`,
+  name: `odir-server-${env.STAGE}-audit-log`,
   entityName: 'auditLog',
   partitionKey: 'object',
   primaryKey: 'id',
@@ -76,15 +76,23 @@ export const auditLogTable: Table<'object', 'id', AuditLog> = {
 };
 
 export const groupTable: Table<'id', 'id', Group> = {
-  name: `raise-server-${env.STAGE}-group`,
+  name: `odir-server-${env.STAGE}-group`,
   entityName: 'group',
   partitionKey: 'id',
   primaryKey: 'id',
   schema: $Group,
 };
 
+export const domainTable: Table<'id', 'id', Domain> = {
+  name: `odir-server-${env.STAGE}-domain`,
+  entityName: 'domain',
+  partitionKey: 'id',
+  primaryKey: 'id',
+  schema: $Domain,
+};
+
 export const userTable: Table<'id', 'id', User> = {
-  name: `raise-server-${env.STAGE}-user`,
+  name: `odir-server-${env.STAGE}-user`,
   entityName: 'user',
   partitionKey: 'id',
   primaryKey: 'id',
@@ -99,5 +107,6 @@ export const tables = {
   emailLogin: emailLoginTable,
   auditLog: auditLogTable,
   group: groupTable,
+  domain: domainTable,
   user: userTable,
 };

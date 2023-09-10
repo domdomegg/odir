@@ -63,7 +63,7 @@ export const call = (handler: Handler<APIGatewayProxyEventV2, APIGatewayProxyRes
     } as APIGatewayProxyEventV2,
     {
       awsRequestId: "request-123456789",
-      logGroupName: "aws/lambda/raise-server-stage-myFunc",
+      logGroupName: "aws/lambda/odir-server-stage-myFunc",
       logStreamName: "2022/01/01/[$LATEST]123456789",
     } as Context,
     () => { throw new Error("expected to return promise, not invoke callback") },

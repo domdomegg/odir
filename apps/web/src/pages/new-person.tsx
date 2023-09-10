@@ -1,11 +1,11 @@
 import { RouteComponentProps } from '@gatsbyjs/reach-router';
 import { navigate } from 'gatsby';
-import { useRawReq } from '../../helpers/networking';
-import Section from '../../components/Section';
-import { Form } from '../../components/Form';
-import { PersonCreation } from '../../helpers/generated-api-client';
-import { GRADES } from '../../helpers/grades';
-import { ENTITY_PREFIX } from '../../helpers/entityPrefix';
+import { useRawReq } from '../helpers/networking';
+import Section from '../components/Section';
+import { Form } from '../components/Form';
+import { PersonCreation } from '../helpers/generated-api-client';
+import { GRADES } from '../helpers/grades';
+import { ENTITY_PREFIX } from '../helpers/entityPrefix';
 
 const NewPersonPage: React.FC<RouteComponentProps> = () => {
   const req = useRawReq();

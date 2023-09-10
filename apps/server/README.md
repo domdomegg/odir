@@ -70,24 +70,9 @@ In general, you don't need to worry about the inner workings of this. However, y
 - If the requiresAuth parameter is set to true, middy will perform authentication. This ensures the caller has provided a valid access token. However, this does not perform authorisation, i.e. checking whether the caller should be able to use the endpoint. You need to implement this yourself, maybe using the helper method `assertHasGroup`.
 - Your handler will be passed an event object - you can use the TypeScript types to explore what's attached to it, but briefly the key things you'll want are:
   - `event.body`: the parsed request sent to the endpoint
-  - `event.pathParameters`: the path parameters (e.g. for `PATCH /admin/fundraisers/ABCD` you'd get `{ fundraiserId: "ABCD" }`)
+  - `event.pathParameters`: the path parameters (e.g. for `PATCH /admin/teams/ABCD` you'd get `{ teamId: "ABCD" }`)
   - `event.auth`: authentication details
-- You should create and throw detailed errors with the `createHttpError` from the `http-errors` package, e.g. `throw new createHttpError.BadRequest("You cannot change the donationAmount on a card payment")`
-
-## 💳 Payments
-
-We use Stripe to process payments.
-
-The one-off donation flow is:
-1. The front-end sends a request to `POST /public/fundraisers/{fundraiserId}/donation` to create a Stripe payment intent and a donation with a pending payment. We return the client id for this payment intent.
-2. The front-end uses this client id for the payment intent to set up a and confirm a card payment.
-3. Stripe sends us a `payment_intent.succeeded` webhook, confirming their payment to `POST /stripe/webhook`. We validate and cross-reference the details with our records and mark their payment as paid if everything looks good. We allocate match funding, and update the amounts on their donation and the fundraiser.
-
-The recurring donation flow is:
-1. The front-end sends a request to `POST /public/fundraisers/{fundraiserId}/donation` to create a Stripe payment intent and a donation with a pending payment. We tell Stripe we want to save this card for use in the future. We return the client id for this payment intent.
-2. The front-end uses this client id for the payment intent to set up a and confirm a card payment, and to set up their card for future use.
-3. Stripe sends us a `payment_intent.succeeded` webhook, confirming their payment to `POST /stripe/webhook`. We validate and cross-reference the details with our records and mark their payment as paid if everything looks good. We allocate match funding, and update the amounts on their donation and the fundraiser. We create a Stripe customer and save their payment method to this customer for future usage. We store the customer and payment method ids on the donation.
-4. Later on (e.g. weekly), a scheduled function runs which calls the `POST /scheduler/collect-payments` endpoint. This endpoint makes all the card payments due by creating payment intents with the customer and payment method id for immediate confirmation. If a payment fails, it will be retried later unless marked as cancelled by an admin.
+- You should create and throw detailed errors with the `createHttpError` from the `http-errors` package, e.g. `throw new createHttpError.BadRequest("You messed up")`
 
 ## 🗃 Database
 

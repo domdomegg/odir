@@ -28,7 +28,7 @@ test('before sets up the auditContext for an event without auth', () => {
       },
     },
     context: {
-      logGroupName: 'aws/lambda/raise-server-stage-myFunc',
+      logGroupName: 'aws/lambda/odir-server-stage-myFunc',
       logStreamName: '2022/01/01/[$LATEST]123456789',
     },
   } as middy.Request);
@@ -40,7 +40,7 @@ test('before sets up the auditContext for an event without auth', () => {
     sourceIp: '123.123.123.123',
     subject: 'public',
     userAgent: 'some browser',
-    logGroupName: 'aws/lambda/raise-server-stage-myFunc',
+    logGroupName: 'aws/lambda/odir-server-stage-myFunc',
     logStreamName: '2022/01/01/[$LATEST]123456789',
     awsRegion: 'eu-test-1',
   });
@@ -74,7 +74,7 @@ test('before sets up the auditContext for an event with auth', () => {
       },
     },
     context: {
-      logGroupName: 'aws/lambda/raise-server-stage-myFunc',
+      logGroupName: 'aws/lambda/odir-server-stage-myFunc',
       logStreamName: '2022/01/01/[$LATEST]123456789',
     },
   } as middy.Request);
@@ -86,7 +86,7 @@ test('before sets up the auditContext for an event with auth', () => {
     sourceIp: '123.123.123.123',
     subject: 'ajones@joinraise.org',
     userAgent: 'some browser',
-    logGroupName: 'aws/lambda/raise-server-stage-myFunc',
+    logGroupName: 'aws/lambda/odir-server-stage-myFunc',
     logStreamName: '2022/01/01/[$LATEST]123456789',
     awsRegion: 'eu-test-1',
   });
@@ -100,7 +100,7 @@ test('after clears the auditContext', () => {
     sourceIp: '123.123.123.123',
     subject: 'public',
     userAgent: 'some browser',
-    logGroupName: 'aws/lambda/raise-server-stage-myFunc',
+    logGroupName: 'aws/lambda/odir-server-stage-myFunc',
     logStreamName: '2022/01/01/[$LATEST]123456789',
     awsRegion: 'eu-test-1',
   };

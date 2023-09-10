@@ -8,6 +8,9 @@ export const importMap = {
   "/admin/audit-logs/by-object/{objectId}/get": () => import("./admin/audit-logs/by-object/{objectId}/get"),
   "/admin/audit-logs/by-subject/{subjectId}/get": () => import("./admin/audit-logs/by-subject/{subjectId}/get"),
   "/admin/blobs/post": () => import("./admin/blobs/post"),
+  "/admin/domains/get": () => import("./admin/domains/get"),
+  "/admin/domains/post": () => import("./admin/domains/post"),
+  "/admin/domains/{domainId}/patch": () => import("./admin/domains/{domainId}/patch"),
   "/admin/entity/{entitySlug}/get": () => import("./admin/entity/{entitySlug}/get"),
   "/admin/groups/get": () => import("./admin/groups/get"),
   "/admin/groups/post": () => import("./admin/groups/post"),
@@ -36,5 +39,5 @@ export const importMap = {
   "/admin/users/post": () => import("./admin/users/post"),
   "/admin/users/{userId}/patch": () => import("./admin/users/{userId}/patch"),
   "/public/status/get": () => import("./public/status/get"),
-  "/scheduler/collect-payments/post": () => import("./scheduler/collect-payments/post"),
+  "/scheduler/do-scheduled-thing/post": () => import("./scheduler/do-scheduled-thing/post"),
 }

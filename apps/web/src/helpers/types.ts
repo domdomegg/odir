@@ -18,9 +18,3 @@ export interface Env {
   /** API token to configure Cloudflare Web Analytics for the Odir site */
   CLOUDFLARE_WEB_ANALYTICS_TOKEN_ODIR: string | undefined,
 }
-
-export interface ChapterConfig {
-  title: string,
-  fundraiserIds: Record<Env['STAGE'], string>,
-  brand?: Brand,
-}

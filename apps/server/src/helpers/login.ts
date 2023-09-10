@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import env from '../env/env';
 import { LoginResponse, Ulid, User } from '../schemas';
 import { insertAudit, scan } from './db';
-import { userTable } from './tables';
+import { domainTable, userTable } from './tables';
 import { AccessTokenPayload, RefreshTokenPayload } from './types';
 
 export const login = async (email: string): Promise<LoginResponse> => {
@@ -55,16 +55,11 @@ const SECURITY_TRAINING_VALIDITY_IN_SECONDS = 31556952; // 1 year
 
 // Map from SHA1_hex(lowercase Google account email) to use definition
 // We use hashes to avoid checking-in people's personal emails to the repo
-const HARD_CODED_USER_MAP: Record<string, Omit<User, 'id' | 'email'>> = {
+const HARD_CODED_USER_MAP: Record<string, Omit<User, 'id' | 'email'> | undefined> = {
   '715ec86cfb0e42b3f41aec77fa7b4a8441128d5e': {
     name: 'Adam Jones',
-    groups: [fixedGroups.Admin],
+    groups: [fixedGroups.Admin, fixedGroups.Allowlisted],
     securityTrainingCompletedAt: new Date('2023-01-02T18:47:46Z').getTime() / 1000,
-  },
-  '7b023b5154a262453b5c3f1157a866a8f3be6f63': {
-    name: 'Malena Schmidt',
-    groups: [fixedGroups.Admin],
-    securityTrainingCompletedAt: new Date('2023-01-16T21:58:46Z').getTime() / 1000,
   },
 };
 
@@ -73,17 +68,23 @@ const HARD_CODED_USER_MAP: Record<string, Omit<User, 'id' | 'email'>> = {
  * @returns array of group ids for a given email
  * */
 const getGroups = async (email: string): Promise<Ulid[]> => {
-  // TODO: add secondary index to query by
   const usersFromDb = await scan(userTable);
   const user = usersFromDb.find((u) => u.email === email) ?? HARD_CODED_USER_MAP[createHash('sha1').update(email.toLowerCase()).digest('hex')];
+  const emailParts = email.split('@');
+  const emailDomain = emailParts[emailParts.length - 1];
+  const domainsFromDb = await scan(domainTable);
+  const domain = domainsFromDb.find((d) => d.domain === emailDomain);
 
-  if (user === undefined) {
-    throw new createHttpError.Forbidden(`Your account, ${email}, is not allowlisted to use the platform`);
+  const resolvedGroups = [...(user?.groups ?? []), ...(domain?.groups ?? [])];
+  if (!resolvedGroups.includes(fixedGroups.Allowlisted)) {
+    throw new createHttpError.Forbidden(`Your account, ${email}, has not yet been given access to the platform (requires allowlisting). Contact support (see footer) with details about who you are to get an invite.`);
   }
 
-  if (user.securityTrainingCompletedAt + SECURITY_TRAINING_VALIDITY_IN_SECONDS < new Date().getTime() / 1000) {
+  const needsSecurityTraining = resolvedGroups.includes(fixedGroups.Admin);
+  const securityTrainingOutdated = user && (user.securityTrainingCompletedAt + SECURITY_TRAINING_VALIDITY_IN_SECONDS < new Date().getTime() / 1000);
+  if (needsSecurityTraining && securityTrainingOutdated) {
     throw new createHttpError.Forbidden(`Security training for ${email} out of date, last marked completed on ${new Date(user.securityTrainingCompletedAt * 1000)}`);
   }
 
-  return user.groups;
+  return resolvedGroups;
 };

@@ -1,11 +1,12 @@
 import { ulid } from 'ulid';
 import { fixedGroups } from '@odir/shared';
 import { middyfy } from '../../../helpers/wrapper';
-import { assertHasGroup, insert, scan } from '../../../helpers/db';
+import { assertHasGroup, insert } from '../../../helpers/db';
 import { userTable } from '../../../helpers/tables';
 import { $Ulid, $UserCreation } from '../../../schemas';
 import { sendEmail } from '../../../helpers/email';
-import newUser from '../../../helpers/email/newUser';
+import invite from '../../../helpers/email/invite';
+import env from '../../../env/env';
 
 export const main = middyfy($UserCreation, $Ulid, true, async (event) => {
   assertHasGroup(event, fixedGroups.Admin);
@@ -15,15 +16,12 @@ export const main = middyfy($UserCreation, $Ulid, true, async (event) => {
   });
 
   if (event.body.sendAccountCreationEmail === true) {
-    // finds name of the logged in user who made the user. If for some reason, the user's name is undefined, it will use The Raise National Team instead
-    const usersFromDb = await scan(userTable);
-    const sender: string = usersFromDb.find((u) => u.email === event.auth.payload.subject)?.name.concat(' (via Raise National)') ?? 'The Raise National Team';
-
+    // TODO: it might be cool to send this person a login link, e.g. that's valid for some amount of time.
+    // if it's expired when they click it they should be just sent back to the login page (e.g. some query param like ?ignore_expired=true)
     await sendEmail(
       'Your account has been created!',
-      newUser(event.body, sender),
+      invite(`http${env.STAGE === 'local' ? '' : 's'}://${env.CUSTOM_ODIR_DOMAIN}`),
       event.body.email,
-      sender,
     );
   }
 

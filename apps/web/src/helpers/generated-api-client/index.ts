@@ -29,6 +29,23 @@ export type Routes = {
     response: S.Url,
     params: null,
   },
+  "get /admin/domains": {
+    request: null,
+    response: S.Domains,
+    params: null,
+  },
+  "post /admin/domains": {
+    request: S.DomainCreation,
+    response: S.Ulid,
+    params: null,
+  },
+  "patch /admin/domains/{domainId}": {
+    request: S.DomainEdits,
+    response: null,
+    params: {
+      "domainId": string,
+    },
+  },
   "get /admin/entity/{entitySlug}": {
     request: null,
     response: S.EntityResponse,
@@ -187,7 +204,7 @@ export type Routes = {
     response: S.Status,
     params: null,
   },
-  "post /scheduler/collect-payments": {
+  "post /scheduler/do-scheduled-thing": {
     request: null,
     response: null,
     params: null,
@@ -223,6 +240,31 @@ export const routes = {
     hasRequest: true,
     hasResponse: true,
     hasParams: false,
+  },
+  "get /admin/domains": {
+    method: "get",
+    makePath: ({ }: {}) => `/admin/domains`,
+    hasRequest: false,
+    hasResponse: true,
+    hasParams: false,
+  },
+  "post /admin/domains": {
+    method: "post",
+    makePath: ({ }: {}) => `/admin/domains`,
+    hasRequest: true,
+    hasResponse: true,
+    hasParams: false,
+  },
+  "patch /admin/domains/{domainId}": {
+    method: "patch",
+    makePath: ({
+      domainId,
+    }: {
+      domainId: string,
+    }) => `/admin/domains/${domainId}`,
+    hasRequest: true,
+    hasResponse: false,
+    hasParams: true,
   },
   "get /admin/entity/{entitySlug}": {
     method: "get",
@@ -456,9 +498,9 @@ export const routes = {
     hasResponse: true,
     hasParams: false,
   },
-  "post /scheduler/collect-payments": {
+  "post /scheduler/do-scheduled-thing": {
     method: "post",
-    makePath: ({ }: {}) => `/scheduler/collect-payments`,
+    makePath: ({ }: {}) => `/scheduler/do-scheduled-thing`,
     hasRequest: false,
     hasResponse: false,
     hasParams: false,

@@ -1,31 +1,17 @@
 import { fixedGroups } from '@odir/shared';
 import { sendEmail } from '../helpers/email';
-import newUser from '../helpers/email/newUser';
-import { UserCreation } from '../schemas';
-
-const testEmail = 'Raise';
+import emailLogin from '../helpers/email/emailLogin';
 
 export default {
   id: '01H7DWQ77TZG31E8E1ADWVA15W',
-  name: 'Send test user email',
+  name: 'Send test login email',
   groups: [fixedGroups.Admin],
   run: async (): Promise<void> => {
-    const body: UserCreation = {
-      name: 'Greg McGregFace',
-      email: 'person@gmail.com',
-      // the below information is not required for this task
-      groups: [],
-      sendAccountCreationEmail: true,
-      securityTrainingCompletedAt: Math.floor(new Date().getTime() / 1000),
-    };
-
-    const sender = 'Raise National Team';
-
     await sendEmail(
-      'Your account has been created!',
-      newUser(body, sender),
-      body.email, // to email
-      testEmail, // from Name
+      'Test email login',
+      emailLogin('https://example.com'),
+      'someone@example.com', // to email
+      'Directory Navigator', // from Name
     );
   },
 };

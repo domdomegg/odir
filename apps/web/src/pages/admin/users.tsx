@@ -12,10 +12,9 @@ import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 import { Form } from '../../components/Form';
 import { RequireGroup } from '../../helpers/security';
-import {
-  GroupCreation,
-} from '../../helpers/generated-api-client';
+import { GroupCreation } from '../../helpers/generated-api-client';
 import UsersPanel from '../../components/UsersPanel';
+import DomainsPanel from '../../components/DomainsPanel';
 
 const UsersPage: React.FC<RouteComponentProps> = () => {
   const [groups, refetchGroups] = useReq('get /admin/groups');
@@ -32,11 +31,7 @@ const UsersPage: React.FC<RouteComponentProps> = () => {
           <SectionTitle className="flex-1">Groups</SectionTitle>
           <RequireGroup group={fixedGroups.Admin}>
             <Button onClick={() => setNewGroupModalOpen(true)}>
-              <PlusSmIcon className="h-6 mb-1" />
-              {' '}
-              New
-              {' '}
-              <span className="hidden lg:inline">group</span>
+              <PlusSmIcon className="h-6 mb-1" /> New <span className="hidden lg:inline">group</span>
             </Button>
           </RequireGroup>
         </div>
@@ -67,6 +62,9 @@ const UsersPage: React.FC<RouteComponentProps> = () => {
           href={(group) => `/admin/groups/${group.id}/`}
         />
       </Section>
+      <RequireGroup group={fixedGroups.Admin}>
+        <DomainsPanel />
+      </RequireGroup>
     </>
   );
 };
