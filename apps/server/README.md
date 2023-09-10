@@ -6,30 +6,12 @@ Back-end code and resources for the Raise platform.
 
 See [the main README](../../README.md) for general instructions.
 
-<!-- TODO: https://github.com/raisenational/raise/issues/289
-
 ### 🏃 Live updates
 
 If the local server is running, your changes will immediately be applied, except for:
 - Adding or removing entire endpoints or functions
 - Changing the database seed data
 - Resetting the database
-- Making changes in the shared folder (see the instructions there)
-
--->
-
-### 🪝 Emulating Stripe webhooks
-
-#### 🔧 Setup
-
-1. Get access to a Stripe account. Either [set up your own Stripe account](https://dashboard.stripe.com/register) or get access to a shared one.
-2. Update the environment variables in `src/env/local.ts` to [your test API keys](https://stripe.com/docs/keys)
-3. Install [the Stripe CLI](https://stripe.com/docs/stripe-cli)
-
-#### 🏃 Running
-
-1. Run `stripe listen --forward-to localhost:8001/stripe/webhook` ([more info](https://stripe.com/docs/stripe-cli/webhooks)).
-2. Update your the STRIPE_WEBHOOK_SECRET in [`src/env/local.ts`](./src/env/local.ts) to the secret output by the Stripe CLI
 
 ### 😕 Troubleshooting
 

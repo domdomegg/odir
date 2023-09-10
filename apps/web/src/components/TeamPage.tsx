@@ -2,6 +2,7 @@ import { CheckIcon, PencilIcon, TrashIcon } from '@heroicons/react/outline';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { withAssetPrefix } from 'gatsby';
 import Section, { SectionTitle } from './Section';
 import {
   EntityResponse, Person, Relation, Slug, Team, TeamEdits
@@ -326,8 +327,7 @@ const TeamMemberEditorCard: React.FC<{ person: Person, team: Team, relations: Re
 
   return (
     <form className="shadow border bg-white text-black text-left flex flex-row" onSubmit={onSubmit}>
-      {/* TODO: nicer missing profile pic image */}
-      <img src={person.profilePic ?? 'https://upload.wikimedia.org/wikipedia/commons/4/48/No_image_%28male%29.svg'} alt="" className="aspect-square object-cover h-28" />
+      <img src={person.profilePic ?? withAssetPrefix('/shared/images/missing-person-avatar.svg')} alt="" className="aspect-square object-cover h-28" />
       <div className="py-2 px-3 min-w-0 flex-1">
         <div className="text-xl">{person.name}</div>
         <div className="grid grid-cols-2 flex-1 mb-2">
@@ -365,8 +365,7 @@ const TeamTeamEditorCard: React.FC<{ subTeam: Team, relation: Relation, refetch:
 
   return (
     <div className="shadow border bg-white text-black text-left flex flex-row">
-      {/* TODO: nicer missing profile pic image */}
-      <img src={subTeam.profilePic ?? 'https://upload.wikimedia.org/wikipedia/commons/4/48/No_image_%28male%29.svg'} alt="" className="aspect-square object-cover h-28" />
+      <img src={subTeam.profilePic ?? withAssetPrefix('/shared/images/missing-team-avatar.svg')} alt="" className="aspect-square object-cover h-28" />
       <div className="py-2 px-3 min-w-0 flex-1">
         <div className="text-xl">{subTeam.name}</div>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}

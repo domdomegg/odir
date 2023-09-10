@@ -8,7 +8,6 @@ import env from '../../../env/env';
 
 const s3Client = env.STAGE === 'local'
   ? new S3Client({
-    forcePathStyle: true, // TODO: is this necessary?
     region: 'localhost',
     endpoint: 'http://0.0.0.0:8007',
     credentials: {
