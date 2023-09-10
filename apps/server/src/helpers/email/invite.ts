@@ -1,13 +1,11 @@
 import env from '../../env/env';
-import { UserCreation } from '../../schemas';
 import renderHtml, { RenderedHtml } from './renderHtml';
 import footer from './footer';
+import header from './header';
 
-export default (person: UserCreation, sender: string): RenderedHtml => {
+export default (href: string): RenderedHtml => {
   return renderHtml`<!doctype html>
-  <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
-    xmlns:o="urn:schemas-microsoft-com:office:office">
-
+  <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
   <head>
     <title>
@@ -91,17 +89,7 @@ export default (person: UserCreation, sender: string): RenderedHtml => {
       }
     </style>
     <style type="text/css">
-      .btn-block>a {
-        display: block !important
-      }
-
       @media only screen and (min-width:600px) {
-
-        .md-rounded-bottom,
-        .md-rounded-bottom>table {
-          border-radius: 0 0 12px 12px
-        }
-
         .md-p-20px {
           padding: 20px
         }
@@ -109,45 +97,12 @@ export default (person: UserCreation, sender: string): RenderedHtml => {
     </style>
   </head>
 
-  <body style="word-spacing:normal;background-color:#eeeeee;">
-    <div style="background-color:#eeeeee;">
-      ${env.STAGE !== 'prod' ? renderHtml`<!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" bgcolor="#F2CA1A" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-      <div style="background:#F2CA1A;background-color:#F2CA1A;margin:0px auto;max-width:600px;">
-        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#F2CA1A;background-color:#F2CA1A;width:100%;">
-          <tbody>
-            <tr>
-              <td style="direction:ltr;font-size:0px;padding:12px 30px;text-align:center;">
-                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:540px;" ><![endif]-->
-                <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                  <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
-                    <tbody>
-                      <tr>
-                        <td style="vertical-align:top;padding:0;">
-                          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="" width="100%">
-                            <tbody>
-                              <tr>
-                                <td align="left" style="font-size:0px;padding:8px;word-break:break-word;">
-                                  <div style="font-family:'Helvetica', 'Arial', sans-serif;font-size:18px;line-height:1.375;text-align:left;color:#000000;">Warning: This email was sent from a non-prod environment</div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <!--[if mso | IE]></td></tr></table><![endif]-->
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <!--[if mso | IE]></td></tr></table><![endif]-->` : ''}
-
-      <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" bgcolor="#2ECAD6" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-      <div style="background:#2ECAD6;background-color:#2ECAD6;margin:0px auto;max-width:600px;">
-        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#2ECAD6;background-color:#2ECAD6;width:100%;">
+  <body style="word-spacing:normal;background-color:#fef9eb;">
+    <div style="background-color:#fef9eb;">
+      ${header()}
+      <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" bgcolor="#fcf0c9" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+      <div style="background:#fcf0c9;background-color:#fcf0c9;margin:0px auto;max-width:600px;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#fcf0c9;background-color:#fcf0c9;width:100%;">
           <tbody>
             <tr>
               <td style="direction:ltr;font-size:0px;padding:30px;text-align:center;">
@@ -161,7 +116,7 @@ export default (person: UserCreation, sender: string): RenderedHtml => {
                             <tbody>
                               <tr>
                                 <td align="left" style="font-size:0px;padding:8px;word-break:break-word;">
-                                  <div style="font-family:'Helvetica', 'Arial', sans-serif;font-size:18px;line-height:1.375;text-align:left;color:#ffffff;">Raise: A Celebration of Giving</div>
+                                  <div style="font-family:'Helvetica', 'Arial', sans-serif;font-size:18px;line-height:1.375;text-align:left;color:#000000;">Directory Navigator</div>
                                 </td>
                               </tr>
                               <tr>
@@ -170,7 +125,7 @@ export default (person: UserCreation, sender: string): RenderedHtml => {
                                     <tbody>
                                       <tr>
                                         <td style="width:125px;">
-                                          <img height="auto" src="https://www.joinraise.org/shared/email-images/logo-white.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="125" />
+                                          <img height="auto" src="https://www.directorynavigator.com/shared/email-images/logo-black.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="125" />
                                         </td>
                                       </tr>
                                     </tbody>
@@ -179,7 +134,7 @@ export default (person: UserCreation, sender: string): RenderedHtml => {
                               </tr>
                               <tr>
                                 <td align="left" style="font-size:0px;padding:8px;word-break:break-word;">
-                                  <div style="font-family:'Helvetica', 'Arial', sans-serif;font-size:40px;line-height:1.25;text-align:left;color:#ffffff;"><strong>Your account has been created!</strong></div>
+                                  <div style="font-family:'Helvetica', 'Arial', sans-serif;font-size:40px;line-height:1.25;text-align:left;color:#000000;"><strong>You've been invited to Directory Navigator</strong></div>
                                 </td>
                               </tr>
                             </tbody>
@@ -195,8 +150,8 @@ export default (person: UserCreation, sender: string): RenderedHtml => {
           </tbody>
         </table>
       </div>
-      <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="md-rounded-bottom" style="width:600px;" width="600" bgcolor="#ffffff" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-      <div class="md-rounded-bottom" style="background:#ffffff;background-color:#ffffff;margin:0px auto;max-width:600px;">
+      <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" bgcolor="#ffffff" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+      <div style="background:#ffffff;background-color:#ffffff;margin:0px auto;max-width:600px;">
         <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#ffffff;background-color:#ffffff;width:100%;">
           <tbody>
             <tr>
@@ -211,14 +166,18 @@ export default (person: UserCreation, sender: string): RenderedHtml => {
                             <tbody>
                               <tr>
                                 <td align="left" style="font-size:0px;padding:8px;word-break:break-word;">
-                                  <div style="font-family:'Helvetica', 'Arial', sans-serif;font-size:20px;line-height:1.5;text-align:left;color:#000000;">
-                                  Dear ${person.name},<br /><br />
-                                  Your account has been created on the Raise platform. <br /><br />
-                                  You should be able to login at <a href="${env.CUSTOM_ODIR_DOMAIN.concat('/admin')}" target="_blank" >${env.CUSTOM_ODIR_DOMAIN.concat('/admin')}</a>, using your account ${person.email}. <br /><br />
-                                  For more information about using the Raise Platform, <a href="https://docs.google.com/document/d/1H5RdqTJijH-wWb2thCqJrT8IoLiVvxSpWLDEUmDyLxU/edit">click here</a>. <br/><br/>
-                                  Best wishes, <br/>
-                                  ${sender}
-                                  </div>
+                                  <div style="font-family:'Helvetica', 'Arial', sans-serif;font-size:20px;line-height:1.5;text-align:left;color:#000000;">Someone has invited you to Directory Navigator, a project to collaboratively build an organisation directory.</div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td align="left" vertical-align="middle" style="font-size:0px;padding:10px;word-break:break-word;">
+                                  <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
+                                    <tr>
+                                      <td align="center" bgcolor="#d56d0b" role="presentation" style="border:none;border-radius:0;cursor:auto;mso-padding-alt:10px 25px;background:#d56d0b;" valign="middle">
+                                        <a href="${href}" style="display:inline-block;background:#d56d0b;color:#ffffff;font-family:'Helvetica', 'Arial', sans-serif;font-size:28px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:0;" target="_blank"> View the directory </a>
+                                      </td>
+                                    </tr>
+                                  </table>
                                 </td>
                               </tr>
                             </tbody>
@@ -234,6 +193,19 @@ export default (person: UserCreation, sender: string): RenderedHtml => {
           </tbody>
         </table>
       </div>
+      <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="md-p-20px-outlook" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+      <div class="md-p-20px" style="margin:0px auto;max-width:600px;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+          <tbody>
+            <tr>
+              <td style="direction:ltr;font-size:0px;padding:0;text-align:center;">
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--[if mso | IE]></td></tr></table><![endif]-->
       ${footer()}
     </div>
   </body>

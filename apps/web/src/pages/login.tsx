@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react';
 import { UserManager, UserManagerSettings } from 'oidc-client';
 import { RouteComponentProps } from '@gatsbyjs/reach-router';
 import { navigate } from 'gatsby';
-import Section, { SectionTitle } from '../../components/Section';
-import Button from '../../components/Button';
-import Logo from '../../components/Logo';
-import { AuthState, useAuthState, useRawReq } from '../../helpers/networking';
-import Alert from '../../components/Alert';
-import { LoginMethodsResponse } from '../../helpers/generated-api-client';
-import { ChevronList, ChevronListButton } from '../../components/ChevronList';
-import Spinner from '../../components/Spinner';
-import env from '../../env/env';
+import Section, { SectionTitle } from '../components/Section';
+import Button from '../components/Button';
+import Logo from '../components/Logo';
+import { AuthState, useAuthState, useRawReq } from '../helpers/networking';
+import Alert from '../components/Alert';
+import { LoginMethodsResponse } from '../helpers/generated-api-client';
+import { ChevronList, ChevronListButton } from '../components/ChevronList';
+import Spinner from '../components/Spinner';
+import env from '../env/env';
 
 export const LoginPage: React.FC<RouteComponentProps> = () => {
   return (

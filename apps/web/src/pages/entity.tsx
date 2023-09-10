@@ -1,13 +1,13 @@
 import { RouteComponentProps } from '@gatsbyjs/reach-router';
 import { useEffect } from 'react';
 import { navigate } from 'gatsby';
-import { useReq } from '../../helpers/networking';
-import Spinner from '../../components/Spinner';
-import Alert from '../../components/Alert';
-import TeamPage from '../../components/TeamPage';
-import Section from '../../components/Section';
-import PersonPage from '../../components/PersonPage';
-import { ENTITY_PREFIX } from '../../helpers/entityPrefix';
+import { useReq } from '../helpers/networking';
+import Spinner from '../components/Spinner';
+import Alert from '../components/Alert';
+import TeamPage from '../components/TeamPage';
+import Section from '../components/Section';
+import PersonPage from '../components/PersonPage';
+import { ENTITY_PREFIX } from '../helpers/entityPrefix';
 
 const EntityPage: React.FC<RouteComponentProps & { entitySlug: string }> = ({ entitySlug }) => {
   const [entity, refetchEntity] = useReq('get /admin/entity/{entitySlug}', { entitySlug });

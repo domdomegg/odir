@@ -26,11 +26,7 @@ const UsersPanel: React.FC = () => {
         <SectionTitle className="flex-1">Users</SectionTitle>
         <RequireGroup group={fixedGroups.Admin}>
           <Button onClick={() => setNewUserModalOpen(true)}>
-            <PlusSmIcon className="h-6 mb-1" />
-            {' '}
-            New
-            {' '}
-            <span className="hidden lg:inline">user</span>
+            <PlusSmIcon className="h-6 mb-1" /> New <span className="hidden lg:inline">user</span>
           </Button>
         </RequireGroup>
       </div>
@@ -44,7 +40,7 @@ const UsersPanel: React.FC = () => {
               label: 'Groups', formatter: (ids?: string[]) => ids?.map((id) => groupMap[id]).join(', ') || '(none)', inputType: 'multiselect', selectOptions: groupMap,
             },
             securityTrainingCompletedAt: { label: 'Security training completed at', formatter: format.timestamp, inputType: 'datetime-local' },
-            sendAccountCreationEmail: { label: 'Send user email', inputType: 'checkbox' },
+            sendAccountCreationEmail: { label: 'Send user email', formatter: format.boolean, inputType: 'checkbox' },
           }}
           initialValues={{
             name: '',
@@ -68,7 +64,7 @@ const UsersPanel: React.FC = () => {
           email: { label: 'Email', className: 'whitespace-nowrap' },
           groups: { label: 'Groups', formatter: (ids?: string[]) => ids?.map((id) => groupMap[id]).join(', ') || '(none)' },
         }}
-            // eslint-disable-next-line no-nested-ternary
+        // eslint-disable-next-line no-nested-ternary
         items={asResponseValues(users.data?.sort((a, b) => (a.name === b.name ? 0 : (a.name > b.name ? 1 : -1))), users)}
         href={(user) => `/admin/users/${user.id}/`}
       />

@@ -43,7 +43,7 @@ beforeEach(async () => {
     userAgent: "test",
     route: "unknown",
     routeRaw: "unknown",
-    logGroupName: "aws/lambda/raise-server-stage-myFunc",
+    logGroupName: "aws/lambda/odir-server-stage-myFunc",
     logStreamName: "2022/01/01/[$LATEST]123456789",
     awsRegion: "eu-test-1",
   }

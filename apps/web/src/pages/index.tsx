@@ -3,23 +3,24 @@ import { useEffect, useState } from 'react';
 import { Router } from '@gatsbyjs/reach-router';
 import Page from '../components/Page';
 import Footer from '../components/Footer';
-import { EmailLoginCallbackPage, GoogleLoginCallbackPage, LoginPage } from './admin/login';
+import { EmailLoginCallbackPage, GoogleLoginCallbackPage, LoginPage } from './login';
 import { useAuthState } from '../helpers/networking';
 import Navigation from '../components/Navigation';
 import Section from '../components/Section';
 import Alert from '../components/Alert';
 import TeamsPage from './admin/teams';
-import EntityPage from './admin/entity';
-import NewTeamPage from './admin/new-team';
-import NewPersonPage from './admin/new-person';
+import EntityPage from './entity';
+import NewTeamPage from './new-team';
+import NewPersonPage from './new-person';
 import TasksPage from './admin/tasks';
 import AuditPage from './admin/audit';
 import UsersPage from './admin/users';
 import UserPage from './admin/user';
 import GroupPage from './admin/group';
-import ProfilePage from './admin/profile';
+import DebugPage from './admin/debug';
 import NotFoundPage from './404';
-import HomePage from './admin/home';
+import HomePage from './home';
+import DomainPage from './admin/domain';
 
 const IndexPage = () => {
   return (
@@ -71,7 +72,6 @@ const IndexLayout: React.FC = () => {
         <Navigation
           left={[
             { text: 'Home', href: '/' },
-            { text: 'Profile', href: '/profile' },
           ]}
           right={[
             { text: 'Logout', onClick: () => setAuth() },
@@ -90,16 +90,17 @@ const IndexLayout: React.FC = () => {
         {auth && (
           <>
             <HomePage path="/" />
-            <TeamsPage path="/teams" />
             <EntityPage entitySlug="" path="/:entitySlug" />
-            <NewTeamPage path="/new-team" />
-            <NewPersonPage path="/new-person" />
-            <TasksPage path="/tasks" />
-            <AuditPage path="/audit" />
-            <UsersPage path="/users" />
-            <UserPage userId="" path="/users/:userId" />
-            <GroupPage groupId="" path="/groups/:groupId" />
-            <ProfilePage path="/profile" />
+            <NewTeamPage path="/new/team" />
+            <NewPersonPage path="/new/person" />
+            <DebugPage path="/debug" />
+            <TeamsPage path="/admin/teams" />
+            <TasksPage path="/admin/tasks" />
+            <AuditPage path="/admin/audit" />
+            <UsersPage path="/admin/users" />
+            <UserPage userId="" path="/admin/users/:userId" />
+            <GroupPage groupId="" path="/admin/groups/:groupId" />
+            <DomainPage domainId="" path="/admin/domains/:domainId" />
             <NotFoundPage default />
           </>
         )}

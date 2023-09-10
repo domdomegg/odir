@@ -106,6 +106,9 @@ const serverlessConfiguration: AWS = {
             table: tables.group.name,
             sources: ['./local/table_group.json'],
           }, {
+            table: tables.domain.name,
+            sources: ['./local/table_domain.json'],
+          }, {
             table: tables.user.name,
             sources: ['./local/table_user.json'],
           }, {
@@ -204,13 +207,13 @@ const serverlessConfiguration: AWS = {
       handler: 'src/api/_router.main',
       events: getFunctionPaths().map(getFunctionEvent),
     },
-    schedulerCollectPaymentsRun: {
-      handler: 'src/scheduler/collect-payments/run.main',
+    schedulerDoScheduledThingRun: {
+      handler: 'src/scheduler/do-scheduled-thing/run.main',
       events: [
         {
           schedule: env.STAGE === 'local'
             ? 'rate(1 minute)' // Every minute
-            : 'cron(0 8 * * ? *)', // Every day at 8am UTC
+            : 'cron(0 0 1 1 ? *)', // Every year
         },
       ],
     },

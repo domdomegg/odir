@@ -20,7 +20,7 @@ export const main: ScheduledHandler<unknown> = async () => {
     { algorithm: 'ES256' },
   );
 
-  await axios('/scheduler/collect-payments', {
+  await axios('/scheduler/do-scheduled-thing', {
     baseURL: env.API_BASE_URL,
     method: 'post',
     headers: {

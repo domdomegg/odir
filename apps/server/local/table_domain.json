@@ -1,0 +1,31 @@
+[
+  {
+      "name": "Raise",
+      "groups": [
+        "01H9YGQ8NSHYYW95ZPEWE1R7S7"
+      ],
+      "id": "01H9YGWHA81GEWJQ7QSHWZZ3Q1",
+      "loginMethods": [
+        "google"
+      ],
+      "domain": "joinraise.org"
+  },
+  {
+      "name": "Gmail",
+      "groups": [],
+      "id": "01H9YGXCP8PNK5RVBNDCCAWVCF",
+      "loginMethods": [
+        "google"
+      ],
+      "domain": "gmail.com"
+  },
+  {
+    "name": "Googlemail",
+    "groups": [],
+    "id": "01H9YH8SPE8PATH9VA9F38C4C3",
+    "loginMethods": [
+      "google"
+    ],
+    "domain": "googlemail.com"
+}
+]

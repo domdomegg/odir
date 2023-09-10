@@ -1,12 +1,12 @@
 import { RouteComponentProps } from '@gatsbyjs/reach-router';
 import { useRef } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useReq } from '../../helpers/networking';
-import Section, { SectionNoPadding, SectionTitle } from '../../components/Section';
-import Logo from '../../components/Logo';
-import { EntitySearchBox, SelectRef } from '../../components/SearchBox';
-import { TeamCardGrid } from '../../components/TeamCard';
-import Spinner from '../../components/Spinner';
+import { useReq } from '../helpers/networking';
+import Section, { SectionNoPadding, SectionTitle } from '../components/Section';
+import Logo from '../components/Logo';
+import { EntitySearchBox, SelectRef } from '../components/SearchBox';
+import { TeamCardGrid } from '../components/TeamCard';
+import Spinner from '../components/Spinner';
 
 const HomePage: React.FC<RouteComponentProps> = () => {
   const [teams] = useReq('get /admin/teams/top');

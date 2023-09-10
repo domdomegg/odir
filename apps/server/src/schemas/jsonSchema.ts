@@ -30,10 +30,12 @@ export const $Status: JSONSchema<S.Status> = {
   additionalProperties: false,
 };
 
+export const $LoginMethod: JSONSchema<S.LoginMethodsResponse['methods'][number]> = { enum: ['google', 'microsoft', 'email', 'impersonation'] };
+
 export const $LoginMethodsResponse: JSONSchema<S.LoginMethodsResponse> = {
   type: 'object',
   properties: {
-    methods: { type: 'array', items: { enum: ['google', 'microsoft', 'email', 'impersonation'] } },
+    methods: { type: 'array', items: $LoginMethod },
   },
   required: ['methods'],
   additionalProperties: false,
@@ -445,6 +447,39 @@ export const $Group: JSONSchema<S.Group> = {
 };
 
 export const $Groups: JSONSchema<S.Group[]> = { type: 'array', items: $Group };
+
+export const $DomainCreation: JSONSchema<S.DomainCreation> = {
+  type: 'object',
+  properties: {
+    name: { type: 'string' },
+    domain: { type: 'string' },
+    groups: { type: 'array', items: $Ulid },
+    loginMethods: { type: 'array', items: $LoginMethod },
+  },
+  additionalProperties: false,
+  required: ['name', 'domain', 'groups', 'loginMethods'],
+};
+
+export const $DomainEdits: JSONSchema<S.DomainEdits> = {
+  type: 'object',
+  properties: {
+    ...$DomainCreation.properties,
+  },
+  minProperties: 1,
+  additionalProperties: false,
+};
+
+export const $Domain: JSONSchema<S.Domain> = {
+  type: 'object',
+  properties: {
+    ...$DomainCreation.properties,
+    id: $Ulid,
+  },
+  required: ['id', ...$DomainCreation.required as string[]],
+  additionalProperties: false,
+};
+
+export const $Domains: JSONSchema<S.Domain[]> = { type: 'array', items: $Domain };
 
 export const $UserCreation: JSONSchema<S.UserCreation> = {
   type: 'object',

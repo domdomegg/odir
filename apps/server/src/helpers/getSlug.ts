@@ -2,6 +2,13 @@ import { ulid } from 'ulid';
 import { scan } from './db';
 import { slugTable } from './tables';
 
+const RESERVED_SLUGS = new Set([
+  // used
+  'admin', 'new', 'login-callback', 'profile',
+  // not used, but might be in future
+  'user', 'login', 'register', 'default', 'home', 'error', 'debug', 'tools'
+]);
+
 /**
  * This is a helper function that finds an available id and slug for a new entity.
  * @param name The entity's name to base the slug on
@@ -19,7 +26,7 @@ export const getSlug = async (name: string): Promise<{ id: string, slug: string 
   for (let i = 1; i <= 10; i++) {
     const attemptedSlug = i === 1 ? slugBase : `${slugBase}-${i}`;
     const alreadyUsed = !!allSlugs.find((slug) => slug.value === attemptedSlug);
-    if (!alreadyUsed) {
+    if (!alreadyUsed && !RESERVED_SLUGS.has(attemptedSlug)) {
       return {
         id,
         slug: attemptedSlug

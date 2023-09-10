@@ -14,7 +14,7 @@ const env: Env = {
   // spell-checker: enable
 
   // OAuth 2 client id for Google sign-in
-  GOOGLE_LOGIN_CLIENT_ID: '730827052132-u1tatnr4anip3vf7j5tq82k33gb5okpe.apps.googleusercontent.com',
+  GOOGLE_LOGIN_CLIENT_ID: '480471114257-4vu9sclokbujb8l809o9jdlbn7qqlbs2.apps.googleusercontent.com',
 
   // Stripe keys and secrets
   // Secret key is the restricted key with Customers and PaymentIntents read and write
