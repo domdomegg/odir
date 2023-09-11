@@ -18,6 +18,7 @@ export type SearchBoxProps<T> = {
   autoFocus?: boolean,
   className?: string,
   selectRef?: SelectRef<T>,
+  onClose?: () => void,
 } & ({
   createable: true,
   getItems: (query: string) => Promise<T[]>,
@@ -40,6 +41,7 @@ const DEFAULTS = {
 export const SearchBox = <T = SearchResponse['results'][number],>({
   getItems,
   onSelect,
+  onClose,
   formatOptionLabel,
   placeholder,
   autoFocus = DEFAULTS.autoFocus,
@@ -67,6 +69,8 @@ export const SearchBox = <T = SearchResponse['results'][number],>({
         DropdownIndicator: null,
       }}
       ref={selectRef}
+      onMenuClose={onClose}
+      onKeyDown={onClose ? (e) => { if (e.key === 'Escape') onClose(); } : undefined}
     />
   );
 };
@@ -87,6 +91,7 @@ export const renderSearchResult = (item: SearchResponse['results'][number] | New
 export type EntitySearchBoxProps = {
   onSelectExisting?: (item: SearchResponse['results'][number]) => void,
   onAfterCreate?: (itemId: string) => void,
+  onClose?: () => void,
   types?: SearchRequest['types'],
   placeholder?: string,
   autoFocus?: boolean,
@@ -101,6 +106,7 @@ export type EntitySearchBoxProps = {
 export const EntitySearchBox: React.FC<EntitySearchBoxProps> = ({
   onSelectExisting = ({ slug }) => navigate(`${ENTITY_PREFIX}${slug}`),
   onAfterCreate = (id) => navigate(`${ENTITY_PREFIX}${id}`),
+  onClose,
   types = DEFAULTS.types,
   placeholder,
   autoFocus = DEFAULTS.autoFocus,
@@ -156,6 +162,7 @@ export const EntitySearchBox: React.FC<EntitySearchBoxProps> = ({
       createable={createable}
       className={className}
       selectRef={selectRef}
+      onClose={onClose}
     />
   );
 };

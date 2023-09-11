@@ -17,8 +17,10 @@ import { Breadcrumbs } from './Breadcrumbs';
 import { TeamCardGrid } from './TeamCard';
 import { ChevronList, ChevronListButton } from './ChevronList';
 import { PersonCardGrid } from './PersonCard';
+import { RequestFormLink } from './RequestFormLink';
+import { ProfileImageEditor } from './ProfileImageEditor';
 
-type EditorState = 'closed' | 'menu' | 'details' | 'members' | 'children' | 'parents' | 'slugs';
+type EditorState = 'closed' | 'menu' | 'details' | 'image' | 'members' | 'children' | 'parents' | 'slugs';
 
 const TeamPage: React.FC<{ data: EntityResponse & { type: 'team' }, refetch: () => Promise<unknown> }> = ({
   data: {
@@ -52,6 +54,12 @@ const TeamPage: React.FC<{ data: EntityResponse & { type: 'team' }, refetch: () 
   useHotkeys(['s', 't'], (event) => {
     if (editorState === 'closed' || editorState === 'menu') {
       setEditorState('children');
+      event.preventDefault();
+    }
+  });
+  useHotkeys('i', (event) => {
+    if (editorState === 'closed' || editorState === 'menu') {
+      setEditorState('image');
       event.preventDefault();
     }
   });
@@ -239,6 +247,14 @@ const TeamEditorModal: React.FC<{ editorState: EditorState, setEditorState: (edi
         </div>
       </div>
     );
+  } else if (editorState === 'image') {
+    contents = (
+      <ProfileImageEditor onComplete={async (profileImageUri) => {
+        await req('patch /admin/teams/{teamId}', { teamId: team.id }, { profilePic: profileImageUri });
+        internalOnClose();
+      }}
+      />
+    );
   } else if (editorState === 'parents') {
     // TODO
     contents = (
@@ -257,6 +273,9 @@ const TeamEditorModal: React.FC<{ editorState: EditorState, setEditorState: (edi
           <ChevronListButton title="Details" onClick={() => setEditorState('details')} variant="secondary">
             Change the name, vision, mission, priorities, etc.
           </ChevronListButton>
+          <ChevronListButton title="Image" onClick={() => setEditorState('image')} variant="secondary">
+            Upload a new profile image for this team.
+          </ChevronListButton>
           <ChevronListButton title="Members" onClick={() => setEditorState('members')} variant="secondary">
             Change team members and managers
           </ChevronListButton>
@@ -272,6 +291,9 @@ const TeamEditorModal: React.FC<{ editorState: EditorState, setEditorState: (edi
             <p>Manage short URLs for this team</p>
           </ChevronListButton> */}
         </ChevronList>
+        <div className="mt-4">
+          <RequestFormLink message={`I wanted to edit the following page:\n\n${window.location.href}\n\nThe edits I wanted to make were:\n\n`} className="hover:underline">Something else</RequestFormLink>
+        </div>
       </>
     );
   }

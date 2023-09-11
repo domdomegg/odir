@@ -5,7 +5,7 @@ import Page from '../components/Page';
 import Footer from '../components/Footer';
 import LoginPage, { EmailLoginCallbackPage, GoogleLoginCallbackPage } from './login';
 import { useAuthState } from '../helpers/networking';
-import Navigation from '../components/Navigation';
+import { TopNavigation } from '../components/Navigation';
 import Section from '../components/Section';
 import Alert from '../components/Alert';
 import TeamsPage from './admin/teams';
@@ -21,6 +21,8 @@ import DebugPage from './admin/debug';
 import NotFoundPage from './404';
 import HomePage from './home';
 import DomainPage from './admin/domain';
+import NewEntityPage from './new';
+import { OmniSearchBox } from '../components/OmniSearchBox';
 
 const IndexPage = () => {
   return (
@@ -44,7 +46,7 @@ const IndexPage = () => {
 };
 
 const IndexLayout: React.FC = () => {
-  const [auth, setAuth] = useAuthState();
+  const [auth] = useAuthState();
   const [logoutWarning, setLogoutWarning] = useState<string | undefined>();
   // This logs out the user when their access token expires
   useEffect(() => {
@@ -69,14 +71,10 @@ const IndexLayout: React.FC = () => {
   return (
     <>
       {auth && (
-        <Navigation
-          left={[
-            { text: 'Home', href: '/' },
-          ]}
-          right={[
-            { text: 'Logout', onClick: () => setAuth() },
-          ]}
-        />
+      <>
+        <TopNavigation />
+        <OmniSearchBox />
+      </>
       )}
       {logoutWarning && auth && (
         <Section>
@@ -91,6 +89,7 @@ const IndexLayout: React.FC = () => {
           <>
             <HomePage path="/" />
             <EntityPage entitySlug="" path="/:entitySlug" />
+            <NewEntityPage path="/new" />
             <NewTeamPage path="/new/team" />
             <NewPersonPage path="/new/person" />
             <DebugPage path="/debug" />
