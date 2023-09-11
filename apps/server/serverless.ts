@@ -235,6 +235,90 @@ const serverlessConfiguration: AWS = {
           Properties: {
             BucketName: S3_BUCKET_NAME
           }
+        },
+        BlobBucketPolicy: {
+          Type: 'AWS::S3::BucketPolicy',
+          Properties: {
+            Bucket: {
+              Ref: 'BlobBucket',
+            },
+            PolicyDocument: {
+              Statement: [
+                {
+                  Action: [
+                    's3:GetObject',
+                  ],
+                  Effect: 'Allow',
+                  Principal: '*',
+                  Resource: { 'Fn::Join': ['', [{ 'Fn::GetAtt': ['BlobBucket', 'Arn'] }, '/*']] },
+                  Condition: {
+                    StringEquals: {
+                      // eslint-disable-next-line no-template-curly-in-string
+                      'AWS:SourceArn': { 'Fn::Sub': 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${BlobCDN}' }
+                    }
+                  }
+                },
+                // Give CloudFront permission to list objects
+                // Without this we get 403s when a file doesn't exist in the bucket, to avoid leaking info about whether the file does or doesn't exist
+                {
+                  Action: [
+                    's3:ListBucket',
+                  ],
+                  Effect: 'Allow',
+                  Principal: '*',
+                  Resource: { 'Fn::GetAtt': ['BlobBucket', 'Arn'] },
+                  Condition: {
+                    StringEquals: {
+                      // eslint-disable-next-line no-template-curly-in-string
+                      'AWS:SourceArn': { 'Fn::Sub': 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${BlobCDN}' }
+                    }
+                  }
+                },
+              ],
+              Version: '2012-10-17',
+            },
+          },
+        },
+        BlobCDN: {
+          Type: 'AWS::CloudFront::Distribution',
+          Properties: {
+            DistributionConfig: {
+              Comment: `${SERVICE_NAME}-${env.STAGE}`,
+              DefaultCacheBehavior: {
+                AllowedMethods: ['GET', 'HEAD'],
+                CachedMethods: ['GET', 'HEAD'],
+                CachePolicyId: '658327ea-f89d-4fab-a63d-7e88639e58f6', // Managed-CachingOptimized
+                Compress: true,
+                // eslint-disable-next-line no-template-curly-in-string
+                TargetOriginId: { 'Fn::Sub': 'S3-origin-${BlobBucket}' },
+                ViewerProtocolPolicy: 'redirect-to-https',
+              },
+              DefaultRootObject: 'index.html',
+              Enabled: true,
+              HttpVersion: 'http2',
+              IPV6Enabled: true,
+              Origins: [{
+                DomainName: { 'Fn::GetAtt': ['BlobBucket', 'DomainName'] },
+                // eslint-disable-next-line no-template-curly-in-string
+                Id: { 'Fn::Sub': 'S3-origin-${BlobBucket}' },
+                OriginAccessControlId: { Ref: 'OriginAccessControl' },
+                S3OriginConfig: {}
+              }],
+              PriceClass: 'PriceClass_100',
+            },
+          },
+        },
+        OriginAccessControl: {
+          Type: 'AWS::CloudFront::OriginAccessControl',
+          Properties: {
+            OriginAccessControlConfig: {
+              // eslint-disable-next-line no-template-curly-in-string
+              Name: { 'Fn::Sub': 'oac-${BlobBucket}' },
+              OriginAccessControlOriginType: 's3',
+              SigningBehavior: 'always',
+              SigningProtocol: 'sigv4',
+            }
+          }
         }
       } as NonNullable<NonNullable<AWS['resources']>['Resources']>,
     },

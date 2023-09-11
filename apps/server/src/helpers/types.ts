@@ -60,6 +60,7 @@ export interface Env {
   STAGE: 'local' | 'dev' | 'prod',
 
   API_BASE_URL: string,
+  BLOB_BASE_URL: string,
 
   JWT_PUBLIC_KEY: string,
   JWT_PRIVATE_KEY: string,
@@ -74,4 +75,6 @@ export interface Env {
   IMPERSONATION_LOGIN_ENABLED: boolean,
 
   CUSTOM_ODIR_DOMAIN: string,
+
+  TOP_TEAM_IDS: string[],
 }

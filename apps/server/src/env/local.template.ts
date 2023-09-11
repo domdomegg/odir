@@ -4,6 +4,7 @@ const env: Env = {
   STAGE: 'local',
 
   API_BASE_URL: 'http://localhost:8001',
+  BLOB_BASE_URL: 'http://localhost:8007/odir-server-local',
 
   // spell-checker: disable
   // Generate with:
@@ -36,6 +37,9 @@ const env: Env = {
   IMPERSONATION_LOGIN_ENABLED: true,
 
   CUSTOM_ODIR_DOMAIN: 'localhost:8000',
+
+  // Teams to be shown on the homepage
+  TOP_TEAM_IDS: ['01H8W4Z5YAH852PBM18N467F9F', '01H8W4Z5YBVNWKV5R3C8Q9K3F5'],
 };
 
 export default env;

@@ -41,10 +41,9 @@ const serverlessConfiguration: AWS = {
         Type: 'AWS::S3::Bucket',
         Properties: {
           BucketName: ODIR_S3_BUCKET_NAME,
-          AccessControl: 'PublicRead',
           WebsiteConfiguration: {
             IndexDocument: 'index.html',
-            ErrorDocument: '404.html',
+            ErrorDocument: 'index.html',
           },
         },
       },
@@ -63,6 +62,28 @@ const serverlessConfiguration: AWS = {
                 Effect: 'Allow',
                 Principal: '*',
                 Resource: { 'Fn::Join': ['', [{ 'Fn::GetAtt': ['OdirWebsiteBucket', 'Arn'] }, '/*']] },
+                Condition: {
+                  StringEquals: {
+                    // eslint-disable-next-line no-template-curly-in-string
+                    'AWS:SourceArn': { 'Fn::Sub': 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${OdirCDN}' }
+                  }
+                }
+              },
+              // Give CloudFront permission to list objects
+              // Without this we get 403s when a file doesn't exist in the bucket, to avoid leaking info about whether the file does or doesn't exist
+              {
+                Action: [
+                  's3:ListBucket',
+                ],
+                Effect: 'Allow',
+                Principal: '*',
+                Resource: { 'Fn::GetAtt': ['OdirWebsiteBucket', 'Arn'] },
+                Condition: {
+                  StringEquals: {
+                    // eslint-disable-next-line no-template-curly-in-string
+                    'AWS:SourceArn': { 'Fn::Sub': 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${OdirCDN}' }
+                  }
+                }
               },
             ],
             Version: '2012-10-17',
@@ -81,7 +102,7 @@ const serverlessConfiguration: AWS = {
               CachePolicyId: '658327ea-f89d-4fab-a63d-7e88639e58f6', // Managed-CachingOptimized
               Compress: true,
               // eslint-disable-next-line no-template-curly-in-string
-              TargetOriginId: { 'Fn::Sub': 'S3-origin-${RaiseWebsiteBucket}' },
+              TargetOriginId: { 'Fn::Sub': 'S3-origin-${OdirWebsiteBucket}' },
               ViewerProtocolPolicy: 'redirect-to-https',
             },
             DefaultRootObject: 'index.html',
@@ -89,49 +110,47 @@ const serverlessConfiguration: AWS = {
             HttpVersion: 'http2',
             IPV6Enabled: true,
             Origins: [{
-              DomainName: {
-                'Fn::Select': [
-                  1,
-                  {
-                    'Fn::Split': [
-                      '//',
-                      {
-                        'Fn::GetAtt': ['RaiseWebsiteBucket', 'WebsiteURL'],
-                      },
-                    ],
-                  },
-                ],
-              },
+              DomainName: { 'Fn::GetAtt': ['OdirWebsiteBucket', 'DomainName'] },
               // eslint-disable-next-line no-template-curly-in-string
-              Id: { 'Fn::Sub': 'S3-origin-${RaiseWebsiteBucket}' },
-              CustomOriginConfig: {
-                HTTPPort: 80,
-                HTTPSPort: 443,
-                OriginProtocolPolicy: 'http-only',
-              },
+              Id: { 'Fn::Sub': 'S3-origin-${OdirWebsiteBucket}' },
+              OriginAccessControlId: { Ref: 'OriginAccessControl' },
+              S3OriginConfig: {}
             }],
+            // Redirect 404s and 403s to the Gatsby index page. This will handle appropriately displaying the right page.
             CustomErrorResponses: [{
               ErrorCode: 404,
-              // This prevents the SEO hit from serving a 404 page to Search Engines with a 200 response code
-              // Admin pages (except the main admin index) are not server-side rendered, so we will get the occasional 404
-              // Most browsers seem okay with this, and Gatsby routing magic means the correct page will be displayed
-              ResponseCode: 404,
-              ResponsePagePath: '/404.html',
+              // Almost all pages are not server-side rendered, so we will not exist in the bucket - resulting in a 404
+              // Redirecting back to index.html means Gatsby routing will take over and the correct page will be displayed
+              // (effectively we're (ab)using Gatsby as a SPA framework)
+              ResponseCode: 200,
+              ResponsePagePath: '/index.html',
             }],
             PriceClass: 'PriceClass_100',
             ViewerCertificate: {
-              AcmCertificateArn: 'arn:aws:acm:us-east-1:338337944728:certificate/1da4e440-ec4c-4d8f-8ec6-b1b85969d360',
+              AcmCertificateArn: 'arn:aws:acm:us-east-1:338337944728:certificate/56922203-03c3-41c7-a57e-0811d5aef1b6',
               MinimumProtocolVersion: 'TLSv1.2_2021',
               SslSupportMethod: 'sni-only',
             },
           },
         },
       },
+      OriginAccessControl: {
+        Type: 'AWS::CloudFront::OriginAccessControl',
+        Properties: {
+          OriginAccessControlConfig: {
+            // eslint-disable-next-line no-template-curly-in-string
+            Name: { 'Fn::Sub': 'oac-${OdirWebsiteBucket}' },
+            OriginAccessControlOriginType: 's3',
+            SigningBehavior: 'always',
+            SigningProtocol: 'sigv4',
+          }
+        }
+      }
     },
     Outputs: {
       WebsiteURL: {
-        Value: { 'Fn::Join': ['', ['https://', { 'Fn::GetAtt': ['RaiseCDN', 'DomainName'] }]] },
-        Description: 'CloudFront URL for Raise website',
+        Value: { 'Fn::Join': ['', ['https://', { 'Fn::GetAtt': ['OdirCDN', 'DomainName'] }]] },
+        Description: 'CloudFront URL for the website',
       },
     },
   },
