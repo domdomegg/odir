@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { withAssetPrefix } from 'gatsby';
+import ReactMarkdown from 'react-markdown';
+import { Helmet } from 'react-helmet';
 import Section, { SectionTitle } from './Section';
 import {
   EntityResponse, Person, Relation, Slug, Team, TeamEdits
@@ -29,7 +31,7 @@ const TeamPage: React.FC<{ data: EntityResponse & { type: 'team' }, refetch: () 
 }) => {
   const parentTeams = relations.filter((r) => r.type === 'PART_OF' && r.childId === team.id).map((r) => {
     const parentTeam = teams.find((t) => t.id === r.parentId);
-    if (!parentTeam) throw new Error(`Team ${r.parentId} was parent of team ${r.childId} (relation ${r.id}) but not provided to TeamAbout component.`);
+    if (!parentTeam) throw new Error(`Team ${r.parentId} was parent of team ${r.childId} (relation ${r.id}) but not provided to TeamPage component.`);
     return parentTeam;
   });
 
@@ -65,25 +67,36 @@ const TeamPage: React.FC<{ data: EntityResponse & { type: 'team' }, refetch: () 
   });
 
   return (
-    <Section>
-      <div className="flex">
-        <div className="flex-1">
-          <Breadcrumbs parentChain={breadcrumbs} directParents={parentTeams} />
-          <SectionTitle className="mt-2">{team.name}</SectionTitle>
-        </div>
-        <div>
+    <>
+      <Helmet>
+        <title>
+          Directory Navigator: {team.name}
+        </title>
+      </Helmet>
+      <Section>
+        <div className="flex">
+          <div className="flex-1">
+            <Breadcrumbs parentChain={breadcrumbs} directParents={parentTeams} />
+            <SectionTitle className="mt-2">{team.name}</SectionTitle>
+          </div>
           <div>
-            <Button onClick={() => setEditorState('menu')}><PencilIcon className="h-5 mb-0.5 mr-0.5" /> Edit team</Button>
+            <div>
+              <Button onClick={() => setEditorState('menu')}><PencilIcon className="h-5 mb-0.5 mr-0.5" /> Edit team</Button>
+            </div>
           </div>
         </div>
-      </div>
-      <TeamPersons persons={persons} relations={relations} team={team} />
-      <h2 className="font-odir-header text-3xl font-bold mt-6 mb-1">Teams</h2>
-      <TeamTeams teams={teams} relations={relations} team={team} />
-      <h2 className="font-odir-header text-3xl font-bold mt-6 mb-1">About</h2>
-      <TeamAbout team={team} />
-      <TeamEditorModal editorState={editorState} setEditorState={setEditorState} team={team} relations={relations} teams={teams} persons={persons} slugs={slugs} hasDetailedAccess={hasDetailedAccess} refetch={refetch} />
-    </Section>
+        <TeamPersons persons={persons} relations={relations} team={team} />
+        <h2 className="font-odir-header text-3xl font-bold mt-6 mb-1">Teams</h2>
+        <TeamTeams teams={teams} relations={relations} team={team} />
+        {team.about && (
+        <>
+          <h2 className="font-odir-header text-3xl font-bold mt-6 mb-1">About</h2>
+          <TeamAbout team={team} />
+        </>
+        )}
+        <TeamEditorModal editorState={editorState} setEditorState={setEditorState} team={team} relations={relations} teams={teams} persons={persons} slugs={slugs} hasDetailedAccess={hasDetailedAccess} refetch={refetch} />
+      </Section>
+    </>
   );
 };
 
@@ -113,43 +126,9 @@ const TeamTeams: React.FC<{ teams: Team[], relations: Relation[], team: Team }> 
 
 const TeamAbout: React.FC<{ team: Team }> = ({
   team
-}) => {
-  return (
-    <div className="flex flex-col gap-4">
-      {!team.vision && !team.mission && !team.priorities && !team.notes && !team.website && <p>There's no additional information on this team yet.</p>}
-      {team.vision && (
-      <div>
-        <p className="font-bold">Vision</p>
-        <p>{team.vision}</p>
-      </div>
-      )}
-      {team.mission && (
-      <div>
-        <p className="font-bold">Mission</p>
-        <p>{team.mission}</p>
-      </div>
-      )}
-      {team.priorities && (
-      <div>
-        <p className="font-bold">Priorities</p>
-        <p>{team.priorities}</p>
-      </div>
-      )}
-      {team.notes && (
-      <div>
-        <p className="font-bold">Notes</p>
-        <p>{team.notes}</p>
-      </div>
-      )}
-      {team.website && (
-      <div>
-        <p className="font-bold">Website</p>
-        <Link href={team.website} className="text-blue-800 underline">{team.website}</Link>
-      </div>
-      )}
-    </div>
-  );
-};
+}) => (
+  <ReactMarkdown className="prose prose-h1:text-xl prose-h2:text-lg prose-h3:text-base text-black marker:text-stone-600 mt-2 max-w-none" allowedElements={['h1', 'h2', 'h3', 'p', 'a', 'ul', 'ol', 'li']}>{team.about ?? ''}</ReactMarkdown>
+);
 
 const TeamEditorModal: React.FC<{ editorState: EditorState, setEditorState: (editorState: EditorState) => void, team: Team, relations: Relation[], teams: Team[], persons: Person[], slugs: Slug[], hasDetailedAccess: boolean, refetch: () => Promise<unknown> }> = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -172,16 +151,12 @@ const TeamEditorModal: React.FC<{ editorState: EditorState, setEditorState: (edi
         title="Edit team details"
         definition={{
           name: { label: 'Name', inputType: 'text' },
-          vision: { label: 'Vision', inputType: 'textarea' },
-          mission: { label: 'Mission', inputType: 'textarea' },
-          priorities: { label: 'Priorities', inputType: 'textarea' },
+          about: { label: 'About (supports markdown)', inputType: 'textarea' },
           website: { label: 'Website', inputType: 'text' },
         }}
         initialValues={{
           name: team.name,
-          vision: team.vision,
-          mission: team.mission,
-          priorities: team.priorities,
+          about: team.about,
           website: team.website,
         }}
         showCurrent={false}

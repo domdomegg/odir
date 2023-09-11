@@ -1,6 +1,8 @@
 import renderHtml from './renderHtml';
 
 export default () => {
+  return renderHtml``;
+
   return (renderHtml`
     <footer>
         <div style="background:#fef9eb;background-color:#fef9eb;margin:0px auto;max-width:600px;">

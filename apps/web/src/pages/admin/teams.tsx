@@ -42,10 +42,7 @@ const TeamsPage: React.FC<RouteComponentProps> = () => {
           title="New team"
           definition={{
             name: { inputType: 'text' },
-            mission: { inputType: 'text' },
-            vision: { inputType: 'text' },
-            priorities: { inputType: 'text' },
-            notes: { inputType: 'text' },
+            about: { inputType: 'text' },
             website: { inputType: 'text' },
           }}
           initialValues={{

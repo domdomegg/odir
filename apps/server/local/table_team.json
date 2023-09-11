@@ -3,84 +3,66 @@
     "id": "01H8W4Z5YAH852PBM18N467F9F",
     "name": "Animals",
     "website": "https://en.wikipedia.org/wiki/Animal",
-    "vision": "To thrive in a world where diverse species coexist in harmony and mutual understanding.",
-    "mission": "To ensure our survival by maintaining ecosystems and natural balances.",
-    "priorities": "Biodiversity, Ecosystem Health, Coexistence",
     "profilePic": "https://static.vecteezy.com/system/resources/previews/006/470/722/original/pet-shop-logo-design-template-modern-animal-icon-label-for-store-veterinary-clinic-hospital-shelter-business-services-flat-illustration-background-with-dog-cat-and-horse-free-vector.jpg",
-    "notes": "Seek symbiotic relationships within ecosystems and contribute to a sustainable world.",
     "preferredSlug": "animals",
     "lastEditedBy": "01GPYGE0KV35HWSEVWVJMAKJR8",
     "lastEditedAt": 1693215133,
-    "createdAt": 1649040000
+    "createdAt": 1649040000,
+    "about": "To thrive in a world where diverse species coexist in harmony and mutual understanding. To ensure our survival by maintaining ecosystems and natural balances. Seek symbiotic relationships within ecosystems and contribute to a sustainable world."
   },
   {
     "id": "01H8W4Z5YBVNWKV5R3C8Q9K3F5",
     "name": "Plants",
     "website": "https://en.wikipedia.org/wiki/Plant",
-    "vision": "To thrive in a world where every corner is adorned with green, contributing to life's tapestry.",
-    "mission": "To sustain ecosystems by providing oxygen, nourishment, and habitat for countless beings.",
-    "priorities": "Ecosystem Balance, Oxygen Production, Nourishment",
     "profilePic": "https://media.istockphoto.com/id/1045368942/vector/abstract-green-leaf-logo-icon-vector-design-ecology-icon-set-eco-icon.jpg?s=612x612&w=0&k=20&c=XIfHMI8r1G73blCpCBFmLIxCtOLx8qX0O3mZC9csRLs=",
-    "notes": "Collaborate with soil microorganisms, insects, and animals to maintain ecosystems.",
     "preferredSlug": "plants",
     "lastEditedBy": "01GPYGE0KV35HWSEVWVJMAKJR8",
     "lastEditedAt": 1693212133,
-    "createdAt": 1635724800
+    "createdAt": 1635724800,
+    "about": "To thrive in a world where every corner is adorned with green, contributing to life's tapestry. To sustain ecosystems by providing oxygen, nourishment, and habitat for countless beings. Collaborate with soil microorganisms, insects, and animals to maintain ecosystems."
   },
   {
     "id": "01H8W4Z5YCZYS471FSJ5HG1Q16",
     "name": "Fruit producers",
     "website": "https://en.wikipedia.org/wiki/Fruit",
-    "vision": "To spread our seeds far and wide, nourishing bodies and fostering life across the land.",
-    "mission": "To propagate and offer delicious, nutrient-rich fruits for the well-being of various species.",
-    "priorities": "Seed Dispersal, Nutrient Provision, Symbiosis",
     "profilePic": "https://img.freepik.com/premium-vector/fresh-fruit-logo-template-design_157713-795.jpg?w=2000",
-    "notes": "Cooperate with animals to disperse seeds, enhancing biodiversity and sustenance.",
     "preferredSlug": "fruit-producers",
     "lastEditedBy": "01GPYGEB469EDD6WKP8G299YVZ",
     "lastEditedAt": 1693219133,
-    "createdAt": 1651891200
+    "createdAt": 1651891200,
+    "about": "To spread our seeds far and wide, nourishing bodies and fostering life across the land. To propagate and offer delicious, nutrient-rich fruits for the well-being of various species. Cooperate with animals to disperse seeds, enhancing biodiversity and sustenance."
   },
   {
     "id": "01H8W4Z5YCF295106MEBEKCT2Q",
     "name": "Cows",
     "website": "https://en.wikipedia.org/wiki/Cattle",
-    "vision": "To lead content lives in meadows where we contribute to human nourishment and sustenance.",
-    "mission": "To provide dairy products while finding harmony with nature and our role.",
-    "priorities": "Contentment, Dairy Production, Harmony",
     "profilePic": "https://t3.ftcdn.net/jpg/04/85/70/76/360_F_485707621_MizGW8KPIFFLJ7RDYs1n4iU5nUNA9whW.jpg",
-    "notes": "Strive for natural grazing and minimal ecological impact, nurturing the land we inhabit.",
     "preferredSlug": "cows",
     "lastEditedBy": "01GPYGE0KV35HWSEVWVJMAKJR8",
     "lastEditedAt": 1693218133,
-    "createdAt": 1649040000
+    "createdAt": 1649040000,
+    "about": "To lead content lives in meadows where we contribute to human nourishment and sustenance. To provide dairy products while finding harmony with nature and our role. Strive for natural grazing and minimal ecological impact, nurturing the land we inhabit."
   },
   {
     "id": "01H8W4Z5YCDNW1Q3Q3Q2BY076E",
     "name": "Dairy Cows",
     "website": "https://en.wikipedia.org/wiki/Dairy_cattle",
-    "vision": "To live healthy lives while providing nourishment that sustains the growth of others.",
-    "mission": "To offer dairy resources in a way that respects our well-being and contributes to life.",
-    "priorities": "Health, Dairy Contribution, Mutual Support",
     "profilePic": "https://img.freepik.com/free-vector/cow-with-dairy-farm-label_1308-93257.jpg",
-    "notes": "Promote natural practices that enhance our health and provide nourishment for all.",
     "preferredSlug": "dairy-cows",
     "lastEditedBy": "01GPYGE0KV35HWSEVWVJMAKJR8",
     "lastEditedAt": 1693217133,
-    "createdAt": 1649040000
+    "createdAt": 1649040000,
+    "about": "To live healthy lives while providing nourishment that sustains the growth of others. To offer dairy resources in a way that respects our well-being and contributes to life. Promote natural practices that enhance our health and provide nourishment for all."
   },
   {
     "id": "01H8W4Z5YCC7HGCQPSP4PAV9BY",
     "name": "Horses",
     "website": "https://en.wikipedia.org/wiki/Horse",
-    "vision": "To run freely in partnership with humans, channeling our strength for mutual growth.",
-    "mission": "To contribute to human activities with grace, strength, and collaborative spirit.",
-    "priorities": "Partnership, Strength, Collaboration",
     "profilePic": "https://www.shutterstock.com/image-vector/horse-logo-simple-elegance-clean-250nw-2051457173.jpg",
-    "notes": "Support endeavors that appreciate our abilities and prioritize our well-being alongside humans.",
     "preferredSlug": "horses",
     "lastEditedBy": "01GPYGE0KV35HWSEVWVJMAKJR8",
     "lastEditedAt": 1693210133,
-    "createdAt": 1649040000
+    "createdAt": 1649040000,
+    "about": "To run freely in partnership with humans, channeling our strength for mutual growth. To contribute to human activities with grace, strength, and collaborative spirit. Support endeavors that appreciate our abilities and prioritize our well-being alongside humans."
   }
 ]

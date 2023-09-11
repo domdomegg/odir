@@ -4,7 +4,6 @@ import { useRawReq } from '../helpers/networking';
 import Section from '../components/Section';
 import { Form } from '../components/Form';
 import { PersonCreation } from '../helpers/generated-api-client';
-import { GRADES } from '../helpers/grades';
 import { ENTITY_PREFIX } from '../helpers/entityPrefix';
 
 const NewPersonPage: React.FC<RouteComponentProps> = () => {
@@ -17,26 +16,20 @@ const NewPersonPage: React.FC<RouteComponentProps> = () => {
         definition={{
           name: { inputType: 'text', label: 'Name' },
           jobTitle: { label: 'Job title', inputType: 'text' },
-          grade: { label: 'Grade', inputType: 'select', selectOptions: GRADES },
           email: { label: 'Email', inputType: 'text' },
+          phone: { label: 'Phone', inputType: 'text' },
           linkedin: { label: 'LinkedIn', inputType: 'text' },
-          about: { label: 'Who am I?', inputType: 'textarea' },
-          howHelpMe: { label: 'How can others help me?', inputType: 'textarea' },
-          howSupportOthers: { label: 'How can I help others?', inputType: 'textarea' },
-          motivation: { label: 'Motivation', inputType: 'textarea' },
-          policyBackground: { label: 'Policy background', inputType: 'textarea' },
+          website: { label: 'Website', inputType: 'text' },
+          about: { label: 'About (markdown)', inputType: 'textarea' },
         }}
         initialValues={{
           name: '',
           jobTitle: '',
-          grade: '',
           email: '',
+          phone: '',
           linkedin: '',
+          website: '',
           about: '',
-          howHelpMe: '',
-          howSupportOthers: '',
-          motivation: '',
-          policyBackground: '',
         }}
         showCurrent={false}
         showNew={false}

@@ -23,6 +23,7 @@ import HomePage from './home';
 import DomainPage from './admin/domain';
 import NewEntityPage from './new';
 import { OmniSearchBox } from '../components/OmniSearchBox';
+import PrivacyPolicyPage from './privacy';
 
 const IndexPage = () => {
   return (
@@ -31,10 +32,6 @@ const IndexPage = () => {
         <title>
           Directory Navigator: Map your organization and its partners
         </title>
-        <meta
-          property="og:title"
-          content="Directory Navigator: Map your organization and its partners"
-        />
       </Helmet>
 
       <div className="flex-1">
@@ -84,6 +81,7 @@ const IndexLayout: React.FC = () => {
       <Router basepath="/" className="text-left">
         <GoogleLoginCallbackPage path="/login-callback/google" />
         <EmailLoginCallbackPage path="/login-callback/email" />
+        <PrivacyPolicyPage path="/policies/privacy" />
 
         {auth && (
           <>

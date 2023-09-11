@@ -11,7 +11,6 @@ const NotFoundPage: React.FC<RouteComponentProps> = () => (
     <Helmet>
       <meta name="robots" content="noindex" />
       <title>Directory Navigator: Page not found</title>
-      <meta property="og:title" content="Directory Navigator: Page not found" />
     </Helmet>
     <Section>
       <Logo className="my-8 w-24" />

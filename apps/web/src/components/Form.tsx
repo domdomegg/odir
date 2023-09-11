@@ -162,6 +162,7 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
               'bg-stone-200 border-stone-200 hover:bg-stone-100 hover:border-stone-400 focus:border-stone-800 focus:bg-white': !error,
               'bg-red-100 border-red-100 hover:bg-red-50 hover:border-red-400 focus:border-red-800 focus:bg-red-50': error,
             })}
+            rows={5}
             {...rest}
           />
         </div>
