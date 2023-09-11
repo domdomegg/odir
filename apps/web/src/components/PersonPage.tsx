@@ -1,6 +1,8 @@
 import { PencilIcon } from '@heroicons/react/outline';
 import React, { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
+import ReactMarkdown from 'react-markdown';
+import { Helmet } from 'react-helmet';
 import Section, { SectionTitle } from './Section';
 import {
   EntityResponse, Person, PersonEdits, Relation, Slug, Team
@@ -12,8 +14,8 @@ import { Form } from './Form';
 import { useRawReq } from '../helpers/networking';
 import { ChevronList, ChevronListButton } from './ChevronList';
 import { TeamCardGrid } from './TeamCard';
-import { GRADES } from '../helpers/grades';
 import { ProfileImageEditor } from './ProfileImageEditor';
+import { RequestFormLink } from './RequestFormLink';
 
 type EditorState = 'closed' | 'menu' | 'details' | 'image' | 'teams' | 'manager' | 'slugs';
 
@@ -42,31 +44,44 @@ const PersonPage: React.FC<{ data: EntityResponse & { type: 'person' }, refetch:
   });
 
   return (
-    <Section>
-      <div className="flex gap-4">
-        <img src={person.profilePic ?? 'https://upload.wikimedia.org/wikipedia/commons/4/48/No_image_%28male%29.svg'} alt="" className="aspect-square object-cover w-80 shadow bg-white" />
-        <div className="flex-1">
-          <div className="flex gap-4">
-            <div className="flex-1">
-              <SectionTitle>{person.name}</SectionTitle>
-            </div>
-            <div>
+    <>
+      <Helmet>
+        <title>
+          Directory Navigator: {person.name}
+        </title>
+      </Helmet>
+      <Section>
+        <div className="flex gap-4">
+          <img src={person.profilePic ?? 'https://upload.wikimedia.org/wikipedia/commons/4/48/No_image_%28male%29.svg'} alt="" className="aspect-square object-cover w-80 shadow bg-white" />
+          <div className="flex-1">
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <SectionTitle>{person.name}</SectionTitle>
+              </div>
               <div>
-                <Button onClick={() => setEditorState('menu')}><PencilIcon className="h-5 mb-0.5 mr-0.5" /> Edit person</Button>
+                <div>
+                  <Button onClick={() => setEditorState('menu')}><PencilIcon className="h-5 mb-0.5 mr-0.5" /> Edit person</Button>
+                </div>
               </div>
             </div>
+            <p className="text-2xl -mt-2 mb-2">{person.jobTitle}</p>
+            {person.email && <Link href={`mailto:${encodeURIComponent(person.email)}`} className="underline block py-1">{person.email}</Link>}
+            {person.phone && <Link href={`tel:${encodeURIComponent(person.phone)}`} className="underline block py-1">{person.phone}</Link>}
+            {person.linkedin && <Link href={person.linkedin} className="underline block py-1">{person.linkedin}</Link>}
+            {person.website && <Link href={person.website} className="underline block py-1">{person.website}</Link>}
           </div>
-          <p className="text-2xl -mt-2 mb-2">{person.jobTitle}{person.grade && ` (${person.grade})`}</p>
-          {person.email && <Link href={`mailto:${encodeURIComponent(person.email)}`} className="underline block py-1">{person.email}</Link>}
-          {person.linkedin && <Link href={person.linkedin} className="underline block py-1">{person.linkedin}</Link>}
         </div>
-      </div>
-      <h2 className="font-odir-header text-3xl font-bold mt-6 mb-1">Teams</h2>
-      <PersonTeams person={person} teams={teams} relations={relations} />
-      <h2 className="font-odir-header text-3xl font-bold mt-6 mb-1">About</h2>
-      <PersonAbout person={person} />
-      <PersonEditorModal editorState={editorState} setEditorState={setEditorState} person={person} relations={relations} teams={teams} persons={persons} slugs={slugs} hasDetailedAccess={hasDetailedAccess} refetch={refetch} />
-    </Section>
+        <h2 className="font-odir-header text-3xl font-bold mt-6 mb-1">Teams</h2>
+        <PersonTeams person={person} teams={teams} relations={relations} />
+        {person.about && (
+        <>
+          <h2 className="font-odir-header text-3xl font-bold mt-6 mb-1">About</h2>
+          <PersonAbout person={person} />
+        </>
+        )}
+        <PersonEditorModal editorState={editorState} setEditorState={setEditorState} person={person} relations={relations} teams={teams} persons={persons} slugs={slugs} hasDetailedAccess={hasDetailedAccess} refetch={refetch} />
+      </Section>
+    </>
   );
 };
 
@@ -86,43 +101,9 @@ const PersonTeams: React.FC<{ person: Person, teams: Team[], relations: Relation
 
 const PersonAbout: React.FC<{ person: Person }> = ({
   person
-}) => {
-  return (
-    <div className="flex flex-col gap-4">
-      {!person.about && !person.howHelpMe && !person.howSupportOthers && !person.motivation && !person.policyBackground && <p>There's no additional information on this person yet.</p>}
-      {person.about && (
-      <div>
-        <p className="font-bold">Who am I?</p>
-        <p>{person.about}</p>
-      </div>
-      )}
-      {person.howHelpMe && (
-      <div>
-        <p className="font-bold">How can you help me?</p>
-        <p>{person.howHelpMe}</p>
-      </div>
-      )}
-      {person.howSupportOthers && (
-      <div>
-        <p className="font-bold">How can I help you?</p>
-        <p>{person.howSupportOthers}</p>
-      </div>
-      )}
-      {person.motivation && (
-      <div>
-        <p className="font-bold">Motivation</p>
-        <p>{person.motivation}</p>
-      </div>
-      )}
-      {person.policyBackground && (
-      <div>
-        <p className="font-bold">Policy Background</p>
-        <p>{person.policyBackground}</p>
-      </div>
-      )}
-    </div>
-  );
-};
+}) => (
+  <ReactMarkdown className="prose prose-h1:text-xl prose-h2:text-lg prose-h3:text-base text-black marker:text-stone-600 mt-2 max-w-none" allowedElements={['h1', 'h2', 'h3', 'p', 'a', 'ul', 'ol', 'li']}>{person.about ?? ''}</ReactMarkdown>
+);
 
 const PersonEditorModal: React.FC<{ editorState: EditorState, setEditorState: (editorState: EditorState) => void, person: Person, relations: Relation[], teams: Team[], persons: Person[], slugs: Slug[], hasDetailedAccess: boolean, refetch: () => Promise<unknown> }> = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -146,26 +127,20 @@ const PersonEditorModal: React.FC<{ editorState: EditorState, setEditorState: (e
         definition={{
           name: { label: 'Name', inputType: 'text' },
           jobTitle: { label: 'Job title', inputType: 'text' },
-          grade: { label: 'Grade', inputType: 'select', selectOptions: GRADES },
           email: { label: 'Email', inputType: 'text' },
+          phone: { label: 'Phone', inputType: 'text' },
           linkedin: { label: 'LinkedIn', inputType: 'text' },
-          about: { label: 'Who am I?', inputType: 'textarea' },
-          howHelpMe: { label: 'How can others help me?', inputType: 'textarea' },
-          howSupportOthers: { label: 'How can I help others?', inputType: 'textarea' },
-          motivation: { label: 'Motivation', inputType: 'textarea' },
-          policyBackground: { label: 'Policy background', inputType: 'textarea' },
+          website: { label: 'Website', inputType: 'text' },
+          about: { label: 'About (supports markdown)', inputType: 'textarea' },
         }}
         initialValues={{
           name: person.name,
           jobTitle: person.jobTitle,
-          grade: person.grade,
           email: person.email,
+          phone: person.phone,
           linkedin: person.linkedin,
+          website: person.website,
           about: person.about,
-          howHelpMe: person.howHelpMe,
-          howSupportOthers: person.howSupportOthers,
-          motivation: person.motivation,
-          policyBackground: person.policyBackground,
         }}
         showCurrent={false}
         showNew={false}
@@ -211,6 +186,9 @@ const PersonEditorModal: React.FC<{ editorState: EditorState, setEditorState: (e
             <p>Manage short URLs for this team</p>
           </ChevronListButton> */}
         </ChevronList>
+        <div className="mt-4">
+          <RequestFormLink message={`I wanted to edit the following page:\n\n${window.location.href}\n\nThe edits I wanted to make were:\n\n`} className="hover:underline">Something else</RequestFormLink>
+        </div>
       </>
     );
   }

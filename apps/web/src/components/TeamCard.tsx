@@ -10,7 +10,7 @@ export const TeamCard: React.FC<{ team: Team }> = ({ team }) => {
         <img src={team.profilePic ?? withAssetPrefix('/shared/images/missing-team-avatar.svg')} alt="" className="aspect-square object-cover h-28" />
         <div className="py-2 px-3 min-w-0 border-l">
           <div className="text-xl mb-1.5">{team.name}</div>
-          <div className="text-gray-600 whitespace-nowrap overflow-hidden text-ellipsis">{team.vision}</div>
+          <div className="text-gray-600 whitespace-nowrap overflow-hidden text-ellipsis">{team.about}</div>
         </div>
       </div>
     </Link>

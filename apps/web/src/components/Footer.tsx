@@ -16,9 +16,8 @@ const Footer: React.FC = () => (
             <RequestFormLink message={'I have some feedback about Directory Navigator:\n\n'} className="inline-block hover:underline">Feedback</RequestFormLink>
             ·
             <RequestFormLink message={'I had a support query regarding Directory Navigator:\n\n'} className="inline-block hover:underline">Support</RequestFormLink>
-            {/* TODO: add about page */}
-            {/* ·
-      <Link href={`//${env.CUSTOM_ODIR_DOMAIN}/about/`} className="inline-block hover:underline">About</Link> */}
+            ·
+            <Link href="/policies/privacy" className="inline-block hover:underline">Privacy</Link>
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { slugTable } from './tables';
 
 const RESERVED_SLUGS = new Set([
   // used
-  'admin', 'new', 'login-callback', 'profile',
+  'admin', 'new', 'login-callback', 'profile', 'policies',
   // not used, but might be in future
   'user', 'login', 'register', 'default', 'home', 'error', 'debug', 'tools'
 ]);

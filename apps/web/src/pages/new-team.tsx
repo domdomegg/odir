@@ -15,18 +15,12 @@ const NewTeamPage: React.FC<RouteComponentProps> = () => {
         title="New team"
         definition={{
           name: { inputType: 'text', label: 'Name' },
-          mission: { inputType: 'textarea', label: 'Mission' },
-          vision: { inputType: 'textarea', label: 'Vision' },
-          priorities: { inputType: 'textarea', label: 'Priorities' },
-          notes: { inputType: 'textarea', label: 'Notes' },
+          about: { label: 'About (markdown)', inputType: 'textarea' },
           website: { inputType: 'text', label: 'Website' },
         }}
         initialValues={{
           name: '',
-          mission: '',
-          vision: '',
-          priorities: '',
-          notes: '',
+          about: '',
           website: '',
         }}
         showCurrent={false}

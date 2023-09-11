@@ -83,8 +83,7 @@ export const makeTeam = <Override extends Partial<Team>>(override?: Override): T
   createdAt: Math.floor(new Date().getTime() / 1000),
   lastEditedAt: Math.floor(new Date().getTime() / 1000),
   lastEditedBy: ulid(),
-  vision: 'A world that is cool',
-  mission: 'Do cool things',
+  about: 'We aim to create a world that is cool, by doing cool things',
   ...override,
 } as Team & Override)
 

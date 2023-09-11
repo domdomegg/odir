@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { UserManager, UserManagerSettings } from 'oidc-client';
 import { RouteComponentProps } from '@gatsbyjs/reach-router';
 import { navigate } from 'gatsby';
+import { Helmet } from 'react-helmet';
 import Section, { SectionTitle } from '../components/Section';
 import Button from '../components/Button';
 import Logo from '../components/Logo';
@@ -15,11 +16,19 @@ import env from '../env/env';
 
 const LoginPage: React.FC<RouteComponentProps> = () => {
   return (
-    <Section className="md:py-12 md:max-w-3xl px-8 my-8 md:my-24 md:bg-primary-100 text-center">
-      <Logo className="h-24 mb-8" />
-      <SectionTitle className="mb-4 sm:mb-10 ">Join <span className="hidden sm:inline">your colleagues on</span> Directory Navigator</SectionTitle>
-      <LoginForm />
-    </Section>
+    <>
+      <Helmet>
+        <title>
+          Directory Navigator: Login
+        </title>
+        <meta name="robots" content="noindex" />
+      </Helmet>
+      <Section className="md:py-12 md:max-w-3xl px-8 my-8 md:my-24 md:bg-primary-100 text-center">
+        <Logo className="h-24 mb-8" />
+        <SectionTitle className="mb-4 sm:mb-10 ">Join <span className="hidden sm:inline">your colleagues on</span> Directory Navigator</SectionTitle>
+        <LoginForm />
+      </Section>
+    </>
   );
 };
 
