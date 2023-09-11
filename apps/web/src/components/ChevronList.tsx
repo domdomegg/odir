@@ -11,18 +11,20 @@ export const ChevronList: React.FC<React.PropsWithChildren> = ({ children }) => 
 };
 
 export type ChevronListButtonProps = React.PropsWithChildren<{
-  onClick: () => void,
+  onClick?: () => void,
+  href?: string,
   title?: string,
   variant?: 'primary' | 'secondary'
 }>;
 
 export const ChevronListButton: React.FC<ChevronListButtonProps> = ({
-  onClick, title, children, variant = 'primary'
+  onClick, href, title, children, variant = 'primary'
 }) => {
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link
       onClick={onClick}
+      href={href}
       className={classNames('p-4 transition-all flex items-center', {
         'bg-primary-600 hover:bg-primary-500 text-white': variant === 'primary',
         'bg-secondary-100 hover:bg-secondary-200': variant === 'secondary',

@@ -1,7 +1,7 @@
 import { Link as GatsbyLink } from 'gatsby';
 import classNames from 'classnames';
 
-interface Props extends Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'ref'> {
+export interface LinkProps extends Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'ref'> {
   href?: string,
   target?: React.HTMLAttributeAnchorTarget,
   onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>,
@@ -10,7 +10,7 @@ interface Props extends Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<
   children?: React.ReactNode,
 }
 
-const Link: React.FC<Props> = ({
+const Link: React.FC<LinkProps> = ({
   children, href, target, onClick, className, disabled, ...anchorProps
 }) => {
   if (disabled || (href === undefined && onClick === undefined)) {

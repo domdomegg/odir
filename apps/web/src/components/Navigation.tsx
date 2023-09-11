@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { SectionNoPadding } from './Section';
 import Button from './Button';
 import Link from './Link';
+import { useAuthState } from '../helpers/networking';
 
 interface LinkDefinition { text: string, href?: string, onClick?: React.MouseEventHandler }
 
@@ -12,8 +13,7 @@ const Navigation: React.FC<{ left: LinkDefinition[], right: LinkDefinition[] }> 
   const [open, setOpen] = useState(false);
 
   return (
-    // TODO
-    <nav className={classNames('text-3xl md:text-xl lg:text-2xl md:bg-transparent', { 'bg-primary-700 text-white md:text-black': open })}>
+    <nav className={classNames('text-3xl md:text-xl md:bg-transparent', { 'bg-primary-200 text-black': open })}>
       <Disclosure open={open} onChange={() => setOpen(!open)}>
         <SectionNoPadding>
           {/* Mobile nav: menu button */}
@@ -30,7 +30,7 @@ const Navigation: React.FC<{ left: LinkDefinition[], right: LinkDefinition[] }> 
           {/* Mobile nav: (optional) singular right button */}
           {!open && right.length === 1 && (
             <div className="md:hidden ml-16 -mt-[3.25rem] mr-2 mb-4 text-right text-2xl">
-              <Button key={right[0].text} href={right[0].href} onClick={right[0].onClick}>{right[0].text}</Button>
+              <Button key={right[0].text} href={right[0].href} onClick={right[0].onClick} variant="secondary">{right[0].text}</Button>
             </div>
           )}
 
@@ -48,7 +48,7 @@ const Navigation: React.FC<{ left: LinkDefinition[], right: LinkDefinition[] }> 
                 </Link>
               ))}
               {right.map((item) => (
-                <Button key={item.text} href={item.href} onClick={item.onClick} className="block py-4 px-4 mx-8">{item.text}</Button>
+                <Button key={item.text} href={item.href} onClick={item.onClick} className="block py-4 px-4 mx-8" variant="secondary">{item.text}</Button>
               ))}
             </div>
           </DisclosurePanel>
@@ -75,7 +75,7 @@ const Navigation: React.FC<{ left: LinkDefinition[], right: LinkDefinition[] }> 
               <div>
                 <div className="flex space-x-2">
                   {right.map((item) => (
-                    <Button key={item.text} href={item.href} onClick={item.onClick}>{item.text}</Button>
+                    <Button key={item.text} href={item.href} onClick={item.onClick} variant="secondary">{item.text}</Button>
                   ))}
                 </div>
               </div>
@@ -87,16 +87,20 @@ const Navigation: React.FC<{ left: LinkDefinition[], right: LinkDefinition[] }> 
   );
 };
 
-export const TopNavigation: React.FC = () => (
-  <Navigation
-    left={[
-      { text: 'Home', href: '/' },
-      { text: 'About', href: '/about/' },
-    ]}
-    right={[
-      { text: 'Sign in', href: '/login/' },
-    ]}
-  />
-);
+export const TopNavigation: React.FC = () => {
+  const [, setAuth] = useAuthState();
+
+  return (
+    <Navigation
+      left={[
+        { text: 'Home', href: '/' },
+        { text: 'New', href: '/new/' },
+      ]}
+      right={[
+        { text: 'Sign out', onClick: () => setAuth(undefined) },
+      ]}
+    />
+  );
+};
 
 export default Navigation;
