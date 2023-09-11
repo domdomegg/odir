@@ -206,6 +206,7 @@ const serverlessConfiguration: AWS = {
     apiRouter: {
       handler: 'src/api/_router.main',
       events: getFunctionPaths().map(getFunctionEvent),
+      provisionedConcurrency: env.STAGE === 'prod' ? 1 : 0,
     },
     schedulerDoScheduledThingRun: {
       handler: 'src/scheduler/do-scheduled-thing/run.main',
