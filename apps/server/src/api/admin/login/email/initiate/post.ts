@@ -33,7 +33,7 @@ export const main = middyfy($EmailInitiateLoginRequest, null, false, async (even
     createdAt: now,
     ttl: now + EMAIL_LOGIN_VALIDITY_IN_SECONDS
   });
-  const verificationHref = `http${env.STAGE === 'local' ? '' : 's'}://${env.CUSTOM_ODIR_DOMAIN}/login-callback/email?token=${emailLogin.id}`;
+  const verificationHref = `http${env.STAGE === 'local' ? '' : 's'}://${env.CUSTOM_ODIR_DOMAIN}/login-callback/email#token=${emailLogin.id}`;
 
   await sendEmail('Login to Directory Navigator', emailLoginEmail(verificationHref), event.body.email);
 });

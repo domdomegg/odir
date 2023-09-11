@@ -16,9 +16,6 @@ const s3Client = env.STAGE === 'local'
   : new S3Client();
 
 const BUCKET_NAME = `odir-server-${env.STAGE}`;
-const BUCKET_BASE_URL = env.STAGE === 'local'
-  ? `http://localhost:8007/${BUCKET_NAME}`
-  : `https://${BUCKET_NAME}.s3.eu-west-1.amazonaws.com`;
 
 export const main = middyfy($BlobCreation, $Url, true, async (event) => {
   const id = ulid();
@@ -33,5 +30,5 @@ export const main = middyfy($BlobCreation, $Url, true, async (event) => {
     ContentType: contentType,
   }));
 
-  return `${BUCKET_BASE_URL}/${id}`;
+  return `${env.BLOB_BASE_URL}/${id}`;
 });
