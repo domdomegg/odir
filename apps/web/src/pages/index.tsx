@@ -24,6 +24,8 @@ import DomainPage from './admin/domain';
 import NewEntityPage from './new';
 import { OmniSearchBox } from '../components/OmniSearchBox';
 import PrivacyPolicyPage from './privacy';
+import { ENTITY_ORGANOGRAM_SUFFIX, ENTITY_PREFIX } from '../helpers/entityPrefix';
+import EntityOrganogramPage from './entityOrganogram';
 
 const IndexPage = () => {
   return (
@@ -86,7 +88,8 @@ const IndexLayout: React.FC = () => {
         {auth && (
           <>
             <HomePage path="/" />
-            <EntityPage entitySlug="" path="/:entitySlug" />
+            <EntityPage entitySlug="" path={`${ENTITY_PREFIX}:entitySlug`} />
+            <EntityOrganogramPage entitySlug="" path={`${ENTITY_PREFIX}:entitySlug${ENTITY_ORGANOGRAM_SUFFIX}`} />
             <NewEntityPage path="/new" />
             <NewTeamPage path="/new/team" />
             <NewPersonPage path="/new/person" />
