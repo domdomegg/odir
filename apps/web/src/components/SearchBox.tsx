@@ -71,6 +71,7 @@ export const SearchBox = <T = SearchResponse['results'][number],>({
       ref={selectRef}
       onMenuClose={onClose}
       onKeyDown={onClose ? (e) => { if (e.key === 'Escape') onClose(); } : undefined}
+      allowCreateWhileLoading
     />
   );
 };
