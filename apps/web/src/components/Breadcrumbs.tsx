@@ -20,7 +20,7 @@ export const Breadcrumbs: React.FC<{ parentChain: BreadcrumbItem[], directParent
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-wrap gap-2">
       {parentChain.flatMap((b, i) => {
         const crumb = <Breadcrumb key={b.id} item={b} />;
 
