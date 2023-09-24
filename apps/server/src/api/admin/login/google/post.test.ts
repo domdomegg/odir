@@ -10,7 +10,7 @@ const googleTokenPayload = {
   iss: 'accounts.google.com', // verified by the real library
   email_verified: true,
   sub: '12345',
-  email: 'test@joinraise.org',
+  email: 'test@gmail.com',
   aud: env.GOOGLE_LOGIN_CLIENT_ID, // verified by the real library
   iat: 1609459200,
   exp: 2524608000, // verified by the real library
@@ -29,7 +29,7 @@ jest.mock('../../../../helpers/login', () => ({
 
 beforeEach(() => {
   (login as unknown as jest.Mock).mockImplementation((email) => {
-    if (email === 'test@joinraise.org') {
+    if (email === 'test@gmail.com') {
       const result: LoginResponse = {
         accessToken: { value: 'mockA', expiresAt: 0 },
         refreshToken: { value: 'mockR', expiresAt: 1 },
@@ -64,10 +64,11 @@ test('get working access token for valid Google token', async () => {
 });
 
 test.each([
-  ['missing payload', undefined, 'idToken: missing payload', 401],
-  ['missing email', { ...googleTokenPayload, email: undefined }, 'idToken: missing email', 401],
-  ['with unverified email', { ...googleTokenPayload, email_verified: false }, 'idToken: email not verified', 401],
-  ['with non-allowlisted email', { ...googleTokenPayload, email: 'bad@joinraise.org' }, 'not allowlisted', 403],
+  ['missing payload', undefined, 'Missing payload', 401],
+  ['missing email', { ...googleTokenPayload, email: undefined }, 'missing an email', 401],
+  ['with unverified email', { ...googleTokenPayload, email_verified: false }, 'not verified', 401],
+  ['with non-eligible email', { ...googleTokenPayload, email: 'bad@outlook.com' }, 'not eligible', 403],
+  ['with non-allowlisted email', { ...googleTokenPayload, email: 'bad@gmail.com' }, 'not allowlisted', 403],
 ])('rejects Google token %s', async (description, token, errMessage, status) => {
   getPayload.mockReturnValue(token);
 
@@ -99,6 +100,6 @@ test('rejects invalid Google token', async () => {
   });
 
   expect(response.statusCode).toBe(401);
-  expect(response.body).toContain('idToken: not valid');
+  expect(response.body).toContain('idToken: Invalid token');
   expect(response.body).not.toContain('Invalid token for some reason!');
 });
