@@ -53,6 +53,40 @@ export const GoogleLoginCallbackPage: React.FC<RouteComponentProps> = () => {
   );
 };
 
+export const GovSsoLoginCallbackPage: React.FC<RouteComponentProps> = () => {
+  const [error, setError] = useState<undefined | Error>();
+  const req = useRawReq();
+  const [, setAuthState] = useAuthState();
+
+  useEffect(() => {
+    try {
+      new UserManager(govSsoUserManagerSettings).signinCallback().then(async (user) => {
+        const missingScopes = govSsoRequiredScopes.filter((s) => !user.scopes.includes(s));
+        if (missingScopes.length > 0) {
+          throw new Error(`Missing scopes: ${JSON.stringify(missingScopes)}`);
+        }
+
+        const loginResponse = await req(
+          'post /admin/login/gov-sso',
+          { idToken: user.id_token },
+        );
+
+        setAuthState(loginResponse.data);
+        navigate('/');
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error(String(err)));
+    }
+  }, []);
+
+  return (
+    <Section className="mt-8 text-center">
+      {error && <Alert variant="error">{error}</Alert>}
+      {!error && <h1>Logging you in...</h1>}
+    </Section>
+  );
+};
+
 export const EmailLoginCallbackPage: React.FC<RouteComponentProps> = () => {
   const [error, setError] = useState<undefined | Error>();
   const [, setAuthState] = useAuthState();
@@ -89,6 +123,7 @@ type LoginFormState =
   | { state: 'method selection', email: string, methods: LoginMethodsResponse['methods'] }
   | { state: 'method: email', email: string }
   | { state: 'method: google', email: string }
+  | { state: 'method: gov-sso', email: string }
   | { state: 'method: microsoft', email: string }
   | { state: 'method: impersonation', email: string };
 
@@ -105,6 +140,10 @@ const LoginForm: React.FC = () => {
 
   if (loginFormState.state === 'method: google') {
     return <LoginViaGoogle loginFormState={loginFormState} setLoginFormState={setLoginFormState} />;
+  }
+
+  if (loginFormState.state === 'method: gov-sso') {
+    return <LoginViaGovSso loginFormState={loginFormState} setLoginFormState={setLoginFormState} />;
   }
 
   if (loginFormState.state === 'method: email') {
@@ -226,6 +265,41 @@ const LoginViaGoogle: React.FC<{
   return <LoginAutomatically login={login} loginFormState={loginFormState} setLoginFormState={setLoginFormState} />;
 };
 
+const govSsoRequiredScopes = [
+  'email',
+  'profile',
+  'openid',
+];
+
+const govSsoUserManagerSettings: UserManagerSettings = {
+  authority: 'https://sso.service.security.gov.uk',
+  metadata: {
+    issuer: 'https://sso.service.security.gov.uk',
+    authorization_endpoint: 'https://sso.service.security.gov.uk/auth/oidc',
+    id_token_signing_alg_values_supported: ['RS256'],
+    jwks_uri: 'https://sso.service.security.gov.uk/.well-known/jwks.json'
+  },
+  client_id: 'd2a6766a-26a4-49f8-8cc1-c20e807473e0',
+  redirect_uri: `${(typeof window !== 'undefined') ? window.location.origin : ''}/login-callback/gov-sso`,
+  scope: govSsoRequiredScopes.join(' '),
+  response_type: 'id_token',
+  response_mode: 'query',
+  signingKeys: [{
+    alg: 'RSA256', e: 'AQAB', kid: 'mrk-5d4bc6f375d44b329a14473a5e5db520', kty: 'RSA', n: 'zZVN57t4TAVpVd1qiNJim32G4hW7eHwD_mptOd4TIgzPyTY9LNVwskdQkoajFUGmOTnmiC-3Cert1SBMH4dwiEgZAMRKo5ignLVIms2sLflBRskyfWIFBn2jXs8LW10zYmXuS45Vb4N0geD81WfJhT6GpQ562h0yA0rL0fQh-1kxWZtVX46WyyKxDPVpiY1Q-3Otv0mvIBa9Mj_tMRMkuXywpcriVPWo5nXKvjf3258wQLmRnLjm5X8DpBHq9VCH3aC3VTBN8f05oRXLbW5K26e5lsK91-Jk2zF5jxRJd-bTwvJLEe8PkcW8K7fIRQ1eNV-nw_GvL0VBm3zqe4CAyQ', use: 'sig'
+  }],
+};
+
+const LoginViaGovSso: React.FC<{
+  loginFormState: LoginFormState & { state: 'method: gov-sso' },
+  setLoginFormState: (s: LoginFormState) => void
+}> = ({ loginFormState }) => {
+  useEffect(() => {
+    new UserManager(govSsoUserManagerSettings).signinRedirect({ login_hint: loginFormState.email });
+  });
+
+  return <Spinner />;
+};
+
 const LoginViaImpersonation: React.FC<{
   loginFormState: LoginFormState & { state: 'method: impersonation' },
   setLoginFormState: (s: LoginFormState) => void
@@ -260,6 +334,7 @@ const LoginAutomatically: React.FC<{
     try {
       const result = await login();
       setAuthState(result);
+      navigate('/');
     } catch (err) {
       setError(err instanceof Error ? err : new Error(String(err)));
     }

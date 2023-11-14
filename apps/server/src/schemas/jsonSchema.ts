@@ -30,7 +30,7 @@ export const $Status: JSONSchema<S.Status> = {
   additionalProperties: false,
 };
 
-export const $LoginMethod: JSONSchema<S.LoginMethodsResponse['methods'][number]> = { enum: ['google', 'microsoft', 'email', 'impersonation'] };
+export const $LoginMethod: JSONSchema<S.LoginMethodsResponse['methods'][number]> = { enum: ['google', 'microsoft', 'gov-sso', 'email', 'impersonation'] };
 
 export const $LoginMethodsResponse: JSONSchema<S.LoginMethodsResponse> = {
   type: 'object',
@@ -69,6 +69,15 @@ export const $LoginResponse: JSONSchema<S.LoginResponse> = {
 };
 
 export const $GoogleLoginRequest: JSONSchema<S.GoogleLoginRequest> = {
+  type: 'object',
+  properties: {
+    idToken: { type: 'string' },
+  },
+  required: ['idToken'],
+  additionalProperties: false,
+};
+
+export const $GovSsoLoginRequest: JSONSchema<S.GovSsoLoginRequest> = {
   type: 'object',
   properties: {
     idToken: { type: 'string' },

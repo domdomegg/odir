@@ -25,7 +25,7 @@ const DomainPage: React.FC<RouteComponentProps & { domainId: string }> = ({ doma
             label: 'Groups', formatter: (ids?: string[]) => ids?.map((id) => groupMap[id]).join(', ') || '(none)', inputType: 'multiselect', selectOptions: groupMap,
           },
           loginMethods: {
-            label: 'Login methods', formatter: (methods?: string[]) => methods?.join(', ') || '(none)', inputType: 'multiselect', selectOptions: ['google', 'microsoft', 'email']
+            label: 'Login methods', formatter: (methods?: string[]) => methods?.join(', ') || '(none)', inputType: 'multiselect', selectOptions: ['google', 'microsoft', 'email', 'gov-sso']
           },
         }}
         item={user}

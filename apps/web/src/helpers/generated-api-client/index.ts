@@ -90,6 +90,11 @@ export type Routes = {
     response: S.LoginResponse,
     params: null,
   },
+  "post /admin/login/gov-sso": {
+    request: S.GovSsoLoginRequest,
+    response: S.LoginResponse,
+    params: null,
+  },
   "post /admin/login/impersonation": {
     request: S.ImpersonationLoginRequest,
     response: S.LoginResponse,
@@ -326,6 +331,13 @@ export const routes = {
   "post /admin/login/google": {
     method: "post",
     makePath: ({ }: {}) => `/admin/login/google`,
+    hasRequest: true,
+    hasResponse: true,
+    hasParams: false,
+  },
+  "post /admin/login/gov-sso": {
+    method: "post",
+    makePath: ({ }: {}) => `/admin/login/gov-sso`,
     hasRequest: true,
     hasResponse: true,
     hasParams: false,

@@ -39,6 +39,7 @@
     "google-auth-library": "^7.10.0",
     "http-errors": "^1.8.1",
     "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^3.1.0",
     "middy-middleware-jwt-auth": "^5.0.0",
     "serverless-dynamodb": "^0.2.41",
     "serverless-s3-local": "^0.7.2",
