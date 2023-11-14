@@ -15,10 +15,10 @@ export interface Status {
   message: string;
 }
 
-export type LoginMethod = "google" | "microsoft" | "email" | "impersonation";
+export type LoginMethod = "google" | "microsoft" | "gov-sso" | "email" | "impersonation";
 
 export interface LoginMethodsResponse {
-  methods: ("google" | "microsoft" | "email" | "impersonation")[];
+  methods: ("google" | "microsoft" | "gov-sso" | "email" | "impersonation")[];
 }
 
 export interface LoginResponse {
@@ -34,6 +34,10 @@ export interface LoginResponse {
 }
 
 export interface GoogleLoginRequest {
+  idToken: string;
+}
+
+export interface GovSsoLoginRequest {
   idToken: string;
 }
 
@@ -429,21 +433,21 @@ export interface DomainCreation {
   name: string;
   domain: string;
   groups: string[];
-  loginMethods: ("google" | "microsoft" | "email" | "impersonation")[];
+  loginMethods: ("google" | "microsoft" | "gov-sso" | "email" | "impersonation")[];
 }
 
 export interface DomainEdits {
   name?: string;
   domain?: string;
   groups?: string[];
-  loginMethods?: ("google" | "microsoft" | "email" | "impersonation")[];
+  loginMethods?: ("google" | "microsoft" | "gov-sso" | "email" | "impersonation")[];
 }
 
 export interface Domain {
   name: string;
   domain: string;
   groups: string[];
-  loginMethods: ("google" | "microsoft" | "email" | "impersonation")[];
+  loginMethods: ("google" | "microsoft" | "gov-sso" | "email" | "impersonation")[];
   id: string;
 }
 
@@ -451,7 +455,7 @@ export type Domains = {
   name: string;
   domain: string;
   groups: string[];
-  loginMethods: ("google" | "microsoft" | "email" | "impersonation")[];
+  loginMethods: ("google" | "microsoft" | "gov-sso" | "email" | "impersonation")[];
   id: string;
 }[];
 

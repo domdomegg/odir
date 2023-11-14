@@ -19,6 +19,7 @@ export const importMap = {
   "/admin/login/email/post": () => import("./admin/login/email/post"),
   "/admin/login/get": () => import("./admin/login/get"),
   "/admin/login/google/post": () => import("./admin/login/google/post"),
+  "/admin/login/gov-sso/post": () => import("./admin/login/gov-sso/post"),
   "/admin/login/impersonation/post": () => import("./admin/login/impersonation/post"),
   "/admin/login/methods/{email}/get": () => import("./admin/login/methods/{email}/get"),
   "/admin/login/refresh/post": () => import("./admin/login/refresh/post"),

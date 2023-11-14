@@ -1,5 +1,5 @@
 import { fixedGroups } from '@odir/shared';
-import { createHash } from 'crypto';
+import { createHash } from 'node:crypto';
 import createHttpError from 'http-errors';
 import jwt from 'jsonwebtoken';
 import env from '../env/env';
