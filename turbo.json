@@ -1,7 +1,9 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
-  "pipeline": {
+  "globalDependencies": [
+    "**/.env.*local"
+  ],
+  "tasks": {
     "start": {
       "cache": false,
       "persistent": true
@@ -14,8 +16,15 @@
     "lint": {},
     "lint:fix": {},
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist", ".serverless", ".next/**", "!.next/cache/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist",
+        ".serverless",
+        ".next/**",
+        "!.next/cache/**"
+      ]
     },
     "deploy:dev": {
       "cache": false
