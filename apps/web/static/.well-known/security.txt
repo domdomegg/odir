@@ -1,4 +1,4 @@
-Contact: mailto:raisenational@gmail.com
+Contact: https://adamjones.me
 Preferred-Languages: en
 
 # Added to help security researchers who use scanning tools

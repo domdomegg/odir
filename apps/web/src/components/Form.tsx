@@ -49,7 +49,7 @@ export const toInput = <T,>(raw: T, inputType: InputType<T>): string | string[] 
 };
 
 export const fromInput = <T,>(raw: string | boolean, inputType: InputType<T>, selectOptions: T extends string[] ? (string[] | { [key: string]: string }) : undefined): T => {
-  if (inputType === 'hidden') return raw === '' ? undefined : JSON.parse(raw as string);
+  if (inputType === 'hidden') return raw === '' ? undefined as unknown as T : JSON.parse(raw as string);
   if (inputType === 'text' || inputType === 'tel' || inputType === 'email') return (raw === '' ? null : raw) as unknown as T;
   if (inputType === 'checkbox' || typeof raw === 'boolean') return raw as unknown as T; // NB: typeof raw === "boolean" if-and-only-if inputType === "checkbox"
   if (inputType === 'number') return ifNaN(parseInt(raw, 10), null) as unknown as T;
@@ -157,7 +157,7 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
           {/* @ts-ignore */}
           <textarea
             id={id}
-            ref={ref as any}
+            ref={ref as React.Ref<HTMLTextAreaElement>}
             className={classNames(inputClassName, 'w-full flex-1 py-2 px-3 appearance-none block border cursor-text transition-all text-stone-700 outline-none', {
               'bg-stone-200 border-stone-200 hover:bg-stone-100 hover:border-stone-400 focus:border-stone-800 focus:bg-white': !error,
               'bg-red-100 border-red-100 hover:bg-red-50 hover:border-red-400 focus:border-red-800 focus:bg-red-50': error,

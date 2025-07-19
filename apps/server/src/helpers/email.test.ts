@@ -44,7 +44,7 @@ test('sendEmail calls SES correctly', async () => {
       Destination: {
         ToAddresses: ['adam@joinraise.org'],
       },
-      FromEmailAddress: '"Raise" <raisenational@gmail.com>',
+      FromEmailAddress: '"Directory Navigator" <hi@directory.adamjones.me>',
     },
   });
 });
