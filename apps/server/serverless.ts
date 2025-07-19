@@ -208,16 +208,16 @@ const serverlessConfiguration: AWS = {
       events: getFunctionPaths().map(getFunctionEvent),
       // provisionedConcurrency: env.STAGE === 'prod' ? 1 : 0,
     },
-    schedulerDoScheduledThingRun: {
-      handler: 'src/scheduler/do-scheduled-thing/run.main',
-      events: [
-        {
-          schedule: env.STAGE === 'local'
-            ? 'rate(1 minute)' // Every minute
-            : 'cron(0 0 1 1 ? *)', // Every year
-        },
-      ],
-    },
+    // schedulerDoScheduledThingRun: {
+    //   handler: 'src/scheduler/do-scheduled-thing/run.main',
+    //   events: [
+    //     {
+    //       schedule: env.STAGE === 'local'
+    //         ? 'rate(1 minute)' // Every minute
+    //         : 'cron(0 0 1 1 ? *)', // Every year
+    //     },
+    //   ],
+    // },
   },
   resources: {
     Resources: {

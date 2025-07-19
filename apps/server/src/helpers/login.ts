@@ -51,15 +51,12 @@ export const login = async (email: string): Promise<LoginResponse> => {
   };
 };
 
-const SECURITY_TRAINING_VALIDITY_IN_SECONDS = 31556952; // 1 year
-
 // Map from SHA1_hex(lowercase Google account email) to use definition
 // We use hashes to avoid checking-in people's personal emails to the repo
 const HARD_CODED_USER_MAP: Record<string, Omit<User, 'id' | 'email'> | undefined> = {
   '715ec86cfb0e42b3f41aec77fa7b4a8441128d5e': {
     name: 'Adam Jones',
     groups: [fixedGroups.Admin, fixedGroups.Allowlisted],
-    securityTrainingCompletedAt: new Date('2023-01-02T18:47:46Z').getTime() / 1000,
   },
 };
 
@@ -78,12 +75,6 @@ const getGroups = async (email: string): Promise<Ulid[]> => {
   const resolvedGroups = [...(user?.groups ?? []), ...(domain?.groups ?? [])];
   if (!resolvedGroups.includes(fixedGroups.Allowlisted)) {
     throw new createHttpError.Forbidden(`Your account, ${email}, has not yet been given access to the platform (requires allowlisting). Contact support (see footer) with details about who you are to get an invite.`);
-  }
-
-  const needsSecurityTraining = resolvedGroups.includes(fixedGroups.Admin);
-  const securityTrainingOutdated = user && (user.securityTrainingCompletedAt + SECURITY_TRAINING_VALIDITY_IN_SECONDS < new Date().getTime() / 1000);
-  if (needsSecurityTraining && securityTrainingOutdated) {
-    throw new createHttpError.Forbidden(`Security training for ${email} out of date, last marked completed on ${new Date(user.securityTrainingCompletedAt * 1000)}`);
   }
 
   return resolvedGroups;

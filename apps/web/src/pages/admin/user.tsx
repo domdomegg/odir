@@ -1,5 +1,4 @@
 import { RouteComponentProps } from '@gatsbyjs/reach-router';
-import { format } from '@odir/shared';
 import { asResponseValues, useReq, useRawReq } from '../../helpers/networking';
 import Section, { SectionTitle } from '../../components/Section';
 import PropertyEditor from '../../components/PropertyEditor';
@@ -25,7 +24,6 @@ const UserPage: React.FC<RouteComponentProps & { userId: string }> = ({ userId }
           groups: {
             label: 'Groups', formatter: (ids?: string[]) => ids?.map((id) => groupMap[id]).join(', ') || '(none)', inputType: 'multiselect', selectOptions: groupMap,
           },
-          securityTrainingCompletedAt: { label: 'Security training completed at', formatter: format.timestamp, inputType: 'datetime-local' },
         }}
         item={user}
         onSave={async (data) => {

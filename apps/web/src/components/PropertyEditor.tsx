@@ -51,7 +51,7 @@ const PropertyEditor = <I extends Record<string, any>>({
       <Modal open={editingProperty !== undefined} onClose={() => { setEditingProperty(undefined); }}>
         {editingProperty && (
           <Form<Partial<I>>
-            title={`Editing ${definition[editingProperty]?.label?.toLowerCase()}` ?? editingProperty}
+            title={`Editing ${String(definition[editingProperty]?.label?.toLowerCase() ?? editingProperty)}`}
             definition={{
               [editingProperty]: {
                 ...definition[editingProperty],

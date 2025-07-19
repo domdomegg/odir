@@ -490,11 +490,10 @@ export const $UserCreation: JSONSchema<S.UserCreation> = {
     name: { type: 'string' },
     email: { type: 'string' },
     groups: { type: 'array', items: $Ulid },
-    securityTrainingCompletedAt: { type: 'integer' },
     sendAccountCreationEmail: { type: 'boolean' }
   },
   additionalProperties: false,
-  required: ['name', 'email', 'groups', 'securityTrainingCompletedAt', 'sendAccountCreationEmail'],
+  required: ['name', 'email', 'groups', 'sendAccountCreationEmail'],
 };
 
 export const $UserEdits: JSONSchema<S.UserEdits> = {
@@ -512,7 +511,7 @@ export const $User: JSONSchema<S.User> = {
     ...$UserCreation.properties,
     id: $Ulid,
   },
-  required: ['id', 'name', 'email', 'groups', 'securityTrainingCompletedAt'],
+  required: ['id', 'name', 'email', 'groups'],
   additionalProperties: false,
 };
 

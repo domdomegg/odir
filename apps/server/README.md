@@ -97,7 +97,7 @@ API endpoints must conduct checks to ensure executing requests maintains data in
 
 Any code changes to the server must be peer-reviewed to ensure the code is correct and free of security defects. Additionally, we use unit tests to ensure our code does what we expect/want it to.
 
-Any admins using must be given appropriate training in the correct usage of the system as well as information security training before being given access to the production system.
+Any admins must be given appropriate training in the correct usage of the system before being given access to the production system.
 
 ### 👀 Auditing
 

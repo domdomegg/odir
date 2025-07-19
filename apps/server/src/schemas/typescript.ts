@@ -463,7 +463,6 @@ export interface UserCreation {
   name: string;
   email: string;
   groups: string[];
-  securityTrainingCompletedAt: number;
   sendAccountCreationEmail: boolean;
 }
 
@@ -471,7 +470,6 @@ export interface UserEdits {
   name?: string;
   email?: string;
   groups?: string[];
-  securityTrainingCompletedAt?: number;
   sendAccountCreationEmail?: boolean;
 }
 
@@ -479,7 +477,6 @@ export interface User {
   name: string;
   email: string;
   groups: string[];
-  securityTrainingCompletedAt: number;
   sendAccountCreationEmail?: boolean;
   id: string;
 }
@@ -488,7 +485,6 @@ export type Users = {
   name: string;
   email: string;
   groups: string[];
-  securityTrainingCompletedAt: number;
   sendAccountCreationEmail?: boolean;
   id: string;
 }[];

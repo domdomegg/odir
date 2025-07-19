@@ -5,14 +5,12 @@
       "01H9YGQ8NSHYYW95ZPEWE1R7S7",
       "01H8SGE1RJG4H0KE75FRCE12KT"
     ],
-    "securityTrainingCompletedAt": 253370764800,
     "id": "01GPYGE0KV35HWSEVWVJMAKJR8",
     "email": "person@gmail.com"
   },
   {
     "name": "A. N. Other",
     "groups": ["01H9YGQ8NSHYYW95ZPEWE1R7S7"],
-    "securityTrainingCompletedAt": 253370764800,
     "id": "01GPYGEB469EDD6WKP8G299YVZ",
     "email": "another@gmail.com"
   }

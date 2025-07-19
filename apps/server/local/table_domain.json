@@ -1,6 +1,6 @@
 [
   {
-      "name": "Raise",
+      "name": "AdamJones",
       "groups": [
         "01H9YGQ8NSHYYW95ZPEWE1R7S7"
       ],
@@ -8,7 +8,7 @@
       "loginMethods": [
         "google"
       ],
-      "domain": "joinraise.org"
+      "domain": "adamjones.me"
   },
   {
       "name": "Gmail",

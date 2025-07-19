@@ -120,7 +120,7 @@ const logoutOnTokenExpiry = (err: unknown) => {
   return Promise.reject(err);
 };
 
-const axiosWithDefaults = setupCache(_axios.create(defaultConfig), { interpretHeader: false });
+const axiosWithDefaults = setupCache(_axios.create(defaultConfig), { interpretHeader: false, cacheTakeover: false });
 axiosWithDefaults.interceptors.response.use(undefined, logoutOnTokenExpiry);
 
 export interface ResponseValues<Result, RequestData, ErrorResult = unknown> {

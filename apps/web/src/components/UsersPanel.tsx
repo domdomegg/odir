@@ -39,7 +39,6 @@ const UsersPanel: React.FC = () => {
             groups: {
               label: 'Groups', formatter: (ids?: string[]) => ids?.map((id) => groupMap[id]).join(', ') || '(none)', inputType: 'multiselect', selectOptions: groupMap,
             },
-            securityTrainingCompletedAt: { label: 'Security training completed at', formatter: format.timestamp, inputType: 'datetime-local' },
             sendAccountCreationEmail: { label: 'Send user email', formatter: format.boolean, inputType: 'checkbox' },
           }}
           initialValues={{
@@ -47,7 +46,6 @@ const UsersPanel: React.FC = () => {
             email: '',
             groups: [],
             sendAccountCreationEmail: true,
-            securityTrainingCompletedAt: Math.floor(new Date().getTime() / 1000),
           }}
           showCurrent={false}
           onSubmit={async (data) => {
