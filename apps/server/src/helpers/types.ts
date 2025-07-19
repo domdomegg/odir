@@ -60,21 +60,26 @@ export interface Env {
   STAGE: 'local' | 'dev' | 'prod',
 
   API_BASE_URL: string,
-  BLOB_BASE_URL: string,
+  BLOB_BASE_URL?: string,
 
   JWT_PUBLIC_KEY: string,
   JWT_PRIVATE_KEY: string,
 
   GOOGLE_LOGIN_CLIENT_ID: string,
 
+  STRIPE_PUBLISHABLE_KEY: string,
+  STRIPE_SECRET_KEY: string,
+  STRIPE_WEBHOOK_SECRET: string,
+
   SLACK_BOT_TOKEN: string,
   SLACK_CHANNEL_ID: string,
 
   JWT_REQUIRE_ISSUED_AT_AFTER: number | undefined,
 
+  GOOGLE_LOGIN_ENABLED: boolean,
   IMPERSONATION_LOGIN_ENABLED: boolean,
 
   CUSTOM_ODIR_DOMAIN: string,
 
-  TOP_TEAM_IDS: string[],
+  TOP_TEAM_IDS?: string[],
 }
