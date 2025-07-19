@@ -1,0 +1,28 @@
+[
+  {
+    "id": "01FGNSHH6X6X878ZNBZKY44JQA",
+    "internalName": "Raise Demo 2022",
+    "publicName": "Raise Demo",
+    "activeFrom": 1632780000,
+    "activeTo": 1648767600,
+    "recurringDonationsTo": 1651359600,
+    "paused": false,
+    "currency": "gbp",
+    "goal": 100000,
+    "totalRaised": 52050,
+    "donationsCount": 3,
+    "matchFundingRate": 100,
+    "matchFundingPerDonationLimit": 15000,
+    "matchFundingRemaining": null,
+    "minimumDonationAmount": null,
+    "suggestedDonationAmountOneOff": 15000,
+    "suggestedDonationAmountWeekly": 450,
+    "suggestedContributionAmount": 550,
+    "eventLink": "https://example.com/event",
+    "moreInvolvedLink": "https://example.com/more-involved",
+    "archived": false,
+    "groupsWithAccess": [
+      "01GPYGDJ19Z43X6S7YMK8AVSAH"
+    ]
+  }
+]

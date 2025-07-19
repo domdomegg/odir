@@ -1,0 +1,44 @@
+{
+  "name": "raise",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "private": true,
+  "scripts": {
+    "postinstall": "npm run postinstall --workspaces --if-present",
+    "start": "turbo run start",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "build": "turbo run build",
+    "// TODO: add formatter": "",
+    "// format": "exit 1 && prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "prettier": "^2.8.8",
+    "turbo": "latest"
+  },
+  "packageManager": "npm@9.5.1",
+  "overrides": {
+    "react-server-dom-webpack@0.0.0-experimental-c8b778b7f-20220825": {
+      "react": "^18",
+      "react-dom": "^18"
+    },
+    "@reach/accordion": {
+      "react": "^18",
+      "react-dom": "^18"
+    },
+    "@reach/dialog": {
+      "react": "^18",
+      "react-dom": "^18"
+    },
+    "@reach/disclosure": {
+      "react": "^18",
+      "react-dom": "^18"
+    },
+    "@reach/listbox": {
+      "react": "^18",
+      "react-dom": "^18"
+    }
+  }
+}
