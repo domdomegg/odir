@@ -4,9 +4,7 @@ import { navigate } from 'gatsby';
 import { useReq } from '../helpers/networking';
 import Spinner from '../components/Spinner';
 import Alert from '../components/Alert';
-import TeamPage from '../components/TeamPage';
 import Section from '../components/Section';
-import PersonPage from '../components/PersonPage';
 import { ENTITY_ORGANOGRAM_SUFFIX, ENTITY_PREFIX } from '../helpers/entityPrefix';
 import TeamOrganogramPage from '../components/TeamOrganogramPage';
 
