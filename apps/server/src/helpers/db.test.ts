@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import { ulid } from 'ulid';
 import { JSONSchema } from '../schemas';
 import {

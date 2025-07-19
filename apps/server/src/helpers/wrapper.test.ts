@@ -1,3 +1,4 @@
+import { test, describe, expect } from 'vitest';
 import createHttpError from 'http-errors';
 import { ulid } from 'ulid';
 import { JSONSchema, $Ulid } from '../schemas';

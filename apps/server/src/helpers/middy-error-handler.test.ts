@@ -1,10 +1,11 @@
+import { test, expect, vi } from 'vitest';
 /* eslint-disable no-console */
 import middy from '@middy/core';
 import createHttpError from 'http-errors';
 import middyErrorHandler from './middy-error-handler';
 import { insertAudit } from './db';
 
-jest.mock('./db');
+vi.mock('./db');
 
 const makeRequestFromError = (error: unknown) => ({ error } as middy.Request);
 

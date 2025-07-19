@@ -9,6 +9,7 @@ import env from "../src/env/env"
 import MockDate from 'mockdate';
 import * as db from "../src/helpers/db"
 import { AuditLog, Team } from "../src/schemas"
+import { vi } from 'vitest'
 
 interface CallOptions {
   path?: string,
@@ -105,10 +106,10 @@ export const makeAuditLog = <Override extends Partial<AuditLog>>(override?: Over
 } as AuditLog & Override)
 
 export const enableConsole = (): void => {
-  (console.error as jest.MockedFunction<typeof console.error>).mockRestore();
-  (console.warn as jest.MockedFunction<typeof console.warn>).mockRestore();
-  (console.info as jest.MockedFunction<typeof console.info>).mockRestore();
-  (console.log as jest.MockedFunction<typeof console.log>).mockRestore()
+  vi.mocked(console.error).mockRestore();
+  vi.mocked(console.warn).mockRestore();
+  vi.mocked(console.info).mockRestore();
+  vi.mocked(console.log).mockRestore()
 }
 
 export const setMockDate = (value: Date | number) => {
@@ -124,10 +125,10 @@ const withDelay = <Y extends any[], T>(fn: (...args: Y) => Promise<T>) => async 
 
 export const delayDb = () => {
   const { scan, get, query, insert, update, inTransaction, } = db
-  jest.spyOn(db, "scan").mockImplementation(withDelay(scan))
-  jest.spyOn(db, "get").mockImplementation(withDelay(get))
-  jest.spyOn(db, "query").mockImplementation(withDelay(query))
-  jest.spyOn(db, "insert").mockImplementation(withDelay(insert))
-  jest.spyOn(db, "update").mockImplementation(withDelay(update))
-  jest.spyOn(db, "inTransaction").mockImplementation(withDelay(inTransaction))
+  vi.spyOn(db, "scan").mockImplementation(withDelay(scan))
+  vi.spyOn(db, "get").mockImplementation(withDelay(get))
+  vi.spyOn(db, "query").mockImplementation(withDelay(query))
+  vi.spyOn(db, "insert").mockImplementation(withDelay(insert))
+  vi.spyOn(db, "update").mockImplementation(withDelay(update))
+  vi.spyOn(db, "inTransaction").mockImplementation(withDelay(inTransaction))
 }

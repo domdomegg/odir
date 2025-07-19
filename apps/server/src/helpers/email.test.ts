@@ -1,17 +1,18 @@
+import { test, expect, beforeEach, vi } from 'vitest';
 import { SendEmailCommand } from '@aws-sdk/client-sesv2';
 import { sendEmail } from './email';
 import renderHtml from './email/renderHtml';
 
-jest.unmock('./email');
+vi.unmock('./email');
 
-const send = jest.fn();
-jest.mock('@aws-sdk/client-sesv2', () => ({
-  SESv2Client: jest.fn().mockImplementation(() => ({ get send() { return send; } })),
-  SendEmailCommand: jest.fn(),
+const send = vi.fn();
+vi.mock('@aws-sdk/client-sesv2', () => ({
+  SESv2Client: vi.fn().mockImplementation(() => ({ get send() { return send; } })),
+  SendEmailCommand: vi.fn(),
 }));
 
 beforeEach(() => {
-  (SendEmailCommand as unknown as jest.Mock).mockImplementation((input) => ({ _input: input }));
+  (SendEmailCommand as unknown as vi.Mock).mockImplementation((input) => ({ _input: input }));
 });
 
 test('sendEmail calls SES correctly', async () => {
