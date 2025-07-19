@@ -1,11 +1,9 @@
-import { RouteComponentProps } from '@gatsbyjs/reach-router';
-
 import { format } from '@odir/shared';
 import Section, { SectionTitle } from '../../components/Section';
 import PropertyEditor from '../../components/PropertyEditor';
 import { useReq } from '../../helpers/networking';
 
-const DebugPage: React.FC<RouteComponentProps> = () => {
+const DebugPage: React.FC = () => {
   const [profile] = useReq('get /admin/login');
   const [groups] = useReq('get /admin/groups');
   const groupMap = groups.data ? Object.fromEntries(groups.data.map((group) => [group.id, group.name])) : {};

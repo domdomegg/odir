@@ -1,6 +1,6 @@
 import React from 'react';
 import { CheckIcon, TrashIcon } from '@heroicons/react/outline';
-import { withAssetPrefix } from 'gatsby';
+// withAssetPrefix removed
 import { useForm } from 'react-hook-form';
 import { useRawReq } from '../helpers/networking';
 import {
@@ -209,7 +209,7 @@ const TeamMemberEditorCard: React.FC<{ person: Person, team: Team, relations: Re
 
   return (
     <form className="shadow border bg-white text-black text-left flex flex-row" onSubmit={onSubmit}>
-      <img src={person.profilePic ?? withAssetPrefix('/shared/images/missing-person-avatar.svg')} alt="" className="aspect-square object-cover h-28" />
+      <img src={person.profilePic ?? '/shared/images/missing-person-avatar.svg'} alt="" className="aspect-square object-cover h-28" />
       <div className="py-2 px-3 min-w-0 flex-1">
         <div className="text-xl">{person.name}</div>
         <div className="grid grid-cols-2 flex-1 mb-2">
@@ -247,7 +247,7 @@ const TeamTeamEditorCard: React.FC<{ subTeam: Team, relation: Relation, refetch:
 
   return (
     <div className="shadow border bg-white text-black text-left flex flex-row">
-      <img src={subTeam.profilePic ?? withAssetPrefix('/shared/images/missing-team-avatar.svg')} alt="" className="aspect-square object-cover h-28" />
+      <img src={subTeam.profilePic ?? '/shared/images/missing-team-avatar.svg'} alt="" className="aspect-square object-cover h-28" />
       <div className="py-2 px-3 min-w-0 flex-1">
         <div className="text-xl">{subTeam.name}</div>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}

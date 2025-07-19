@@ -1,9 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { UserManager, UserManagerSettings } from 'oidc-client';
-import { RouteComponentProps } from '@gatsbyjs/reach-router';
-import { navigate } from 'gatsby';
-import { Helmet } from 'react-helmet';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
 import Section, { SectionTitle } from '../components/Section';
 import Button from '../components/Button';
 import Logo from '../components/Logo';
@@ -14,15 +13,15 @@ import { ChevronList, ChevronListButton } from '../components/ChevronList';
 import Spinner from '../components/Spinner';
 import env from '../env/env';
 
-const LoginPage: React.FC<RouteComponentProps> = () => {
+const LoginPage: React.FC = () => {
   return (
     <>
-      <Helmet>
+      <Head>
         <title>
           Directory Navigator: Login
         </title>
         <meta name="robots" content="noindex" />
-      </Helmet>
+      </Head>
       <Section className="md:py-12 md:max-w-3xl px-8 my-8 md:my-24 md:bg-primary-100 text-center">
         <Logo className="h-24 mb-8" />
         <SectionTitle className="mb-4 sm:mb-10 ">Join <span className="hidden sm:inline">your colleagues on</span> Directory Navigator</SectionTitle>
@@ -34,7 +33,7 @@ const LoginPage: React.FC<RouteComponentProps> = () => {
 
 export default LoginPage;
 
-export const GoogleLoginCallbackPage: React.FC<RouteComponentProps> = () => {
+export const GoogleLoginCallbackPage: React.FC = () => {
   const [error, setError] = useState<undefined | Error>();
 
   useEffect(() => {
@@ -53,10 +52,11 @@ export const GoogleLoginCallbackPage: React.FC<RouteComponentProps> = () => {
   );
 };
 
-export const GovSsoLoginCallbackPage: React.FC<RouteComponentProps> = () => {
+export const GovSsoLoginCallbackPage: React.FC = () => {
   const [error, setError] = useState<undefined | Error>();
   const req = useRawReq();
   const [, setAuthState] = useAuthState();
+  const router = useRouter();
 
   useEffect(() => {
     try {
@@ -72,7 +72,7 @@ export const GovSsoLoginCallbackPage: React.FC<RouteComponentProps> = () => {
         );
 
         setAuthState(loginResponse.data);
-        navigate('/');
+        router.push('/');
       });
     } catch (err) {
       setError(err instanceof Error ? err : new Error(String(err)));
@@ -87,10 +87,11 @@ export const GovSsoLoginCallbackPage: React.FC<RouteComponentProps> = () => {
   );
 };
 
-export const EmailLoginCallbackPage: React.FC<RouteComponentProps> = () => {
+export const EmailLoginCallbackPage: React.FC = () => {
   const [error, setError] = useState<undefined | Error>();
   const [, setAuthState] = useAuthState();
   const req = useRawReq();
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -103,7 +104,7 @@ export const EmailLoginCallbackPage: React.FC<RouteComponentProps> = () => {
         }
         const res = await req('post /admin/login/email', { token });
         setAuthState(res.data);
-        navigate('/');
+        router.push('/');
       } catch (err) {
         setError(err instanceof Error ? err : new Error(String(err)));
       }
@@ -163,18 +164,32 @@ type LoginTriageFormValues = {
 
 const LS_EMAIL_KEY = 'odir_email';
 const LoginTriageForm: React.FC<{ setLoginFormState: (s: LoginFormState) => void }> = ({ setLoginFormState }) => {
+  const [defaultEmail, setDefaultEmail] = useState('');
   const { register, handleSubmit, watch } = useForm<LoginTriageFormValues>({
     shouldUseNativeValidation: true,
     defaultValues: {
-      email: localStorage.getItem(LS_EMAIL_KEY) ?? '',
+      email: defaultEmail,
     }
   });
   const req = useRawReq();
   const [error, setError] = useState<Error | undefined>();
 
-  if (watch('email') === '') {
-    localStorage.removeItem(LS_EMAIL_KEY);
-  }
+  useEffect(() => {
+    // Only access localStorage on the client side
+    if (typeof window !== 'undefined') {
+      const savedEmail = localStorage.getItem(LS_EMAIL_KEY) ?? '';
+      setDefaultEmail(savedEmail);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Only access localStorage on the client side
+    if (typeof window !== 'undefined') {
+      if (watch('email') === '') {
+        localStorage.removeItem(LS_EMAIL_KEY);
+      }
+    }
+  }, [watch('email')]);
 
   const onSubmit = async ({ email }: LoginTriageFormValues) => {
     try {
@@ -183,7 +198,9 @@ const LoginTriageForm: React.FC<{ setLoginFormState: (s: LoginFormState) => void
         return;
       }
       const { data: { methods } } = await req('get /admin/login/methods/{email}', { email });
-      localStorage.setItem(LS_EMAIL_KEY, email);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(LS_EMAIL_KEY, email);
+      }
       setLoginFormState({ state: 'method selection', methods, email });
     } catch (err) {
       setError(err instanceof Error ? err : new Error(String(err)));
@@ -327,6 +344,7 @@ const LoginAutomatically: React.FC<{
   const [error, setError] = useState<Error | undefined>();
 
   const [, setAuthState] = useAuthState();
+  const router = useRouter();
 
   const attemptLogin = async () => {
     setError(undefined);
@@ -334,7 +352,7 @@ const LoginAutomatically: React.FC<{
     try {
       const result = await login();
       setAuthState(result);
-      navigate('/');
+      router.push('/');
     } catch (err) {
       setError(err instanceof Error ? err : new Error(String(err)));
     }

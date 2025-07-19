@@ -1,4 +1,3 @@
-import { RouteComponentProps } from '@gatsbyjs/reach-router';
 import { useReq } from '../helpers/networking';
 import Section, { SectionNoPadding, SectionTitle } from '../components/Section';
 import Logo from '../components/Logo';
@@ -6,7 +5,7 @@ import { EntitySearchBox } from '../components/SearchBox';
 import { TeamCardGrid } from '../components/TeamCard';
 import Spinner from '../components/Spinner';
 
-const HomePage: React.FC<RouteComponentProps> = () => {
+const HomePage: React.FC = () => {
   const [teams] = useReq('get /admin/teams/top');
 
   return (

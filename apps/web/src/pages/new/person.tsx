@@ -1,12 +1,12 @@
-import { RouteComponentProps } from '@gatsbyjs/reach-router';
-import { navigate } from 'gatsby';
-import { useRawReq } from '../helpers/networking';
-import Section from '../components/Section';
-import { Form } from '../components/Form';
-import { PersonCreation } from '../helpers/generated-api-client';
-import { ENTITY_PREFIX } from '../helpers/entityPrefix';
+import { useRouter } from 'next/router';
+import { useRawReq } from '../../helpers/networking';
+import Section from '../../components/Section';
+import { Form } from '../../components/Form';
+import { PersonCreation } from '../../helpers/generated-api-client';
+import { ENTITY_PREFIX } from '../../helpers/entityPrefix';
 
-const NewPersonPage: React.FC<RouteComponentProps> = () => {
+const NewPersonPage: React.FC = () => {
+  const router = useRouter();
   const req = useRawReq();
 
   return (
@@ -35,7 +35,7 @@ const NewPersonPage: React.FC<RouteComponentProps> = () => {
         showNew={false}
         onSubmit={async (data) => {
           const personId = (await req('post /admin/persons', data)).data;
-          navigate(`${ENTITY_PREFIX}${personId}`);
+          router.push(`${ENTITY_PREFIX}${personId}`);
         }}
       />
     </Section>

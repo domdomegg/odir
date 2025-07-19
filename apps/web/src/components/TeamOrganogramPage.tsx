@@ -1,6 +1,6 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/outline';
 import React, { useState } from 'react';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import Section from './Section';
 import {
   EntityResponse, Person, Relation, Team
@@ -19,11 +19,11 @@ const TeamOrganogramPage: React.FC<{ data: EntityResponse & { type: 'team' }, re
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>
           Directory Navigator: {data.team.name} - Organogram
         </title>
-      </Helmet>
+      </Head>
       <Section>
         {/* TODO: render parent teams: when clicked this should navigate to the parent team organogram page. this should be fine given most data will be cached: although want to somehow retain which subtree should be open */}
         <OrganogramCard data={data} refetch={refetch} lineStemType="none" />

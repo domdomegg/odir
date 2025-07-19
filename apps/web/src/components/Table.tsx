@@ -1,6 +1,6 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import React from 'react';
-import { navigate } from 'gatsby';
+import { useRouter } from 'next/router';
 import { ResponseValues } from '../helpers/networking';
 import Alert from './Alert';
 
@@ -25,23 +25,24 @@ interface Props<I> {
 const Table = <I extends Record<string, any>>({
   definition, items, primaryKey, onClick, emptyMessage = 'There are no entries', renderItem, className, href,
 }: Props<I>) => {
+  const router = useRouter();
   // Normalized properties
   const nItems = ((items === undefined || Array.isArray(items)) ? items : items.data) ?? [];
   const nPrimaryKey = primaryKey ?? (nItems && nItems[0] && 'id' in nItems[0] ? 'id' as keyof I : undefined);
 
   // Loading and error states
   if (items && !Array.isArray(items)) {
-    if (items.loading) return <div className={classNames(className, 'overflow-x-auto bg-black bg-opacity-10 rounded p-4')}><span className="animate-pulse">Loading...</span></div>;
+    if (items.loading) return <div className={clsx(className, 'overflow-x-auto bg-black bg-opacity-10 rounded p-4')}><span className="animate-pulse">Loading...</span></div>;
     if (items.error) return <Alert className={className} variant="error">{items.error}</Alert>;
   }
 
   return (
-    <div className={classNames(className, 'overflow-x-auto bg-black bg-opacity-10 rounded py-2')}>
+    <div className={clsx(className, 'overflow-x-auto bg-black bg-opacity-10 rounded py-2')}>
       <table className="w-full">
         <thead>
           <tr>
             {Object.entries(definition).map(([k, v], index, arr) => (
-              <th key={k} className={classNames('p-2', { 'pl-4': index === 0, 'pr-4': index === arr.length - 1 }, v.className)}>{v.label ?? k}</th>
+              <th key={k} className={clsx('p-2', { 'pl-4': index === 0, 'pr-4': index === arr.length - 1 }, v.className)}>{v.label ?? k}</th>
             ))}
           </tr>
         </thead>
@@ -51,7 +52,7 @@ const Table = <I extends Record<string, any>>({
               if (onClick) onClick(item, e);
               if (href) {
                 if (!e.ctrlKey) {
-                  navigate(href(item));
+                  router.push(href(item));
                 } else {
                   window.open(href(item), '_blank');
                 }
@@ -61,7 +62,7 @@ const Table = <I extends Record<string, any>>({
             return (
               <tr
                 key={nPrimaryKey ? String(item[nPrimaryKey]) : rowIndex}
-                className={classNames('hover:bg-black hover:bg-opacity-10', href || onClick ? 'cursor-pointer' : '')}
+                className={clsx('hover:bg-black hover:bg-opacity-10', href || onClick ? 'cursor-pointer' : '')}
                 onClick={onTrigger}
                 onKeyDown={onTrigger ? (e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
@@ -72,7 +73,7 @@ const Table = <I extends Record<string, any>>({
                 tabIndex={onClick || href ? 0 : undefined}
               >
                 {Object.entries(definition).map(([k, v], cellIndex, arr) => (
-                  <td key={k} className={classNames('p-2', { 'pl-4': cellIndex === 0, 'pr-4': cellIndex === arr.length - 1 }, v.className)}>
+                  <td key={k} className={clsx('p-2', { 'pl-4': cellIndex === 0, 'pr-4': cellIndex === arr.length - 1 }, v.className)}>
                     {v.formatter ? v.formatter(item[k as keyof I], item) : (item[k as keyof I] ?? '—')}
                   </td>
                 ))}

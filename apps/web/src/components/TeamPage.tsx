@@ -1,9 +1,9 @@
 import { CollectionIcon, PencilIcon } from '@heroicons/react/outline';
 import React, { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { navigate } from 'gatsby';
+import { useRouter } from 'next/router';
 import ReactMarkdown from 'react-markdown';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import Section, { SectionTitle } from './Section';
 import {
   EntityResponse, Person, Relation, Team
@@ -20,6 +20,7 @@ const TeamPage: React.FC<{ data: EntityResponse & { type: 'team' }, refetch: () 
     team, breadcrumbs, relations, teams, persons, slugs, hasDetailedAccess
   }, refetch
 }) => {
+  const router = useRouter();
   const parentTeams = relations.filter((r) => r.type === 'PART_OF' && r.childId === team.id).map((r) => {
     const parentTeam = teams.find((t) => t.id === r.parentId);
     if (!parentTeam) throw new Error(`Team ${r.parentId} was parent of team ${r.childId} (relation ${r.id}) but not provided to TeamPage component.`);
@@ -59,11 +60,11 @@ const TeamPage: React.FC<{ data: EntityResponse & { type: 'team' }, refetch: () 
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>
           Directory Navigator: {team.name}
         </title>
-      </Helmet>
+      </Head>
       <Section>
         <div className="flex">
           <div className="flex-1">
@@ -72,7 +73,7 @@ const TeamPage: React.FC<{ data: EntityResponse & { type: 'team' }, refetch: () 
           </div>
           <div>
             <div>
-              <Button onClick={() => navigate(`${ENTITY_PREFIX}${team.preferredSlug}${ENTITY_ORGANOGRAM_SUFFIX}`)}><CollectionIcon className="h-5 mb-0.5 mr-0.5" /> View organogram</Button>
+              <Button onClick={() => router.push(`${ENTITY_PREFIX}${team.preferredSlug}${ENTITY_ORGANOGRAM_SUFFIX}`)}><CollectionIcon className="h-5 mb-0.5 mr-0.5" /> View organogram</Button>
               <Button onClick={() => setEditorState('menu')}><PencilIcon className="h-5 mb-0.5 mr-0.5" /> Edit team</Button>
             </div>
           </div>

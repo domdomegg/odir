@@ -1,6 +1,5 @@
-import { RouteComponentProps } from '@gatsbyjs/reach-router';
 import { useEffect } from 'react';
-import { navigate } from 'gatsby';
+import { useRouter } from 'next/router';
 import { useReq } from '../helpers/networking';
 import Spinner from '../components/Spinner';
 import Alert from '../components/Alert';
@@ -9,7 +8,8 @@ import Section from '../components/Section';
 import PersonPage from '../components/PersonPage';
 import { ENTITY_PREFIX } from '../helpers/entityPrefix';
 
-const EntityPage: React.FC<RouteComponentProps & { entitySlug: string }> = ({ entitySlug }) => {
+const EntityPage: React.FC<{ entitySlug: string }> = ({ entitySlug }) => {
+  const router = useRouter();
   const [entity, refetchEntity] = useReq('get /admin/entity/{entitySlug}', { entitySlug });
 
   // Redirect to the preferred slug, if not already on it.
@@ -24,7 +24,7 @@ const EntityPage: React.FC<RouteComponentProps & { entitySlug: string }> = ({ en
         : entity.data.type === 'person' ? entity.data.person.preferredSlug
           : ''}/`;
     if (newUrl !== window.location.pathname) {
-      navigate(newUrl, { replace: true });
+      router.replace(newUrl);
     }
   }, [entity.data]);
 

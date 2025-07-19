@@ -3,7 +3,7 @@ import {
   ListboxInput, ListboxButton, ListboxPopover, ListboxList, ListboxOption,
 } from '@reach/listbox';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/outline';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import {
   Controller,
   FieldValues,
@@ -113,7 +113,7 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
       const [value, setValue] = useState<string | string[] | undefined>(rest.value as string | string[] | undefined);
       return (
         <div className={className}>
-          {label && <label htmlFor={id} className={classNames('text-stone-700 font-bold block pb-1')}>{label}</label>}
+          {label && <label htmlFor={id} className={clsx('text-stone-700 font-bold block pb-1')}>{label}</label>}
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
           {/* @ts-ignore */}
           <Select type={type} value={value} onChange={(v) => { setValue(v); if (rest.onChange) rest.onChange({ target: { value: v } } as React.ChangeEvent<HTMLInputElement>); }} error={error} options={options} />
@@ -128,7 +128,7 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
         control={formContext.control}
         render={({ field }) => (
           <div className={className}>
-            {label && <label htmlFor={id} className={classNames('text-stone-700 font-bold block pb-1')}>{label}</label>}
+            {label && <label htmlFor={id} className={clsx('text-stone-700 font-bold block pb-1')}>{label}</label>}
             {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
             {/* @ts-ignore */}
             <Select type={type} value={field.value} onChange={(v) => field.onChange({ target: { value: v } } as React.ChangeEvent<HTMLInputElement>)} error={error} options={options} />
@@ -141,9 +141,9 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
 
   if (type === 'checkbox') {
     return (
-      <div className={classNames(className, 'flex items-center my-3')}>
+      <div className={clsx(className, 'flex items-center my-3')}>
         {type === 'checkbox' && <input id={id} ref={ref} type={type} className="flex-shrink-0 mr-1" {...rest} />}
-        {label && <label htmlFor={id} className={classNames('text-stone-700 font-bold leading-none', { 'block pb-1': type !== 'checkbox', 'text-error-700': error })}>{label}</label>}
+        {label && <label htmlFor={id} className={clsx('text-stone-700 font-bold leading-none', { 'block pb-1': type !== 'checkbox', 'text-error-700': error })}>{label}</label>}
       </div>
     );
   }
@@ -151,14 +151,14 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
   if (type === 'textarea') {
     return (
       <div className={className}>
-        {label && <label htmlFor={id} className={classNames('text-stone-700 font-bold block pb-1', { 'text-error-700': error })}>{label}</label>}
+        {label && <label htmlFor={id} className={clsx('text-stone-700 font-bold block pb-1', { 'text-error-700': error })}>{label}</label>}
         <div className="flex flex-row mb-1">
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
           {/* @ts-ignore */}
           <textarea
             id={id}
             ref={ref as React.Ref<HTMLTextAreaElement>}
-            className={classNames(inputClassName, 'w-full flex-1 py-2 px-3 appearance-none block border cursor-text transition-all text-stone-700 outline-none', {
+            className={clsx(inputClassName, 'w-full flex-1 py-2 px-3 appearance-none block border cursor-text transition-all text-stone-700 outline-none', {
               'bg-stone-200 border-stone-200 hover:bg-stone-100 hover:border-stone-400 focus:border-stone-800 focus:bg-white': !error,
               'bg-red-100 border-red-100 hover:bg-red-50 hover:border-red-400 focus:border-red-800 focus:bg-red-50': error,
             })}
@@ -173,10 +173,10 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
 
   return (
     <div className={className}>
-      {label && <label htmlFor={id} className={classNames('text-stone-700 font-bold block pb-1', { 'text-error-700': error })}>{label}</label>}
+      {label && <label htmlFor={id} className={clsx('text-stone-700 font-bold block pb-1', { 'text-error-700': error })}>{label}</label>}
       <div className="flex flex-row mb-1">
         {prefix && (
-          <span className={classNames(inputClassName, 'rounded-l py-2 px-3', {
+          <span className={clsx(inputClassName, 'rounded-l py-2 px-3', {
             'bg-stone-300': !error,
             'bg-red-200': error,
           })}
@@ -189,14 +189,14 @@ export const LabelledInput = React.forwardRef<HTMLInputElement, LabelledInputPro
           ref={ref}
           type={type}
           step={type === 'number' ? 'any' : undefined}
-          className={classNames(inputClassName, 'w-full flex-1 py-2 px-3 appearance-none block border cursor-text transition-all text-stone-700 outline-none', {
+          className={clsx(inputClassName, 'w-full flex-1 py-2 px-3 appearance-none block border cursor-text transition-all text-stone-700 outline-none', {
             'bg-stone-200 border-stone-200 hover:bg-stone-100 hover:border-stone-400 focus:border-stone-800 focus:bg-white': !error,
             'bg-red-100 border-red-100 hover:bg-red-50 hover:border-red-400 focus:border-red-800 focus:bg-red-50': error,
           })}
           {...rest}
         />
         {suffix && (
-          <span className={classNames(inputClassName, 'rounded-r py-2 px-3', {
+          <span className={clsx(inputClassName, 'rounded-r py-2 px-3', {
             'bg-stone-300': !error,
             'bg-red-200': error,
           })}
@@ -239,12 +239,12 @@ const Select: React.FC<({ type: 'select', value?: string, onChange: (s: string) 
       }}
     >
       <div className="relative">
-        <ListboxButton className={classNames('relative text-left w-full py-2 px-3 mb-1 appearance-none block rounded border cursor-text transition-all text-stone-700 outline-none', {
+        <ListboxButton className={clsx('relative text-left w-full py-2 px-3 mb-1 appearance-none block rounded border cursor-text transition-all text-stone-700 outline-none', {
           'bg-stone-200 border-stone-200 hover:bg-stone-100 hover:border-stone-400 focus:border-stone-800 focus:bg-white': !props.error,
           'bg-red-100 border-red-100 hover:bg-red-50 hover:border-red-400 focus:border-red-800 focus:bg-red-50': props.error,
         })}
         >
-          <span className={classNames('block truncate', { 'text-stone-400': selected.length === 0 })}>{(selected.length > 0 && (selected.map((v) => options[v]).join(', '))) || '(none)'}</span>
+          <span className={clsx('block truncate', { 'text-stone-400': selected.length === 0 })}>{(selected.length > 0 && (selected.map((v) => options[v]).join(', '))) || '(none)'}</span>
           <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
             <ChevronDownIcon
               className="w-5 h-5 text-stone-400"
@@ -257,7 +257,7 @@ const Select: React.FC<({ type: 'select', value?: string, onChange: (s: string) 
             {Object.entries(options).map(([k, v]) => (
               <ListboxOption
                 key={k}
-                className={classNames('relative py-2 pl-10 pr-4', { 'font-black': selected.includes(k) })}
+                className={clsx('relative py-2 pl-10 pr-4', { 'font-black': selected.includes(k) })}
                 value={k}
               >
                 <>

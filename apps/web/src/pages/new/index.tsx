@@ -1,8 +1,7 @@
-import { RouteComponentProps } from '@gatsbyjs/reach-router';
-import Section from '../components/Section';
-import { ChevronList, ChevronListButton } from '../components/ChevronList';
+import Section from '../../components/Section';
+import { ChevronList, ChevronListButton } from '../../components/ChevronList';
 
-const NewEntityPage: React.FC<RouteComponentProps> = () => {
+const NewEntityPage: React.FC = () => {
   return (
     <Section>
       <ChevronList>

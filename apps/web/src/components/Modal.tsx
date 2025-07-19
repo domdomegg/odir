@@ -1,5 +1,5 @@
 import { DialogOverlay, DialogContent } from '@reach/dialog';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import { XIcon } from '@heroicons/react/outline';
 
 interface Props {
@@ -16,7 +16,7 @@ const Modal: React.FC<React.PropsWithChildren<Props>> = ({
     isOpen={open}
     onDismiss={onClose}
   >
-    <DialogContent className={classNames(className, 'SectionNoPadding Section bg-white min-h-screen md:min-h-0 p-8 md:my-16 md:rounded shadow relative', { 'pr-8': typeof window !== 'undefined' && document.getElementsByTagName('html')[0].scrollHeight > document.getElementsByTagName('html')[0].clientHeight })} aria-label="Dialog">
+    <DialogContent className={clsx(className, 'SectionNoPadding Section bg-white min-h-screen md:min-h-0 p-8 md:my-16 md:rounded shadow relative', { 'pr-8': typeof window !== 'undefined' && document.getElementsByTagName('html')[0].scrollHeight > document.getElementsByTagName('html')[0].clientHeight })} aria-label="Dialog">
       <XIcon onClick={onClose} className="w-8 h-8 sm:w-12 sm:h-12 absolute right-8 cursor-pointer" />
       {children}
     </DialogContent>

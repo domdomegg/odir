@@ -1,18 +1,17 @@
-import { RouteComponentProps } from '@gatsbyjs/reach-router';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import Section, { SectionTitle } from '../components/Section';
 import Table from '../components/Table';
 import { RequestFormLink } from '../components/RequestFormLink';
 import Link from '../components/Link';
 
-const PrivacyPolicyPage: React.FC<RouteComponentProps> = () => {
+const PrivacyPolicyPage: React.FC = () => {
   return (
     <>
-      <Helmet>
+      <Head>
         <title>
           Directory Navigator: Privacy
         </title>
-      </Helmet>
+      </Head>
       <Section>
         <SectionTitle>Privacy Policy</SectionTitle>
 

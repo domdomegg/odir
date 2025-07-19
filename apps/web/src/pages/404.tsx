@@ -1,17 +1,15 @@
-import { RouteComponentProps } from '@gatsbyjs/reach-router';
-
-import Helmet from 'react-helmet';
+import Head from 'next/head';
 import Page from '../components/Page';
 import Section from '../components/Section';
 import Logo from '../components/Logo';
 import Button from '../components/Button';
 
-const NotFoundPage: React.FC<RouteComponentProps> = () => (
+const NotFoundPage: React.FC = () => (
   <Page>
-    <Helmet>
+    <Head>
       <meta name="robots" content="noindex" />
       <title>Directory Navigator: Page not found</title>
-    </Helmet>
+    </Head>
     <Section>
       <Logo className="my-8 w-24" />
       <h1 className="text-5xl sm:text-6xl font-odir-header font-black mb-8">Page not found</h1>

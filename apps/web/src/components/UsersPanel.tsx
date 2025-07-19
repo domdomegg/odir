@@ -1,4 +1,4 @@
-import { navigate } from 'gatsby';
+import { useRouter } from 'next/router';
 import { PlusSmIcon } from '@heroicons/react/outline';
 import { fixedGroups, format } from '@odir/shared';
 import { useState } from 'react';
@@ -14,6 +14,7 @@ import { RequireGroup } from '../helpers/security';
 import { UserCreation } from '../helpers/generated-api-client';
 
 const UsersPanel: React.FC = () => {
+  const router = useRouter();
   const [users, refetchUsers] = useReq('get /admin/users');
   const [groups] = useReq('get /admin/groups');
   const groupMap = groups.data ? Object.fromEntries(groups.data.map((group) => [group.id, group.name])) : {};
@@ -51,7 +52,7 @@ const UsersPanel: React.FC = () => {
           onSubmit={async (data) => {
             const userId = (await req('post /admin/users', data)).data;
             await refetchUsers();
-            navigate(`/admin/users/${userId}/`);
+            router.push(`/admin/users/${userId}/`);
           }}
         />
       </Modal>

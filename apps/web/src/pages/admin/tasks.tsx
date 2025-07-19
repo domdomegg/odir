@@ -1,8 +1,7 @@
-import { RouteComponentProps } from '@gatsbyjs/reach-router';
 import TasksPanel from '../../components/TasksPanel';
 import Section, { SectionTitle } from '../../components/Section';
 
-const TasksPage: React.FC<RouteComponentProps> = () => {
+const TasksPage: React.FC = () => {
   return (
     <Section>
       <div className="flex">

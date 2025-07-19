@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import { useState } from 'react';
 import Link from './Link';
 
@@ -31,7 +31,7 @@ const Button: React.FC<Props> = ({
           setIsSubmitting(false);
         }
       } : undefined}
-      className={classNames('Button', {
+      className={clsx('Button', {
         'bg-primary-600 border-primary-600 hover:bg-primary-500 hover:border-primary-500 focus:bg-primary-500 focus:border-primary-500 active:bg-primary-700 active:border-primary-700': variant === 'primary',
         'bg-secondary-600 border-secondary-600 hover:bg-secondary-500 hover:border-secondary-500 focus:bg-secondary-500 focus:border-secondary-500 active:bg-secondary-700 active:border-secondary-700': variant === 'secondary',
         'bg-error-600 border-error-600 hover:bg-error-500 hover:border-error-500 focus:bg-error-500 focus:border-error-500 active:bg-error-700 active:border-error-700': variant === 'error',

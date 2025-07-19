@@ -1,5 +1,5 @@
 import { CheckCircleIcon, ExclamationCircleIcon, ExclamationIcon } from '@heroicons/react/outline';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 // eslint-disable-next-line no-restricted-imports
 import axios from 'axios';
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Alert: React.FC<Props> = ({ children, variant = 'error', className }) => (
-  <p className={classNames(
+  <p className={clsx(
     'Alert',
     {
       'bg-error-700 text-white': variant === 'error',

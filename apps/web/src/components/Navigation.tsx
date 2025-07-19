@@ -1,6 +1,6 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@reach/disclosure';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import { useState } from 'react';
 import { SectionNoPadding } from './Section';
 import Button from './Button';
@@ -13,7 +13,7 @@ const Navigation: React.FC<{ left: LinkDefinition[], right: LinkDefinition[] }> 
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className={classNames('text-3xl md:text-xl md:bg-transparent', { 'bg-primary-200 text-black': open })}>
+    <nav className={clsx('text-3xl md:text-xl md:bg-transparent', { 'bg-primary-200 text-black': open })}>
       <Disclosure open={open} onChange={() => setOpen(!open)}>
         <SectionNoPadding>
           {/* Mobile nav: menu button */}
@@ -63,7 +63,7 @@ const Navigation: React.FC<{ left: LinkDefinition[], right: LinkDefinition[] }> 
                       key={item.text}
                       href={item.href}
                       onClick={item.onClick}
-                      className={classNames('hover:text-gray-500 transform transition-all duration-250 p-2', { 'pl-0': i === 0 })}
+                      className={clsx('hover:text-gray-500 transform transition-all duration-250 p-2', { 'pl-0': i === 0 })}
                     >
                       {item.text}
                     </Link>

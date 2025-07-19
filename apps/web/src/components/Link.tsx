@@ -1,5 +1,5 @@
-import { Link as GatsbyLink } from 'gatsby';
-import classNames from 'classnames';
+import NextLink from 'next/link';
+import { clsx } from 'clsx';
 
 export interface LinkProps extends Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'ref'> {
   href?: string,
@@ -15,7 +15,7 @@ const Link: React.FC<LinkProps> = ({
 }) => {
   if (disabled || (href === undefined && onClick === undefined)) {
     return (
-      <a href={href} onClick={() => false} className={classNames('opacity-40 pointer-events-none', className)} {...anchorProps}>
+      <a href={href} onClick={() => false} className={clsx('opacity-40 pointer-events-none', className)} {...anchorProps}>
         {children}
       </a>
     );
@@ -23,22 +23,22 @@ const Link: React.FC<LinkProps> = ({
 
   const isInternal = href && /^(\.?\/(?!\/))|(\.\.)/.test(href);
 
-  // Use Gatsby Link for internal links, and <a> for others
+  // Use Next.js Link for internal links, and <a> for others
   if (isInternal && href) {
     return (
-      <GatsbyLink
-        to={href}
+      <NextLink
+        href={href}
         onClick={onClick}
-        className={classNames('cursor-pointer', className)}
+        className={clsx('cursor-pointer', className)}
         {...anchorProps}
       >
         {children}
-      </GatsbyLink>
+      </NextLink>
     );
   }
 
   return (
-    <a href={href} target={target} rel="noreferrer" onClick={onClick} onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') { onClick(e); e.preventDefault(); } } : undefined} tabIndex={0} className={classNames('cursor-pointer', className)} {...anchorProps}>
+    <a href={href} target={target} rel="noreferrer" onClick={onClick} onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') { onClick(e); e.preventDefault(); } } : undefined} tabIndex={0} className={clsx('cursor-pointer', className)} {...anchorProps}>
       {children}
     </a>
   );

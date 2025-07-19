@@ -1,5 +1,5 @@
 import { ChevronRightIcon } from '@heroicons/react/outline';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import Link from './Link';
 
 export const ChevronList: React.FC<React.PropsWithChildren> = ({ children }) => {
@@ -25,7 +25,7 @@ export const ChevronListButton: React.FC<ChevronListButtonProps> = ({
     <Link
       onClick={onClick}
       href={href}
-      className={classNames('p-4 transition-all flex items-center', {
+      className={clsx('p-4 transition-all flex items-center', {
         'bg-primary-600 hover:bg-primary-500 text-white': variant === 'primary',
         'bg-secondary-100 hover:bg-secondary-200': variant === 'secondary',
       })}

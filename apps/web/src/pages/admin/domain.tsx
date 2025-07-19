@@ -1,10 +1,9 @@
-import { RouteComponentProps } from '@gatsbyjs/reach-router';
 import { asResponseValues, useReq, useRawReq } from '../../helpers/networking';
 import Section, { SectionTitle } from '../../components/Section';
 import PropertyEditor from '../../components/PropertyEditor';
 import { Domain } from '../../helpers/generated-api-client';
 
-const DomainPage: React.FC<RouteComponentProps & { domainId: string }> = ({ domainId }) => {
+const DomainPage: React.FC<{ domainId: string }> = ({ domainId }) => {
   const [domains, refetchDomains] = useReq('get /admin/domains');
   const [groups] = useReq('get /admin/groups');
   const groupMap = groups.data ? Object.fromEntries(groups.data.map((group) => [group.id, group.name])) : {};

@@ -1,7 +1,7 @@
 import AsyncSelect from 'react-select/async';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import pDebounce from 'p-debounce';
-import { navigate } from 'gatsby';
+import { useRouter } from 'next/router';
 import { Ref } from 'react';
 import Select from 'react-select/dist/declarations/src/Select';
 import { GroupBase } from 'react-select/dist/declarations/src';
@@ -105,8 +105,8 @@ export type EntitySearchBoxProps = {
 };
 
 export const EntitySearchBox: React.FC<EntitySearchBoxProps> = ({
-  onSelectExisting = ({ slug }) => navigate(`${ENTITY_PREFIX}${slug}`),
-  onAfterCreate = (id) => navigate(`${ENTITY_PREFIX}${id}`),
+  onSelectExisting,
+  onAfterCreate,
   onClose,
   types = DEFAULTS.types,
   placeholder,
@@ -117,7 +117,15 @@ export const EntitySearchBox: React.FC<EntitySearchBoxProps> = ({
   excludedIds = new Set(),
   selectRef,
 }) => {
+  const router = useRouter();
   const req = useRawReq();
+
+  // Set default handlers that use router
+  const defaultOnSelectExisting = ({ slug }: { slug: string }) => router.push(`${ENTITY_PREFIX}${slug}`);
+  const defaultOnAfterCreate = (id: string) => router.push(`${ENTITY_PREFIX}${id}`);
+
+  const handleSelectExisting = onSelectExisting || defaultOnSelectExisting;
+  const handleAfterCreate = onAfterCreate || defaultOnAfterCreate;
 
   if (createable && types.length !== 1) {
     throw new Error(`Cannot render creatable EntitySearchBox with multiple types (${JSON.stringify(types)})`);
@@ -137,7 +145,7 @@ export const EntitySearchBox: React.FC<EntitySearchBoxProps> = ({
               if (idContext.teamId) {
                 await req('post /admin/relations', { type: 'MEMBER_OF', childId: personId, parentId: idContext.teamId });
               }
-              onAfterCreate(personId);
+              handleAfterCreate(personId);
               break;
             }
             case 'team': {
@@ -145,7 +153,7 @@ export const EntitySearchBox: React.FC<EntitySearchBoxProps> = ({
               if (idContext.teamId) {
                 await req('post /admin/relations', { type: 'PART_OF', childId: teamId, parentId: idContext.teamId });
               }
-              onAfterCreate(teamId);
+              handleAfterCreate(teamId);
               break;
             }
             default: {
@@ -154,7 +162,7 @@ export const EntitySearchBox: React.FC<EntitySearchBoxProps> = ({
             }
           }
         } else {
-          onSelectExisting(selectedValue);
+          handleSelectExisting(selectedValue);
         }
       }}
       formatOptionLabel={renderSearchResult}

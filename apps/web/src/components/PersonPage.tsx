@@ -2,7 +2,7 @@ import { PencilIcon } from '@heroicons/react/outline';
 import React, { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import ReactMarkdown from 'react-markdown';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import Section, { SectionTitle } from './Section';
 import {
   EntityResponse, Person, PersonEdits, Relation, Slug, Team
@@ -45,11 +45,11 @@ const PersonPage: React.FC<{ data: EntityResponse & { type: 'person' }, refetch:
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>
           Directory Navigator: {person.name}
         </title>
-      </Helmet>
+      </Head>
       <Section>
         <div className="flex gap-4">
           <img src={person.profilePic ?? 'https://upload.wikimedia.org/wikipedia/commons/4/48/No_image_%28male%29.svg'} alt="" className="aspect-square object-cover w-80 shadow bg-white" />

@@ -1,4 +1,4 @@
-import { navigate } from 'gatsby';
+import { useRouter } from 'next/router';
 import { PlusSmIcon } from '@heroicons/react/outline';
 import { fixedGroups } from '@odir/shared';
 import { useState } from 'react';
@@ -14,6 +14,7 @@ import { RequireGroup } from '../helpers/security';
 import { DomainCreation } from '../helpers/generated-api-client';
 
 const DomainsPanel: React.FC = () => {
+  const router = useRouter();
   const [domains, refetchDomains] = useReq('get /admin/domains');
   const [groups] = useReq('get /admin/groups');
   const groupMap = groups.data ? Object.fromEntries(groups.data.map((group) => [group.id, group.name])) : {};
@@ -53,7 +54,7 @@ const DomainsPanel: React.FC = () => {
           onSubmit={async (data) => {
             const domainId = (await req('post /admin/domains', data)).data;
             await refetchDomains();
-            navigate(`/admin/domains/${domainId}/`);
+            router.push(`/admin/domains/${domainId}/`);
           }}
         />
       </Modal>

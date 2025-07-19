@@ -1,5 +1,4 @@
-import { RouteComponentProps } from '@gatsbyjs/reach-router';
-import { navigate } from 'gatsby';
+import { useRouter } from 'next/router';
 import { PlusSmIcon } from '@heroicons/react/outline';
 import { fixedGroups } from '@odir/shared';
 import { useState } from 'react';
@@ -16,7 +15,8 @@ import { GroupCreation } from '../../helpers/generated-api-client';
 import UsersPanel from '../../components/UsersPanel';
 import DomainsPanel from '../../components/DomainsPanel';
 
-const UsersPage: React.FC<RouteComponentProps> = () => {
+const UsersPage: React.FC = () => {
+  const router = useRouter();
   const [groups, refetchGroups] = useReq('get /admin/groups');
   const [newGroupModalOpen, setNewGroupModalOpen] = useState(false);
   const req = useRawReq();
@@ -48,7 +48,7 @@ const UsersPage: React.FC<RouteComponentProps> = () => {
             onSubmit={async (data) => {
               const groupId = (await req('post /admin/groups', data)).data;
               await refetchGroups();
-              navigate(`/admin/groups/${groupId}/`);
+              router.push(`/admin/groups/${groupId}/`);
             }}
           />
         </Modal>
