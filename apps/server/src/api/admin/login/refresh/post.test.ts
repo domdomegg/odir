@@ -12,7 +12,7 @@ jest.mock('../../../../helpers/login', () => ({
 
 beforeEach(() => {
   (login as unknown as jest.Mock).mockImplementation((email) => {
-    if (email === 'test@joinraise.org') {
+    if (email === 'test@adamjones.me') {
       const result: LoginResponse = {
         accessToken: { value: 'mockA', expiresAt: 0 },
         refreshToken: { value: 'mockR', expiresAt: 1 },
@@ -28,7 +28,7 @@ beforeEach(() => {
 test('get working tokens for allowlisted email and valid token', async () => {
   const now = Math.floor(Date.now() / 1000);
   const refreshToken = jwt.sign(
-    { subject: 'test@joinraise.org', iat: now, exp: now + 3600 * 24 },
+    { subject: 'test@adamjones.me', iat: now, exp: now + 3600 * 24 },
     env.JWT_PRIVATE_KEY,
     { algorithm: 'ES256' }
   );
@@ -57,7 +57,7 @@ test('rejects token for non allowlisted user', async () => {
 test('rejects expired token', async () => {
   const now = Math.floor(Date.now() / 1000);
   const refreshToken = jwt.sign(
-    { subject: 'test@joinraise.org', iat: now - 100, exp: now - 10 },
+    { subject: 'test@adamjones.me', iat: now - 100, exp: now - 10 },
     env.JWT_PRIVATE_KEY,
 
     { algorithm: 'ES256' }
@@ -72,7 +72,7 @@ test('rejects expired token', async () => {
 test('rejects token with bad signature', async () => {
   const now = Math.floor(Date.now() / 1000);
   const refreshToken = jwt.sign(
-    { subject: 'test@joinraise.org', iat: now - 100, exp: now - 10 },
+    { subject: 'test@adamjones.me', iat: now - 100, exp: now - 10 },
     '-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIKxho5EgKIJI8ShaqMqrzZBBeUZheOGEVALl1QNFbzpCoAoGCCqGSM49\nAwEHoUQDQgAEytwpbd5LVbsdaiJ8Gq9U395QtYmqcMFmAEx0rJ/n4QdaScVrBj9q\nuDP7n68ZQhU1KD4xIuv9Rk35kB8xW02wEQ==\n-----END EC PRIVATE KEY-----',
     { algorithm: 'ES256' }
   );

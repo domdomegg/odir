@@ -6,7 +6,7 @@ import { login } from '../../../../helpers/login';
 import { $GoogleLoginRequest, $LoginResponse } from '../../../../schemas';
 import { getMethodsForEmail } from '../methods/{email}/get';
 
-// Exchanges a Google id and access token for a Raise access token
+// Exchanges a Google id and Google access token for one of our access tokens
 export const main = middyfy($GoogleLoginRequest, $LoginResponse, false, async (event) => {
   const client = new OAuth2Client();
   const tokenPayload = (await client.verifyIdToken({

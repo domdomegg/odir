@@ -67,136 +67,22 @@ describe('insert', () => {
 
     expect(await scan(teamTable)).toEqual([team]);
   });
-
-  // describe('composite key tables', () => {
-  //   test('can insert an item', async () => {
-  //     const donation = makeDonation();
-
-  //     await insert(donationTable, donation);
-
-  //     expect(await scan(donationTable)).toEqual([donation]);
-  //   });
-
-  //   test('can insert multiple items', async () => {
-  //     const fundraisers = [makeTeam(), makeTeam()];
-  //     const donations = [
-  //       makeDonation({ fundraiserId: fundraisers[0].id }),
-  //       makeDonation({ fundraiserId: fundraisers[0].id }),
-  //       makeDonation({ fundraiserId: fundraisers[1].id }),
-  //     ];
-
-  //     await insert(donationTable, donations[0]);
-  //     await insert(donationTable, donations[1]);
-  //     await insert(donationTable, donations[2]);
-
-  //     const scanResult = await scan(donationTable);
-  //     expect(scanResult).toHaveLength(3);
-  //     expect(scanResult).toContainEqual(donations[0]);
-  //     expect(scanResult).toContainEqual(donations[1]);
-  //     expect(scanResult).toContainEqual(donations[2]);
-  //   });
-
-  //   // this is more a bug than a feature, but we'd like to know if this behavior changes so here's a test for that
-  //   test("can insert multiple items with same sort key if they're in in different partitions", async () => {
-  //     const fundraisers = [makeTeam(), makeTeam()];
-  //     const donationId = ulid();
-  //     const donations = [
-  //       makeDonation({ fundraiserId: fundraisers[0].id, id: donationId }),
-  //       makeDonation({ fundraiserId: fundraisers[1].id, id: donationId }),
-  //     ];
-
-  //     await insert(donationTable, donations[0]);
-  //     await insert(donationTable, donations[1]);
-
-  //     const scanResult = await scan(donationTable);
-  //     expect(scanResult).toHaveLength(2);
-  //     expect(scanResult).toContainEqual(donations[0]);
-  //     expect(scanResult).toContainEqual(donations[1]);
-  //   });
-
-  //   test('fails if an item with that id already exists', async () => {
-  //     const fundraiser = makeTeam();
-  //     const donation = makeDonation({ fundraiserId: fundraiser.id });
-  //     await insert(donationTable, donation);
-
-  //     await expect(insert(donationTable, makeDonation({ fundraiserId: fundraiser.id, id: donation.id }))).rejects.toThrowError();
-
-  //     expect(await scan(donationTable)).toEqual([donation]);
-  //   });
-  // });
 });
 
 describe('get', () => {
   test('can get an item', async () => {
-    const fundraiser = makeTeam();
-    await insert(teamTable, fundraiser);
+    const team = makeTeam();
+    await insert(teamTable, team);
 
-    const result = await get(teamTable, { id: fundraiser.id });
+    const result = await get(teamTable, { id: team.id });
 
-    expect(result).toEqual(fundraiser);
+    expect(result).toEqual(team);
   });
-
-  // test('composite key tables: can get an item', async () => {
-  //   const donation = makeDonation();
-  //   await insert(donationTable, donation);
-
-  //   const result = await get(donationTable, { fundraiserId: donation.fundraiserId, id: donation.id });
-
-  //   expect(result).toEqual(donation);
-  // });
 
   test("get fails if item doesn't exist", async () => {
     await expect(() => get(teamTable, { id: ulid() })).rejects.toThrowError('not found');
   });
-
-  // test("composite key tables: get fails if item doesn't exist", async () => {
-  //   await expect(() => get(donationTable, { fundraiserId: ulid(), id: ulid() })).rejects.toThrowError('not found');
-  // });
 });
-
-// describe('query', () => {
-//   test('can query an item', async () => {
-//     const fundraiser = makeTeam();
-//     const donation = makeDonation({ fundraiserId: fundraiser.id });
-//     await insert(teamTable, fundraiser);
-//     await insert(donationTable, donation);
-
-//     const result = await query(donationTable, { fundraiserId: fundraiser.id });
-
-//     expect(result).toEqual([donation]);
-//   });
-
-//   test('can query multiple items', async () => {
-//     const fundraiser = makeTeam();
-//     const donations = [makeDonation({ fundraiserId: fundraiser.id }), makeDonation({ fundraiserId: fundraiser.id })];
-//     await insert(teamTable, fundraiser);
-//     await insert(donationTable, donations[0]);
-//     await insert(donationTable, donations[1]);
-
-//     const result = await query(donationTable, { fundraiserId: fundraiser.id });
-
-//     expect(result).toHaveLength(2);
-//     expect(result).toContainEqual(donations[0]);
-//     expect(result).toContainEqual(donations[1]);
-//   });
-
-//   test('query returns empty array on empty table', async () => {
-//     const result = await query(donationTable, { fundraiserId: ulid() });
-
-//     expect(result).toEqual([]);
-//   });
-
-//   test('query returns empty array on empty partition of non-empty table', async () => {
-//     const fundraiser = makeTeam();
-//     const donation = makeDonation({ fundraiserId: fundraiser.id });
-//     await insert(teamTable, fundraiser);
-//     await insert(donationTable, donation);
-
-//     const result = await query(donationTable, { fundraiserId: ulid() });
-
-//     expect(result).toEqual([]);
-//   });
-// });
 
 describe('update', () => {
   test('can update an item', async () => {
@@ -240,28 +126,6 @@ describe('updateT', () => {
     expect(await get(teamTable, { id: team.id })).toEqual(team);
   });
 });
-
-// describe('plusT', () => {
-//   test('can update an item using plusT and inTransaction', async () => {
-//     const fundraiser = makeTeam({ donationsCount: 1 });
-//     await insert(teamTable, fundraiser);
-
-//     await inTransaction([plusT(teamTable, { id: fundraiser.id }, { donationsCount: 1 })]);
-
-//     expect(await get(teamTable, { id: fundraiser.id })).toEqual({ ...fundraiser, donationsCount: 2 });
-//   });
-
-//   test('fails to plusT an item if conditions not met', async () => {
-//     const fundraiser = makeTeam({ donationsCount: 1 });
-//     await insert(teamTable, fundraiser);
-
-//     await expect(() => inTransaction([
-//       updateT(teamTable, { id: fundraiser.id }, { donationsCount: 1 }, 'donationsCount = :currentDonationsCount', { ':currentDonationsCount': 100 }),
-//     ])).rejects.toThrowError('failed conditional expression');
-
-//     expect(await get(teamTable, { id: fundraiser.id })).toEqual(fundraiser);
-//   });
-// });
 
 describe('insertT', () => {
   test('can insert an item using insertT and inTransaction', async () => {
@@ -481,7 +345,7 @@ describe('checkPrevious', () => {
     // given a team in the db
     const team = await insert(teamTable, makeTeam());
 
-    await update(teamTable, { id: team.id }, ...checkPrevious({ name: 'New', previous: { donationsCount: team.name } }));
+    await update(teamTable, { id: team.id }, ...checkPrevious({ name: 'New', previous: { name: team.name } }));
   });
 
   test('prevents edits where previous is not a match', async () => {

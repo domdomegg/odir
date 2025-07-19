@@ -380,7 +380,7 @@ export const $AuditLog: JSONSchema<S.AuditLog> = {
   type: 'object',
   properties: {
     id: $Ulid,
-    object: { type: 'string' }, // a thing that can be created/edited e.g. a donation. If non-existent (e.g. for logins), same as id.
+    object: { type: 'string' }, // a thing that can be created/edited e.g. a person or team. If non-existent (e.g. for logins), same as id.
     subject: { type: 'string' }, // e.g. a admin user email, "public" | "stripe" | "scheduler"
     action: { enum: ['create', 'edit', 'login', 'plus', 'security', 'run'] },
     at: { type: 'integer' },

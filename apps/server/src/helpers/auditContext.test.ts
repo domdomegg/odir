@@ -65,7 +65,7 @@ test('before sets up the auditContext for an event with auth', () => {
       },
       auth: {
         payload: {
-          subject: 'ajones@joinraise.org',
+          subject: 'ajones@adamjones.me',
           groups: [fixedGroups.Admin],
           iat: Math.floor(new Date().getTime() / 1000),
           exp: Math.floor(new Date().getTime() / 1000) + 1000,
@@ -84,7 +84,7 @@ test('before sets up the auditContext for an event with auth', () => {
     route: 'POST /a/path/with/{param}',
     routeRaw: 'POST /a/path/with/ABCD123',
     sourceIp: '123.123.123.123',
-    subject: 'ajones@joinraise.org',
+    subject: 'ajones@adamjones.me',
     userAgent: 'some browser',
     logGroupName: 'aws/lambda/odir-server-stage-myFunc',
     logStreamName: '2022/01/01/[$LATEST]123456789',

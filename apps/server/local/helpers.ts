@@ -10,7 +10,7 @@ const isAllowedMethod = (method: string): method is Method => (ALLOWED_METHODS a
 
 export interface RouteDefinition {
   /**
-   * @example "/public/fundraisers/{fundraiserId}"
+   * @example "/public/teams/{teamId}"
    */
   path: string,
   method: Method,

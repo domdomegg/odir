@@ -11,7 +11,7 @@ jest.mock('../../../../helpers/login', () => ({
 
 beforeEach(() => {
   (login as unknown as jest.Mock).mockImplementation((email) => {
-    if (email === 'test@joinraise.org') {
+    if (email === 'test@adamjones.me') {
       const result: LoginResponse = {
         accessToken: { value: 'mockA', expiresAt: 0 },
         refreshToken: { value: 'mockR', expiresAt: 1 },
@@ -26,7 +26,7 @@ beforeEach(() => {
 
 test('get working tokens for allowlisted email', async () => {
   const response = await call(main, { auth: false })({
-    email: 'test@joinraise.org',
+    email: 'test@adamjones.me',
   });
 
   expect(response.accessToken.value).toEqual('mockA');
@@ -34,7 +34,7 @@ test('get working tokens for allowlisted email', async () => {
 });
 
 test.each([
-  ['with non-allowlisted email', { email: 'bad@joinraise.org' }, 'not allowlisted', 403],
+  ['with non-allowlisted email', { email: 'bad@adamjones.me' }, 'not allowlisted', 403],
 ])('rejects %s', async (description, payload, errMessage, status) => {
   const response = await call(main, { rawResponse: true, auth: false })(payload);
 
@@ -50,7 +50,7 @@ test.each([
   env.STAGE = envOverrides.STAGE;
   env.IMPERSONATION_LOGIN_ENABLED = envOverrides.IMPERSONATION_LOGIN_ENABLED;
 
-  const response = await call(main, { rawResponse: true, auth: false })({ email: 'test@joinraise.org' });
+  const response = await call(main, { rawResponse: true, auth: false })({ email: 'test@adamjones.me' });
 
   expect(response.statusCode).toBe(status);
   expect(response.body).toContain(errMessage);

@@ -10,7 +10,7 @@ const client = jwksClient({
   jwksUri: 'https://sso.service.security.gov.uk/.well-known/jwks.json'
 });
 
-// Exchanges a GOV.UK SSO id token for a Raise access token
+// Exchanges a GOV.UK SSO id token for one of our access tokens
 export const main = middyfy($GovSsoLoginRequest, $LoginResponse, false, async (event) => {
   const tokenPayload: { email?: string, email_verified?: boolean } = await new Promise((resolve, reject) => {
     verify(event.body.idToken, (header, callback) => {

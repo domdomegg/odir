@@ -22,7 +22,7 @@ test('sendEmail calls SES correctly', async () => {
   await sendEmail(
     'This is the subject',
     renderHtml`<!doctype html><html><body>Hello</body></html>`,
-    'adam@joinraise.org',
+    'test@adamjones.me',
   );
 
   // then the command is built and sent
@@ -42,7 +42,7 @@ test('sendEmail calls SES correctly', async () => {
         },
       },
       Destination: {
-        ToAddresses: ['adam@joinraise.org'],
+        ToAddresses: ['test@adamjones.me'],
       },
       FromEmailAddress: '"Directory Navigator" <hi@directory.adamjones.me>',
     },

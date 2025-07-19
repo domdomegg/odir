@@ -7,7 +7,7 @@ import { get } from '../../../../helpers/db';
 
 export const EMAIL_LOGIN_VALIDITY_IN_SECONDS = 3600;
 
-// Exchanges a Google id and access token for a Raise access token
+// Exchanges an email login token for one of our access tokens
 export const main = middyfy($EmailLoginRequest, $LoginResponse, false, async (event) => {
   const emailLogin = await get(emailLoginTable, { id: event.body.token }).catch((error) => {
     if (isHttpError(error) && error.status === 404) {
