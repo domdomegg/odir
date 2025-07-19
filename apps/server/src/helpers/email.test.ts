@@ -1,4 +1,6 @@
-import { test, expect, beforeEach, vi } from 'vitest';
+import {
+  test, expect, beforeEach, vi
+} from 'vitest';
 import { SendEmailCommand } from '@aws-sdk/client-sesv2';
 import { sendEmail } from './email';
 import renderHtml from './email/renderHtml';

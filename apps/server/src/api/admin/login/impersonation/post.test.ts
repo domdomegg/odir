@@ -1,4 +1,6 @@
-import { test, expect, beforeEach, vi } from 'vitest';
+import {
+  test, expect, beforeEach, vi
+} from 'vitest';
 import createHttpError from 'http-errors';
 import { call } from '../../../../../local/testHelpers';
 import { main } from './post';

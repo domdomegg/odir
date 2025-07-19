@@ -13,14 +13,14 @@
     "generate:schemas": "ts-node --transpile-only local/schemasToTS.ts",
     "generate:client": "ts-node local/generateClient.ts",
     "generate:router": "ts-node local/generateRouterImports.ts",
-    "test": "TZ=utc jest",
-    "test:watch": "TZ=utc jest --watch",
+    "test": "TZ=utc vitest run",
+    "test:watch": "TZ=utc vitest",
     "type-check": "tsc",
     "lint": "eslint 'src' 'serverless.ts'",
     "lint:fix": "npm run lint -- --fix"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=22"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.34.0",
@@ -33,14 +33,15 @@
     "@middy/validator": "^2.5.3",
     "@odir/shared": "*",
     "ajv": "^8.6.3",
-    "axios": "^0.28.0",
+    "axios": "^1.10.0",
     "escape-html": "^1.0.3",
     "fuse.js": "^6.6.2",
     "google-auth-library": "^7.10.0",
-    "http-errors": "^1.8.0",
+    "http-errors": "^1.8.1",
     "jsonwebtoken": "^9.0.0",
+    "jwks-rsa": "^3.1.0",
     "middy-middleware-jwt-auth": "^5.0.0",
-    "serverless-dynamodb": "^0.2.41",
+    "serverless-dynamodb": "^0.2.56",
     "serverless-s3-local": "^0.7.2",
     "source-map-support": "^0.5.21",
     "stripe": "^8.184.0",
@@ -48,46 +49,29 @@
   },
   "devDependencies": {
     "@odir/eslint-config": "*",
-    "@serverless/typescript": "^3.27.0",
+    "@serverless/typescript": "^3.38.0",
     "@types/aws-lambda": "^8.10.71",
     "@types/escape-html": "^1.0.2",
-    "@types/http-errors": "^1.8.1",
-    "@types/jest": "^29.4.0",
+    "@types/http-errors": "^2.0.1",
     "@types/json-schema": "^7.0.9",
     "@types/jsonwebtoken": "^8.5.5",
     "@types/node": "^16.18.3",
-    "aws-dynamodb-local": "^0.0.10",
+    "aws-dynamodb-local": "^0.0.11",
     "eslint": "^8.44.0",
     "fork-ts-checker-webpack-plugin": "^8.0.0",
-    "jest": "^29.4.3",
+    "vitest": "^1.2.0",
     "json-schema-to-typescript": "^10.1.5",
     "mockdate": "^3.0.5",
-    "serverless": "^3.27.0",
-    "serverless-offline": "^12.0.4",
-    "serverless-offline-ses-v2": "^1.0.1",
+    "serverless": "^3.40.0",
+    "serverless-offline": "^13.9.0",
+    "serverless-offline-ses-v2": "^1.0.4",
     "serverless-offline-watcher": "^1.0.0",
-    "serverless-webpack": "^5.10.0",
+    "serverless-webpack": "^5.15.0",
     "shx": "^0.3.4",
-    "ts-jest": "^29.0.5",
     "ts-loader": "^9.4.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6",
     "webpack": "^5.94.0",
     "webpack-node-externals": "^3.0.0"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "globalSetup": "./local/test-setup-global.js",
-    "globalTeardown": "./local/test-teardown.js",
-    "setupFilesAfterEnv": [
-      "./local/test-setup-env.ts"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.ts",
-      "!src/env/*.ts",
-      "src/env/env.ts"
-    ],
-    "restoreMocks": true
   }
 }
