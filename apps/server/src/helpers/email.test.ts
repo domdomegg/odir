@@ -1,5 +1,5 @@
 import {
-  test, expect, beforeEach, vi
+  test, expect, beforeEach, vi, Mock
 } from 'vitest';
 import { SendEmailCommand } from '@aws-sdk/client-sesv2';
 import { sendEmail } from './email';
@@ -14,7 +14,7 @@ vi.mock('@aws-sdk/client-sesv2', () => ({
 }));
 
 beforeEach(() => {
-  (SendEmailCommand as unknown as vi.Mock).mockImplementation((input) => ({ _input: input }));
+  (SendEmailCommand as unknown as Mock).mockImplementation((input) => ({ _input: input }));
 });
 
 test('sendEmail calls SES correctly', async () => {

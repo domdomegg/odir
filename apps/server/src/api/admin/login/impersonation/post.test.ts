@@ -1,5 +1,6 @@
 import {
-  test, expect, beforeEach, vi
+  test, expect, beforeEach, vi,
+  Mock
 } from 'vitest';
 import createHttpError from 'http-errors';
 import { call } from '../../../../../local/testHelpers';
@@ -13,7 +14,7 @@ vi.mock('../../../../helpers/login', () => ({
 }));
 
 beforeEach(() => {
-  (login as unknown as vi.Mock).mockImplementation((email) => {
+  (login as unknown as Mock).mockImplementation((email) => {
     if (email === 'test@adamjones.me') {
       const result: LoginResponse = {
         accessToken: { value: 'mockA', expiresAt: 0 },

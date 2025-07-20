@@ -1,5 +1,6 @@
 import {
-  test, expect, beforeEach, vi
+  test, expect, beforeEach, vi,
+  Mock
 } from 'vitest';
 import { OAuth2Client } from 'google-auth-library';
 import createHttpError from 'http-errors';
@@ -36,7 +37,7 @@ vi.mock('../methods/{email}/get', () => ({
 }));
 
 beforeEach(() => {
-  (login as unknown as vi.Mock).mockImplementation((email: string) => {
+  (login as unknown as Mock).mockImplementation((email: string) => {
     if (email === 'test@gmail.com') {
       const result: LoginResponse = {
         accessToken: { value: 'mockA', expiresAt: 0 },
@@ -48,13 +49,13 @@ beforeEach(() => {
 
     throw new createHttpError.Forbidden(`Your account, ${email}, has not yet been given access to the platform (requires allowlisting). Contact support (see footer) with details about who you are to get an invite.`);
   });
-  (getMethodsForEmail as unknown as vi.Mock).mockImplementation((email: string) => {
+  (getMethodsForEmail as unknown as Mock).mockImplementation((email: string) => {
     if (email === 'test@gmail.com' || email === 'bad@gmail.com') {
       return Promise.resolve(['google']);
     }
     return Promise.resolve(['email']);
   });
-  (OAuth2Client as unknown as vi.Mock).mockImplementation(() => ({
+  (OAuth2Client as unknown as Mock).mockImplementation(() => ({
     verifyIdToken,
   }));
   verifyIdToken.mockResolvedValue({ getPayload });
