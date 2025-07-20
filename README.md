@@ -7,7 +7,6 @@ Think any documentation is out of date, incomplete, misleading or otherwise coul
 - [🌐 Website](./apps/web)
 - [🔃 Server](./apps/server)
 - [📦 Shared](./packages/shared)
-- [🌈 UI](./packages/ui)
 
 ## 🧑‍💻 Contributing instructions
 
