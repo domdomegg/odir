@@ -12,4 +12,5 @@ module.exports = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  devIndicators: false,
 };
