@@ -32,7 +32,7 @@
     "@middy/http-json-body-parser": "^2.5.3",
     "@middy/validator": "^2.5.3",
     "@odir/shared": "*",
-    "ajv": "^8.6.3",
+    "ajv": "^8.18.0",
     "axios": "^1.13.5",
     "escape-html": "^1.0.3",
     "fuse.js": "^6.6.2",
