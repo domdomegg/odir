@@ -8,14 +8,18 @@ import renderHtml from './email/renderHtml';
 vi.unmock('./email');
 
 const send = vi.fn();
+// These constructors are mocked with function expressions (not arrow functions) because
+// vitest 4 invokes constructor mock implementations with `new`, which arrow functions reject.
+/* eslint-disable prefer-arrow-callback, func-names */
 vi.mock('@aws-sdk/client-sesv2', () => ({
-  SESv2Client: vi.fn().mockImplementation(() => ({ get send() { return send; } })),
+  SESv2Client: vi.fn().mockImplementation(function () { return { get send() { return send; } }; }),
   SendEmailCommand: vi.fn(),
 }));
 
 beforeEach(() => {
-  (SendEmailCommand as unknown as Mock).mockImplementation((input) => ({ _input: input }));
+  (SendEmailCommand as unknown as Mock).mockImplementation(function (input: unknown) { return { _input: input }; });
 });
+/* eslint-enable prefer-arrow-callback, func-names */
 
 test('sendEmail calls SES correctly', async () => {
   // given no calls to the send endpoint
