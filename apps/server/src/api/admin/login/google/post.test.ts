@@ -55,9 +55,9 @@ beforeEach(() => {
     }
     return Promise.resolve(['email']);
   });
-  (OAuth2Client as unknown as Mock).mockImplementation(() => ({
-    verifyIdToken,
-  }));
+  // function expression (not arrow): vitest 4 invokes constructor mocks with `new`
+  // eslint-disable-next-line prefer-arrow-callback, func-names
+  (OAuth2Client as unknown as Mock).mockImplementation(function () { return { verifyIdToken }; });
   verifyIdToken.mockResolvedValue({ getPayload });
 });
 
