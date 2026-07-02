@@ -23,7 +23,7 @@ vi.mock('../src/helpers/email', () => ({
 // Connects to a DynamoDB local instance set up by serverless-dynamodb
 const dynamoDBClient = new DynamoDBClient({
   region: 'test',
-  endpoint: 'http://0.0.0.0:8005',
+  endpoint: 'http://0.0.0.0:8008',
   credentials: {
     accessKeyId: 'MockAccessKeyId',
     secretAccessKey: 'MockSecretAccessKey',

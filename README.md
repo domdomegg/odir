@@ -66,7 +66,7 @@ npm uninstall some-package-name --workspace @odir/server
 - `8002`: serverless-offline websockets
 - `8003`: serverless-offline AWS Lambda API
 - `8004`: serverless-dynamodb instance of DynamoDB for serverless-offline
-- `8005`: serverless-dynamodb instance of DynamoDB for tests
+- `8008`: serverless-dynamodb instance of DynamoDB for tests (8005 avoided: aws-ses-v2-local's default port)
 - `8006`: serverless-offline-ses-v2 instance of ses
 - `8007`: serverless-s3-local instance of S3
 
