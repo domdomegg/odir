@@ -9,7 +9,7 @@ export const setup = async () => {
 
 	// Start DynamoDB local
 	await dynamodbLocal.start({
-		port: 8005,
+		port: 8006,
 		installPath: path.join(__dirname, '..', '.dynamodb'),
 		sharedDb: false, // So each test gets its own database
 	});
@@ -21,5 +21,5 @@ export const setup = async () => {
 };
 
 export const teardown = async () => {
-	await dynamodbLocal.stop(8005);
+	await dynamodbLocal.stop(8006);
 };
