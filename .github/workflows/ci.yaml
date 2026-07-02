@@ -56,4 +56,4 @@ jobs:
       # need src/env/prod.ts, which is deliberately not a CI secret)
       - name: "web: Deploy to prod environment"
         if: github.ref == 'refs/heads/master'
-        run: npx turbo deploy:prod --filter web
+        run: npx turbo deploy:prod --filter @odir/web
