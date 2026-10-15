@@ -1,7 +1,6 @@
 import { asResponseValues, useReq, useRawReq } from '../../helpers/networking';
 import Section, { SectionTitle } from '../../components/Section';
 import PropertyEditor from '../../components/PropertyEditor';
-import { User } from '../../helpers/generated-api-client';
 
 const UserPage: React.FC<{ userId: string }> = ({ userId }) => {
   const [users, refetchUsers] = useReq('get /admin/users');
@@ -16,7 +15,7 @@ const UserPage: React.FC<{ userId: string }> = ({ userId }) => {
       <div className="flex">
         <SectionTitle className="flex-1">{user.data?.name ?? 'User'}</SectionTitle>
       </div>
-      <PropertyEditor<User>
+      <PropertyEditor
         definition={{
           name: { label: 'Name', inputType: 'text' },
           email: { label: 'Email', inputType: 'text' },
