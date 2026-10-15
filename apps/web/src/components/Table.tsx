@@ -10,9 +10,9 @@ interface PropertyDefinition<I, V> {
   className?: string,
 }
 
-interface Props<I> {
+interface Props<I, RequestData> {
   definition: Partial<{ [K in keyof I]: PropertyDefinition<I, I[K]> } & { [s: `_${string}`]: PropertyDefinition<I, unknown> }>,
-  items?: I[] | ResponseValues<I[], unknown, unknown>,
+  items?: I[] | ResponseValues<I[], RequestData, unknown>,
   primaryKey?: keyof I,
   onClick?: (item: I, event: React.MouseEvent | React.KeyboardEvent) => void,
   emptyMessage?: string,
@@ -22,9 +22,9 @@ interface Props<I> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Table = <I extends Record<string, any>>({
+const Table = <I extends Record<string, any>, RequestData = unknown>({
   definition, items, primaryKey, onClick, emptyMessage = 'There are no entries', renderItem, className, href,
-}: Props<I>) => {
+}: Props<I, RequestData>) => {
   const router = useRouter();
   // Normalized properties
   const nItems = ((items === undefined || Array.isArray(items)) ? items : items.data) ?? [];
